@@ -1,0 +1,51 @@
+Created by Brent Anderson, www.dumbmanex.com
+
+Notes about the Various Melee Effects files, for your ease of use.
+
+s_zerohit_strip6.png
+-6 images, 16x18 each
+
+s_talldust1_strip8.png
+-8 images, 32x34 each
+
+s_smallhit2_strip7.png
+-7 images, 17x15 each
+
+s_smallhit1_strip4.png
+-4 images, 9x14 each
+
+s_sewersplash1_strip8.png
+-8 images, 16x16 each, used individually for particles
+
+s_mechparts_strip5.png
+-5 images, 11x10 each, used individually for particles
+
+s_kickdust2_strip8.png
+-8 images, 18x12 each
+
+s_kickdust1_strip8.png
+-8 images, 12x15 each
+
+s_horn_down_strip5.png
+-5 images, 17x20 each
+
+s_guardhit_strip5.png
+-5 images, 16x26 each
+
+s_counterwave_strip6.png
+-6 images, 52x16 each
+
+s_bloodspray3_strip7.png
+-7 images, 64x64 each
+
+s_bloodspray2_strip7.png
+-7 images, 42x38 each
+
+s_bloodspray1_strip8.png
+-8 images, 41x20 each
+
+s_bighit2_strip9.png
+-9 images, 19x30 each
+
+s_bighit1_strip7.png
+-7 images, 22x12 each
