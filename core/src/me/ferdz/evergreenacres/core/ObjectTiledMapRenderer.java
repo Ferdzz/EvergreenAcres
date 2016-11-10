@@ -1,5 +1,8 @@
 package me.ferdz.evergreenacres.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -9,15 +12,28 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class ObjectTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
+	private List<MapLayer> underLayers, overLayers;
+	
 	public ObjectTiledMapRenderer(TiledMap map, Batch batch) {
 		super(map, batch);
+
+		underLayers = new ArrayList<MapLayer>();
+		overLayers = new ArrayList<MapLayer>();
+		
+		for (MapLayer m : map.getLayers()) {
+			if(m.getName().startsWith("Over")) {
+				overLayers.add(m);
+			} else {
+				underLayers.add(m);
+			}
+		}
 	}
 	
 	@Override
 	public void render() {
 		beginRender();
-		for (MapLayer layer : map.getLayers()) {
-			if (layer.isVisible() && !layer.getName().equalsIgnoreCase("Over")) {
+		for (MapLayer layer : underLayers) {
+			if (layer.isVisible()) {
 				if (layer instanceof TiledMapTileLayer) {
 					renderTileLayer((TiledMapTileLayer) layer);
 				} else if (layer instanceof TiledMapImageLayer) {
@@ -30,9 +46,10 @@ public class ObjectTiledMapRenderer extends OrthogonalTiledMapRenderer {
 	}
 	
 	public void renderOver() {
-		MapLayer layer = map.getLayers().get("Over");
-		if(layer != null) {
-			renderTileLayer((TiledMapTileLayer) layer);
+		for (MapLayer m : overLayers) {
+			if(m != null) {
+				renderTileLayer((TiledMapTileLayer) m);
+			}			
 		}
 		endRender();
 	}

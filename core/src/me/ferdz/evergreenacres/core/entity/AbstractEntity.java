@@ -7,13 +7,9 @@ import me.ferdz.evergreenacres.core.IRenderable;
 import me.ferdz.evergreenacres.core.IUpdatable;
 
 public abstract class AbstractEntity implements IUpdatable, IRenderable, Disposable {
-	protected Vector2 position;
+	public abstract Vector2 getPosition();
 	
-	public Vector2 getPosition() {
-		return position;
-	}
-
-	public void setPosition(Vector2 position) {
-		this.position = position;
+	public void setPosition(Vector2 pos) {
+		getPosition().set(pos);
 	}
 }

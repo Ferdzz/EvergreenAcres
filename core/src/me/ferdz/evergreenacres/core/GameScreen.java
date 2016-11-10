@@ -8,16 +8,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 
 import me.ferdz.evergreenacres.core.entity.Player;
+import me.ferdz.evergreenacres.utils.MapBodyBuilder;
 
 public class GameScreen extends ScreenAdapter implements IUpdatable {
 	
 	private TiledMap map;
-	private int[] underLayers;
 	private ObjectTiledMapRenderer mapRenderer;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
+	private World world;
+	private Box2DDebugRenderer debugRenderer;
 	
 	private Player player;
 	
@@ -26,16 +30,21 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		map = new TmxMapLoader().load("maps/farm.tmx");
 		batch = new SpriteBatch();
 		mapRenderer = new ObjectTiledMapRenderer(map, batch);
+		debugRenderer = new Box2DDebugRenderer();	
+		world = new World(Vector2.Zero, true);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 720, 405); // 16:9
 		camera.update();
-
-		player = new Player();
-		player.setPosition(new Vector2(300, 1300));
+		
+		MapBodyBuilder.buildShapes(map, 1, world); // load shapes into world
+		
+		player = new Player(world, new Vector2(300, 1300));
 	}
 
 	@Override
 	public void update(float delta) {
+		world.step(1 / 30F, 8, 8);
+		
 		player.update(delta);
 		
 		camera.position.x = player.getPosition().x;
@@ -57,6 +66,9 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		player.render(batch);
 		
 		mapRenderer.renderOver(); // end map rendering
+		
+		debugRenderer.setDrawInactiveBodies(true);
+		debugRenderer.render(world, camera.combined);
 	}
 
 	@Override
