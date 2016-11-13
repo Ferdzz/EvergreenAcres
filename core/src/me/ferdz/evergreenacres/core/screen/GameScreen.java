@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.core;
+package me.ferdz.evergreenacres.core.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -11,7 +11,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+import me.ferdz.evergreenacres.core.entity.IUpdatable;
 import me.ferdz.evergreenacres.core.entity.Player;
+import me.ferdz.evergreenacres.core.rendering.ObjectTiledMapRenderer;
 import me.ferdz.evergreenacres.utils.MapBodyBuilder;
 
 public class GameScreen extends ScreenAdapter implements IUpdatable {
