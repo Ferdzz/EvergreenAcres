@@ -20,7 +20,7 @@ public class FarmArea extends AbstractArea {
 	
 	@Override
 	public TiledMap getMap() {
-		if(map != null)
+		if(map == null)
 			map = new TmxMapLoader().load("maps/farm.tmx");
 		return map;
 	}
