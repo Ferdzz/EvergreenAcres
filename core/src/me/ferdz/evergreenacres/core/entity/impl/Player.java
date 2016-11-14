@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.core.entity;
+package me.ferdz.evergreenacres.core.entity.impl;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -8,10 +8,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+
+import me.ferdz.evergreenacres.core.entity.AbstractEntity;
 
 public class Player extends AbstractEntity {
 	private static final float SPEED = 40F;
@@ -19,9 +20,11 @@ public class Player extends AbstractEntity {
 	private Texture texture;
 	private Body body;
 	
-	public Player(World world, Vector2 position) {
+	public Player() {
 		texture = new Texture(Gdx.files.internal("player.png"));
-		
+	}
+	
+	public void createBody(World world, Vector2 position) {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(position.sub(0, 16));
@@ -39,8 +42,8 @@ public class Player extends AbstractEntity {
 		fixtureDef.shape = shape;
 		fixtureDef.density = 0.0003f;
 		fixtureDef.friction = 0.01f;
-
-		Fixture fixture = body.createFixture(fixtureDef);
+		
+		body.createFixture(fixtureDef);
 		shape.dispose();
 	}
 	
