@@ -51,16 +51,16 @@ public class Player extends AbstractEntity {
 	public void update(float delta) {
 		Vector2 direction = new Vector2();
 		if(Gdx.input.isKeyPressed(Keys.A)) {
-			direction.x = -1;
+			direction.x -= 1;
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)) {
-			direction.x = 1;
+			direction.x += 1;
 		}
 		if(Gdx.input.isKeyPressed(Keys.W)) {
-			direction.y = 1;
+			direction.y += 1;
 		}
 		if(Gdx.input.isKeyPressed(Keys.S)) {
-			direction.y = -1;
+			direction.y -= 1;
 		}
 		if(direction.isZero())
 			return;
