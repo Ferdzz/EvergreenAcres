@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
@@ -25,6 +24,7 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 	public AbstractArea(Player player) {
 		this.player = player;
 		this.world = new World(Vector2.Zero, true);
+		
 		this.entities = new ArrayList<AbstractEntity>();
 		
 		// Bind player to this area
@@ -46,7 +46,7 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 	
 	@Override
 	public void update(float delta) {
-		world.step(1 / 30F, 8, 8);
+		world.step(1 / 30F, 10, 10);
 		
 		for (AbstractEntity entity : getEntities()) {
 			entity.update(delta);
@@ -56,7 +56,7 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 	@Override
 	public void render(Batch batch) {
 		player.render(batch);
-
+		
 		for (AbstractEntity entity : getEntities()) {
 			entity.render(batch);
 		}

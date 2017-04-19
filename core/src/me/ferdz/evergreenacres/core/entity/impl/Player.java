@@ -16,7 +16,8 @@ import me.ferdz.evergreenacres.core.entity.AbstractEntity;
 
 public class Player extends AbstractEntity {
 	private static final float SPEED = 40F;
-
+	private static final float ACCELERATION = 20F;
+	
 	private Texture texture;
 	private Body body;
 	
@@ -51,33 +52,38 @@ public class Player extends AbstractEntity {
 	public void update(float delta) {
 		Vector2 direction = new Vector2();
 		if(Gdx.input.isKeyPressed(Keys.A)) {
-			direction.x -= 1;
+			direction.x -= delta;
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)) {
-			direction.x += 1;
+			direction.x += delta;
 		}
 		if(Gdx.input.isKeyPressed(Keys.W)) {
-			direction.y += 1;
+			direction.y += delta;
 		}
 		if(Gdx.input.isKeyPressed(Keys.S)) {
-			direction.y -= 1;
+			direction.y -= delta;
 		}
 		if(direction.isZero())
 			return;
 		
-		direction = direction.scl(SPEED * delta);
-		body.applyLinearImpulse(direction, body.getPosition(), true);
+		direction = direction.scl(SPEED);
+		body.applyLinearImpulse(direction, body.getWorldCenter(), true);
 		body.getLinearVelocity().set(body.getLinearVelocity().limit(SPEED));
 	}
 
 	@Override
 	public void render(Batch batch) {
-		batch.draw(texture, body.getPosition().x - (float)(texture.getWidth() / 2), body.getPosition().y - (float) (texture.getHeight() / 2) + 8F);
+		batch.draw(texture, body.getPosition().x - (texture.getWidth() / 2F), body.getPosition().y - (texture.getHeight() / 2F),
+				texture.getWidth(), texture.getHeight());
 	}
 	
 	@Override
 	public Vector2 getPosition() {
 		return body.getPosition();
+	}
+	
+	public Vector2 getCenterPosition() {
+		return body.getWorldCenter();
 	}
 
 	@Override

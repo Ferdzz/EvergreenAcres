@@ -34,23 +34,23 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 			
 		debugRenderer = new Box2DDebugRenderer();	
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 720, 405); // 16:9
-		camera.update();
+		camera.zoom = 0.3f;
 	}
 
 	@Override
 	public void update(float delta) {
-		player.update(delta);
-		currentArea.update(delta);
+		camera.position.x = player.getCenterPosition().x;
+		camera.position.y = player.getCenterPosition().y;
+		camera.update();
 		
-		camera.position.x = player.getPosition().x;
-		camera.position.y = player.getPosition().y;
-		camera.update();		
+		player.update(delta);	
+		currentArea.update(delta);	
 	}
 	
 	@Override
 	public void render(float delta) {
 		update(delta);
+
 		Gdx.gl.glClearColor(0.7f, 0.7f, 1.0f, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
@@ -70,6 +70,13 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 
 		currentArea = new FarmArea(player);
 		mapRenderer = new ObjectTiledMapRenderer(currentArea.getMap(), batch);
+	}
+	
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); // 16:9
+		camera.update();
 	}
 
 	@Override
