@@ -15,8 +15,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import me.ferdz.evergreenacres.core.entity.AbstractEntity;
 
 public class Player extends AbstractEntity {
-	private static final float SPEED = 40F;
-	private static final float ACCELERATION = 20F;
+	private static final float SPEED = 80F;
+	private static final float ACCELERATION = 2F;
 	
 	private Texture texture;
 	private Body body;
@@ -42,7 +42,7 @@ public class Player extends AbstractEntity {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
 		fixtureDef.density = 0.0003f;
-		fixtureDef.friction = 0.01f;
+		fixtureDef.friction = 0.1f;
 		
 		body.createFixture(fixtureDef);
 		shape.dispose();
@@ -52,23 +52,27 @@ public class Player extends AbstractEntity {
 	public void update(float delta) {
 		Vector2 direction = new Vector2();
 		if(Gdx.input.isKeyPressed(Keys.A)) {
-			direction.x -= delta;
+			direction.x -= 1;
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)) {
-			direction.x += delta;
+			direction.x += 1;
 		}
 		if(Gdx.input.isKeyPressed(Keys.W)) {
-			direction.y += delta;
+			direction.y += 1;
 		}
 		if(Gdx.input.isKeyPressed(Keys.S)) {
-			direction.y -= delta;
+			direction.y -= 1;
 		}
-		if(direction.isZero())
+		if(direction.isZero()) {
+			if (body.getLinearVelocity().len() < 35) {
+				body.setLinearVelocity(Vector2.Zero);
+			}
 			return;
-		
-		direction = direction.scl(SPEED);
+		}
+			
+		direction = direction.scl(ACCELERATION);
 		body.applyLinearImpulse(direction, body.getWorldCenter(), true);
-		body.getLinearVelocity().set(body.getLinearVelocity().limit(SPEED));
+		body.setLinearVelocity(body.getLinearVelocity().limit(SPEED));
 	}
 
 	@Override

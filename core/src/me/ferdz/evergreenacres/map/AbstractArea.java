@@ -46,7 +46,7 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 	
 	@Override
 	public void update(float delta) {
-		world.step(1 / 30F, 10, 10);
+		world.step(1 / 60F, 60, 60);
 		
 		for (AbstractEntity entity : getEntities()) {
 			entity.update(delta);
