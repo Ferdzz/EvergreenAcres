@@ -1,9 +1,14 @@
 package me.ferdz.evergreenacres.core.entity.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,16 +18,40 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import me.ferdz.evergreenacres.core.entity.AbstractEntity;
+import me.ferdz.evergreenacres.core.rendering.AnimationImpl;
+import me.ferdz.evergreenacres.core.rendering.EnumHumanAnimationType;
 
 public class Player extends AbstractEntity {
 	private static final float SPEED = 80F;
 	private static final float ACCELERATION = 2F;
 	
-	private Texture texture;
+	private HashMap<EnumHumanAnimationType, AnimationImpl> animations;
+	private EnumHumanAnimationType currentAnimation;
 	private Body body;
 	
 	public Player() {
-		texture = new Texture(Gdx.files.internal("player.png"));
+		this.animations = new HashMap<EnumHumanAnimationType, AnimationImpl>();
+
+		// Load player animation textures
+		// TODO: Move this to a cleaner more generic place
+		Texture sheet = new Texture(Gdx.files.internal("player/light.png"));
+		TextureRegion[][] tmp = TextureRegion.split(sheet, 64, 64);
+		for (EnumHumanAnimationType type : EnumHumanAnimationType.values()) {
+			// Skip the first two frames of the animation for WALK_UP and WALK_DOWN
+			int startIndex;
+			if (type == EnumHumanAnimationType.WALK_UP || type == EnumHumanAnimationType.WALK_DOWN)
+				startIndex = 1;
+			else
+				startIndex = 0;
+			ArrayList<TextureRegion> frames = new ArrayList<TextureRegion>();
+			for (int i = startIndex; i < type.getLength(); i++) {
+				frames.add(tmp[type.ordinal()][i]);
+			}
+			AnimationImpl animation = new AnimationImpl(0.1F, frames.toArray(new TextureRegion[frames.size()]));
+			animation.setPlayMode(PlayMode.LOOP);
+			this.animations.put(type, animation);
+		}
+		this.currentAnimation = EnumHumanAnimationType.CAST_DOWN;
 	}
 	
 	public void createBody(World world, Vector2 position) {
@@ -51,17 +80,21 @@ public class Player extends AbstractEntity {
 	@Override
 	public void update(float delta) {
 		Vector2 direction = new Vector2();
-		if(Gdx.input.isKeyPressed(Keys.A)) {
-			direction.x -= 1;
-		}
-		if(Gdx.input.isKeyPressed(Keys.D)) {
-			direction.x += 1;
-		}
 		if(Gdx.input.isKeyPressed(Keys.W)) {
 			direction.y += 1;
+			currentAnimation = EnumHumanAnimationType.WALK_UP;
 		}
 		if(Gdx.input.isKeyPressed(Keys.S)) {
 			direction.y -= 1;
+			currentAnimation = EnumHumanAnimationType.WALK_DOWN;
+		}
+		if(Gdx.input.isKeyPressed(Keys.A)) {
+			direction.x -= 1;
+			currentAnimation = EnumHumanAnimationType.WALK_LEFT;
+		}
+		if(Gdx.input.isKeyPressed(Keys.D)) {
+			direction.x += 1;
+			currentAnimation = EnumHumanAnimationType.WALK_RIGHT;
 		}
 		if(direction.isZero()) {
 			if (body.getLinearVelocity().len() < 35) {
@@ -77,8 +110,9 @@ public class Player extends AbstractEntity {
 
 	@Override
 	public void render(Batch batch) {
-		batch.draw(texture, body.getPosition().x - (texture.getWidth() / 2F), body.getPosition().y - (texture.getHeight() / 2F),
-				texture.getWidth(), texture.getHeight());
+		TextureRegion texture = animations.get(currentAnimation).getKeyFrame(Gdx.graphics.getDeltaTime(), true);
+		batch.draw(texture, body.getPosition().x - (texture.getRegionWidth() / 2F), body.getPosition().y - (texture.getRegionHeight() / 2F) + 22F,
+				texture.getRegionWidth(), texture.getRegionHeight());
 	}
 	
 	@Override
@@ -92,6 +126,11 @@ public class Player extends AbstractEntity {
 
 	@Override
 	public void dispose() {
-		texture.dispose();
+		for (AnimationImpl animationImpl : animations.values()) {
+			for (TextureRegion region : animationImpl.getKeyFrames()) {
+				region.getTexture().dispose();
+			}
+		}
+//		texture.dispose();
 	}
 }
