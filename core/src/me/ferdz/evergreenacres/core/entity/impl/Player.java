@@ -6,7 +6,6 @@ import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -22,7 +21,7 @@ import me.ferdz.evergreenacres.core.rendering.AnimationImpl;
 import me.ferdz.evergreenacres.core.rendering.EnumHumanAnimationType;
 
 public class Player extends AbstractEntity {
-	private static final float SPEED = 80F;
+	private static final float SPEED = 100F;
 	private static final float ACCELERATION = 2F;
 	
 	private HashMap<EnumHumanAnimationType, AnimationImpl> animations;
@@ -36,7 +35,7 @@ public class Player extends AbstractEntity {
 		// TODO: Move this to a cleaner more generic place
 		Texture sheet = new Texture(Gdx.files.internal("player/light.png"));
 		TextureRegion[][] tmp = TextureRegion.split(sheet, 64, 64);
-		for (EnumHumanAnimationType type : EnumHumanAnimationType.values()) {
+		for (EnumHumanAnimationType type : EnumHumanAnimationType.getActionTypes()) {
 			// Skip the first two frames of the animation for WALK_UP and WALK_DOWN
 			int startIndex;
 			if (type == EnumHumanAnimationType.WALK_UP || type == EnumHumanAnimationType.WALK_DOWN)
@@ -47,10 +46,16 @@ public class Player extends AbstractEntity {
 			for (int i = startIndex; i < type.getLength(); i++) {
 				frames.add(tmp[type.ordinal()][i]);
 			}
-			AnimationImpl animation = new AnimationImpl(0.1F, frames.toArray(new TextureRegion[frames.size()]));
-			animation.setPlayMode(PlayMode.LOOP);
+			AnimationImpl animation = new AnimationImpl(0.12F, frames.toArray(new TextureRegion[frames.size()]));
 			this.animations.put(type, animation);
 		}
+		
+		// Init the still animations
+		this.animations.put(EnumHumanAnimationType.STILL_UP, new AnimationImpl(1, tmp[EnumHumanAnimationType.WALK_UP.ordinal()][0]));
+		this.animations.put(EnumHumanAnimationType.STILL_LEFT, new AnimationImpl(1, tmp[EnumHumanAnimationType.WALK_LEFT.ordinal()][0]));
+		this.animations.put(EnumHumanAnimationType.STILL_DOWN, new AnimationImpl(1, tmp[EnumHumanAnimationType.WALK_DOWN.ordinal()][0]));
+		this.animations.put(EnumHumanAnimationType.STILL_RIGHT, new AnimationImpl(1, tmp[EnumHumanAnimationType.WALK_RIGHT.ordinal()][0]));
+
 		this.currentAnimation = EnumHumanAnimationType.CAST_DOWN;
 	}
 	
@@ -99,6 +104,22 @@ public class Player extends AbstractEntity {
 		if(direction.isZero()) {
 			if (body.getLinearVelocity().len() < 35) {
 				body.setLinearVelocity(Vector2.Zero);
+				// Set the animation to a still image when not moving
+				switch (currentAnimation) {
+				case WALK_UP:
+					currentAnimation = EnumHumanAnimationType.STILL_UP;
+					break;
+				case WALK_LEFT:
+					currentAnimation = EnumHumanAnimationType.STILL_LEFT;
+					break;
+				case WALK_DOWN:
+					currentAnimation = EnumHumanAnimationType.STILL_DOWN;
+					break;
+				case WALK_RIGHT:
+					currentAnimation = EnumHumanAnimationType.STILL_RIGHT;
+					break;
+				}
+				
 			}
 			return;
 		}
@@ -111,8 +132,7 @@ public class Player extends AbstractEntity {
 	@Override
 	public void render(Batch batch) {
 		TextureRegion texture = animations.get(currentAnimation).getKeyFrame(Gdx.graphics.getDeltaTime(), true);
-		batch.draw(texture, body.getPosition().x - (texture.getRegionWidth() / 2F), body.getPosition().y - (texture.getRegionHeight() / 2F) + 22F,
-				texture.getRegionWidth(), texture.getRegionHeight());
+		batch.draw(texture, body.getPosition().x - (texture.getRegionWidth() / 2F), body.getPosition().y - (texture.getRegionHeight() / 2F) + 22F);
 	}
 	
 	@Override

@@ -1,5 +1,8 @@
 package me.ferdz.evergreenacres.core.rendering;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum EnumHumanAnimationType {
 	
 	CAST_UP(7),
@@ -22,7 +25,12 @@ public enum EnumHumanAnimationType {
 	BOW_LEFT(13),
 	BOW_DOWN(13),
 	BOW_RIGHT(13),
-	HURT(6);
+	HURT(6),
+	/* custom animations */
+	STILL_UP(1),
+	STILL_LEFT(1),
+	STILL_DOWN(1),
+	STILL_RIGHT(1);
 	
 	private int length;
 	private EnumHumanAnimationType(int length) {
@@ -31,5 +39,15 @@ public enum EnumHumanAnimationType {
 	
 	public int getLength() {
 		return length;
+	}
+	
+	public static List<EnumHumanAnimationType> getActionTypes() {
+		return Arrays.asList(
+				CAST_UP, 	CAST_LEFT, 	CAST_DOWN, 	CAST_RIGHT,
+				THRUST_UP, 	THRUST_LEFT,THRUST_DOWN,THRUST_RIGHT,
+				WALK_UP, 	WALK_LEFT, 	WALK_DOWN, 	WALK_RIGHT,
+				SLASH_UP, 	SLASH_LEFT, SLASH_DOWN, SLASH_RIGHT,
+				BOW_UP,		BOW_LEFT, 	BOW_DOWN, 	BOW_RIGHT,
+				HURT);
 	}
 }

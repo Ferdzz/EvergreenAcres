@@ -445,7 +445,7 @@
    </animation>
   </tile>
  </tileset>
- <tileset firstgid="2049" name="Fenc" tilewidth="32" tileheight="32" tilecount="18" columns="3">
+ <tileset firstgid="2049" name="Fence" tilewidth="32" tileheight="32" tilecount="18" columns="3">
   <image source="../environment/fence.png" width="96" height="192"/>
  </tileset>
  <layer name="Water" width="64" height="64">
