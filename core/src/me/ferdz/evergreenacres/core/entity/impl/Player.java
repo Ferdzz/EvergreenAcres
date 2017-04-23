@@ -85,26 +85,31 @@ public class Player extends AbstractEntity {
 	@Override
 	public void update(float delta) {
 		Vector2 direction = new Vector2();
+		boolean w = false,
+				a = false,
+				s = false,
+				d = false;
 		if(Gdx.input.isKeyPressed(Keys.W)) {
 			direction.y += 1;
-			currentAnimation = EnumHumanAnimationType.WALK_UP;
+			w = true;
 		}
 		if(Gdx.input.isKeyPressed(Keys.S)) {
 			direction.y -= 1;
-			currentAnimation = EnumHumanAnimationType.WALK_DOWN;
+			s = true;
 		}
 		if(Gdx.input.isKeyPressed(Keys.A)) {
 			direction.x -= 1;
-			currentAnimation = EnumHumanAnimationType.WALK_LEFT;
+			a = true;
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)) {
 			direction.x += 1;
-			currentAnimation = EnumHumanAnimationType.WALK_RIGHT;
+			d = true;
 		}
-		if(direction.isZero()) {
+		if(direction.isZero()) { // If body stopped moving
 			if (body.getLinearVelocity().len() < 35) {
 				body.setLinearVelocity(Vector2.Zero);
 				// Set the animation to a still image when not moving
+				
 				switch (currentAnimation) {
 				case WALK_UP:
 					currentAnimation = EnumHumanAnimationType.STILL_UP;
@@ -122,6 +127,30 @@ public class Player extends AbstractEntity {
 				
 			}
 			return;
+		} else {
+			// Edge cases
+			if (a && d) {
+				if (w) {
+					currentAnimation = EnumHumanAnimationType.WALK_UP;
+				} else if (s) {
+					currentAnimation = EnumHumanAnimationType.WALK_DOWN;
+				}
+			} else if (w && s) {
+				if (a) {
+					currentAnimation = EnumHumanAnimationType.WALK_LEFT;
+				} else if (d) {
+					currentAnimation = EnumHumanAnimationType.WALK_RIGHT;
+				}
+			// Single & diagonal direction cases	
+			} else if (a) {
+				currentAnimation = EnumHumanAnimationType.WALK_LEFT;
+			} else if (d) {
+				currentAnimation = EnumHumanAnimationType.WALK_RIGHT;
+			} else if (s) {
+				currentAnimation = EnumHumanAnimationType.WALK_DOWN;
+			} else if (w) {
+				currentAnimation = EnumHumanAnimationType.WALK_UP;
+			}
 		}
 			
 		direction = direction.scl(ACCELERATION);
