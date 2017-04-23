@@ -28,7 +28,7 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 		this.entities = new ArrayList<AbstractEntity>();
 		
 		// Bind player to this area
-		this.player.createBody(world, new Vector2(300, 1300));
+		this.player.createBody(world, new Vector2(30, 100));
 		
 		// Load objects in map
 		MapBodyBuilder.buildShapes(getMap(), 1, world); // load shapes into world
