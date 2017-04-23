@@ -34,7 +34,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 			
 		debugRenderer = new Box2DDebugRenderer();	
 		camera = new OrthographicCamera();
-		camera.zoom = 0.5F;
+		camera.zoom = 0.25F;
 	}
 
 	@Override

@@ -132,7 +132,10 @@ public class Player extends AbstractEntity {
 	@Override
 	public void render(Batch batch) {
 		TextureRegion texture = animations.get(currentAnimation).getKeyFrame(Gdx.graphics.getDeltaTime(), true);
-		batch.draw(texture, body.getPosition().x - (texture.getRegionWidth() / 2F), body.getPosition().y - (texture.getRegionHeight() / 2F) + 22F);
+		float width = texture.getRegionWidth() * 0.8F;
+		float height = texture.getRegionHeight() * 0.8F;
+		batch.draw(texture, body.getPosition().x - width / 2, body.getPosition().y - (height / 2) + 15F,
+				width, height);
 	}
 	
 	@Override
