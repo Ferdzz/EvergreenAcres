@@ -15,17 +15,19 @@ import me.ferdz.evergreenacres.map.FarmArea;
 
 public class GameScreen extends ScreenAdapter implements IUpdatable {
 	
+	public static GameScreen instance;
+	
 	private ObjectTiledMapRenderer mapRenderer;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private Box2DDebugRenderer debugRenderer;
-	
 	private Player player;
-	
 	private AbstractArea currentArea;
 	
 	@Override
 	public void show() {
+		instance = this;
+		
 		player = new Player();
 		batch = new SpriteBatch();
 		
@@ -95,5 +97,13 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		batch.dispose();
 		mapRenderer.dispose();
 		currentArea.dispose();
+	}
+	
+	public AbstractArea getCurrentArea() {
+		return currentArea;
+	}
+	
+	public OrthographicCamera getCamera() {
+		return camera;
 	}
 }

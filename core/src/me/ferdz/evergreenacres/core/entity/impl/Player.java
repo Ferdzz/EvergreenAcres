@@ -6,8 +6,10 @@ import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -19,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import me.ferdz.evergreenacres.core.entity.AbstractEntity;
 import me.ferdz.evergreenacres.core.rendering.AnimationImpl;
 import me.ferdz.evergreenacres.core.rendering.EnumHumanAnimationType;
+import me.ferdz.evergreenacres.core.screen.GameScreen;
 
 public class Player extends AbstractEntity {
 	private static final float SPEED = 100F;
@@ -27,6 +30,7 @@ public class Player extends AbstractEntity {
 	private HashMap<EnumHumanAnimationType, AnimationImpl> animations;
 	private EnumHumanAnimationType currentAnimation;
 	private Body body;
+	private Animation<TextureRegion> dustAnimation;
 	
 	public Player() {
 		this.animations = new HashMap<EnumHumanAnimationType, AnimationImpl>();
@@ -156,6 +160,14 @@ public class Player extends AbstractEntity {
 		direction = direction.scl(ACCELERATION);
 		body.applyLinearImpulse(direction, body.getWorldCenter(), true);
 		body.setLinearVelocity(body.getLinearVelocity().limit(SPEED));
+		
+		// Dirt particle animation
+		TiledMapTileLayer layer = (TiledMapTileLayer) GameScreen.instance.getCurrentArea().getMap().getLayers().get("Ground");
+		String type = (String) layer.getCell(Math.round(body.getPosition().x / layer.getTileWidth()), Math.round(body.getPosition().y / layer.getTileHeight())).getTile().getProperties().get("type");
+		if ("dirt".equals(type)) { // If the tile under the player is dirt
+			Texture sheet = new Texture(Gdx.files.internal("s_kickdust1_strip8.png"));
+			dustAnimation = new AnimationImpl(0.1F, TextureRegion.split(sheet, 12, 15)[0]);
+		}
 	}
 
 	@Override
@@ -165,6 +177,8 @@ public class Player extends AbstractEntity {
 		float height = texture.getRegionHeight() * 0.8F;
 		batch.draw(texture, body.getPosition().x - width / 2, body.getPosition().y - (height / 2) + 15F,
 				width, height);
+		if (dustAnimation != null)
+			batch.draw(dustAnimation.getKeyFrame(Gdx.graphics.getDeltaTime(), false), body.getPosition().x, body.getPosition().y);
 	}
 	
 	@Override
