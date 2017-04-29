@@ -5,6 +5,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 import me.ferdz.evergreenacres.core.entity.IUpdatable;
@@ -15,6 +17,8 @@ import me.ferdz.evergreenacres.map.FarmArea;
 
 public class GameScreen extends ScreenAdapter implements IUpdatable {
 	
+	public static final float ZOOM = 0.25F;
+	
 	public static GameScreen instance;
 	
 	private ObjectTiledMapRenderer mapRenderer;
@@ -23,7 +27,6 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	private Box2DDebugRenderer debugRenderer;
 	private Player player;
 	private AbstractArea currentArea;
-	
 	@Override
 	public void show() {
 		instance = this;
@@ -35,7 +38,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 			
 		debugRenderer = new Box2DDebugRenderer();	
 		camera = new OrthographicCamera();
-		camera.zoom = 0.25F;
+		camera.zoom = ZOOM;
 	}
 
 	@Override
@@ -52,9 +55,26 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
         float my = (camYTarget - camY) / 1.5f;
         camX += mx;
         camY += my;
-		camera.position.x = camX;
-		camera.position.y = camY;
-		camera.update();
+		
+        // Limit the camera bounds to the map
+        MapProperties props = currentArea.getMap().getProperties();
+        float viewPortWidth = (camera.viewportWidth / 2) * ZOOM;
+        float viewPortHeight= (camera.viewportHeight/ 2) * ZOOM;
+        float mapWidth = (props.get("width", Integer.class) * props.get("tilewidth", Integer.class));
+        float mapHeight = (props.get("height", Integer.class) * props.get("tileheight", Integer.class));
+        float maxWidth = mapWidth - viewPortWidth;
+        float maxHeight = mapHeight - viewPortHeight;
+        if (mapWidth < camera.viewportWidth * ZOOM) { // If the map is smaller than the viewport able to be displayed
+        	camera.position.x = mapWidth / 2;
+        } else {
+            camera.position.x = MathUtils.clamp(camX, viewPortWidth, maxWidth);
+        }
+        if (mapHeight < camera.viewportHeight * ZOOM) { // If the map is smaller than the viewport able to be displayed
+        	camera.position.y = mapHeight / 2;
+        } else {
+        	camera.position.y = MathUtils.clamp(camY, viewPortHeight, maxHeight);        	
+        }
+        camera.update();
 	}
 	
 	@Override
@@ -71,8 +91,6 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		mapRenderer.renderOver(); // render over the entities
 
 		debugRenderer.render(currentArea.getWorld(), camera.combined);
-		
-
 	}
 
 	public void changeArea(AbstractArea area) {
