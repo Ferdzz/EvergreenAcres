@@ -6,10 +6,10 @@ import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -30,7 +30,7 @@ public class Player extends AbstractEntity {
 	private HashMap<EnumHumanAnimationType, AnimationImpl> animations;
 	private EnumHumanAnimationType currentAnimation;
 	private Body body;
-	private Animation<TextureRegion> dustAnimation;
+	private Particle dustParticle;
 	
 	public Player() {
 		this.animations = new HashMap<EnumHumanAnimationType, AnimationImpl>();
@@ -61,6 +61,9 @@ public class Player extends AbstractEntity {
 		this.animations.put(EnumHumanAnimationType.STILL_RIGHT, new AnimationImpl(1, tmp[EnumHumanAnimationType.WALK_RIGHT.ordinal()][0]));
 
 		this.currentAnimation = EnumHumanAnimationType.CAST_DOWN;
+		
+		// Init the dust particle
+		this.dustParticle = new Particle(new Texture(Gdx.files.internal("s_kickdust1_strip8.png")), 12, 15, 0.08f);
 	}
 	
 	public void createBody(World world, Vector2 position) {
@@ -74,7 +77,7 @@ public class Player extends AbstractEntity {
 		body = world.createBody(bodyDef);
 
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(8, 7.9F); // height of 8 because 2.5D means 16 / 2
+		shape.setAsBox(7.9F, 7.9F); // height of 8 because 2.5D means 16 / 2
 		 						  // also 7.9 so we can fit through boxes of half tile
 
 		FixtureDef fixtureDef = new FixtureDef();
@@ -88,6 +91,8 @@ public class Player extends AbstractEntity {
 	
 	@Override
 	public void update(float delta) {
+		dustParticle.update(delta);
+		
 		Vector2 direction = new Vector2();
 		boolean w = false,
 				a = false,
@@ -128,7 +133,6 @@ public class Player extends AbstractEntity {
 					currentAnimation = EnumHumanAnimationType.STILL_RIGHT;
 					break;
 				}
-				
 			}
 			return;
 		} else {
@@ -163,40 +167,43 @@ public class Player extends AbstractEntity {
 		
 		// Dirt particle animation
 		TiledMapTileLayer layer = (TiledMapTileLayer) GameScreen.instance.getCurrentArea().getMap().getLayers().get("Ground");
-		String type = (String) layer.getCell(Math.round(body.getPosition().x / layer.getTileWidth()), Math.round(body.getPosition().y / layer.getTileHeight())).getTile().getProperties().get("type");
-		if ("dirt".equals(type)) { // If the tile under the player is dirt
-			Texture sheet = new Texture(Gdx.files.internal("s_kickdust1_strip8.png"));
-			dustAnimation = new AnimationImpl(0.1F, TextureRegion.split(sheet, 12, 15)[0]);
+		Cell cell = layer.getCell(Math.round(body.getPosition().x / layer.getTileWidth()), Math.round(body.getPosition().y / layer.getTileHeight()));
+		if (cell != null) {
+			String type = (String) cell.getTile().getProperties().get("type");
+			if ("dirt".equals(type)) { // If the tile under the player is dirt
+				if (dustParticle.getPosition() == null) {
+					Vector2 particlePos = body.getWorldCenter().cpy();
+					particlePos.y -= 8;
+					particlePos.x -= 4;
+					dustParticle.setPosition(particlePos);
+					dustParticle.resetAnimation();
+				}
+			}
 		}
+		
 	}
 
 	@Override
 	public void render(Batch batch) {
+		dustParticle.render(batch);
+		
 		TextureRegion texture = animations.get(currentAnimation).getKeyFrame(Gdx.graphics.getDeltaTime(), true);
 		float width = texture.getRegionWidth() * 0.8F;
 		float height = texture.getRegionHeight() * 0.8F;
 		batch.draw(texture, body.getPosition().x - width / 2, body.getPosition().y - (height / 2) + 15F,
 				width, height);
-		if (dustAnimation != null)
-			batch.draw(dustAnimation.getKeyFrame(Gdx.graphics.getDeltaTime(), false), body.getPosition().x, body.getPosition().y);
 	}
 	
 	@Override
 	public Vector2 getPosition() {
 		return body.getPosition();
 	}
-	
-	public Vector2 getCenterPosition() {
-		return body.getWorldCenter();
-	}
 
 	@Override
 	public void dispose() {
 		for (AnimationImpl animationImpl : animations.values()) {
-			for (TextureRegion region : animationImpl.getKeyFrames()) {
-				region.getTexture().dispose();
-			}
+			animationImpl.dispose();
 		}
-//		texture.dispose();
+		dustParticle.dispose();
 	}
 }

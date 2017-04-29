@@ -27,7 +27,6 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	@Override
 	public void show() {
 		instance = this;
-		
 		player = new Player();
 		batch = new SpriteBatch();
 		

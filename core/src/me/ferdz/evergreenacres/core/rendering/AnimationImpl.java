@@ -2,8 +2,9 @@ package me.ferdz.evergreenacres.core.rendering;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Disposable;
 
-public class AnimationImpl extends Animation<TextureRegion> {
+public class AnimationImpl extends Animation<TextureRegion> implements Disposable {
 
 	private float elapsedTime;
 
@@ -16,5 +17,20 @@ public class AnimationImpl extends Animation<TextureRegion> {
 	public int getKeyFrameIndex(float stateTime) {
 		this.elapsedTime += stateTime;
 		return super.getKeyFrameIndex(elapsedTime);
+	}
+
+	@Override
+	public void dispose() {
+		for (TextureRegion texture : this.getKeyFrames()) {
+			texture.getTexture().dispose();
+		}
+	}
+	
+	public float getElapsedTime() {
+		return this.elapsedTime;
+	}
+	
+	public void setElpasedTime(float elapsedTime) {
+		this.elapsedTime = elapsedTime;
 	}
 }
