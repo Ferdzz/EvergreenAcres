@@ -17,11 +17,17 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.google.common.eventbus.Subscribe;
 
 import me.ferdz.evergreenacres.core.entity.AbstractEntity;
+import me.ferdz.evergreenacres.core.entity.EnumDirection;
+import me.ferdz.evergreenacres.core.item.Item;
+import me.ferdz.evergreenacres.core.item.ItemHoe;
 import me.ferdz.evergreenacres.core.rendering.AnimationImpl;
 import me.ferdz.evergreenacres.core.rendering.EnumHumanAnimationType;
 import me.ferdz.evergreenacres.core.screen.GameScreen;
+import me.ferdz.evergreenacres.utils.Values;
+import me.ferdz.evergreenacres.utils.input.InputEvents;
 
 public class Player extends AbstractEntity {
 	private static final float SPEED = 100F;
@@ -29,14 +35,28 @@ public class Player extends AbstractEntity {
 	
 	private HashMap<EnumHumanAnimationType, AnimationImpl> animations;
 	private EnumHumanAnimationType currentAnimation;
+	private EnumDirection currentDirection;
+	private Item currentItem;
 	private Body body;
 	private Particle dustParticle;
 	
 	public Player() {
+		// Init the animations
+		this.initAnimations();
+		// Set current direction to down
+		this.currentDirection = EnumDirection.DOWN;
+		// Init the dust particle
+		this.dustParticle = new Particle(new Texture(Gdx.files.internal("s_kickdust1_strip8.png")), 12, 15, 0.08f);
+		// Init hoe item
+		this.currentItem = new ItemHoe(null, "Hoe");
+		// Register the event bus
+		Values.bus.register(this);
+	}
+	
+	private void initAnimations() {
 		this.animations = new HashMap<EnumHumanAnimationType, AnimationImpl>();
 
 		// Load player animation textures
-		// TODO: Move this to a cleaner more generic place
 		Texture sheet = new Texture(Gdx.files.internal("player/light.png"));
 		TextureRegion[][] tmp = TextureRegion.split(sheet, 64, 64);
 		for (EnumHumanAnimationType type : EnumHumanAnimationType.getActionTypes()) {
@@ -46,6 +66,7 @@ public class Player extends AbstractEntity {
 				startIndex = 1;
 			else
 				startIndex = 0;
+			// TODO: Move those frames to the EnumHumanAnimationType
 			ArrayList<TextureRegion> frames = new ArrayList<TextureRegion>();
 			for (int i = startIndex; i < type.getLength(); i++) {
 				frames.add(tmp[type.ordinal()][i]);
@@ -61,9 +82,7 @@ public class Player extends AbstractEntity {
 		this.animations.put(EnumHumanAnimationType.STILL_RIGHT, new AnimationImpl(1, tmp[EnumHumanAnimationType.WALK_RIGHT.ordinal()][0]));
 
 		this.currentAnimation = EnumHumanAnimationType.CAST_DOWN;
-		
-		// Init the dust particle
-		this.dustParticle = new Particle(new Texture(Gdx.files.internal("s_kickdust1_strip8.png")), 12, 15, 0.08f);
+
 	}
 	
 	public void createBody(World world, Vector2 position) {
@@ -78,7 +97,7 @@ public class Player extends AbstractEntity {
 
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(7.9F, 7.9F); // height of 8 because 2.5D means 16 / 2
-		 						  // also 7.9 so we can fit through boxes of half tile
+		 						  	// 7.9 so we can fit through boxes of half tile
 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
@@ -140,24 +159,32 @@ public class Player extends AbstractEntity {
 			if (a && d) {
 				if (w) {
 					currentAnimation = EnumHumanAnimationType.WALK_UP;
+					currentDirection = EnumDirection.UP;
 				} else if (s) {
 					currentAnimation = EnumHumanAnimationType.WALK_DOWN;
+					currentDirection = EnumDirection.DOWN;
 				}
 			} else if (w && s) {
 				if (a) {
 					currentAnimation = EnumHumanAnimationType.WALK_LEFT;
+					currentDirection = EnumDirection.LEFT;
 				} else if (d) {
 					currentAnimation = EnumHumanAnimationType.WALK_RIGHT;
+					currentDirection = EnumDirection.RIGHT;
 				}
 			// Single & diagonal direction cases	
 			} else if (a) {
 				currentAnimation = EnumHumanAnimationType.WALK_LEFT;
+				currentDirection = EnumDirection.LEFT;
 			} else if (d) {
 				currentAnimation = EnumHumanAnimationType.WALK_RIGHT;
+				currentDirection = EnumDirection.RIGHT;
 			} else if (s) {
 				currentAnimation = EnumHumanAnimationType.WALK_DOWN;
+				currentDirection = EnumDirection.DOWN;
 			} else if (w) {
 				currentAnimation = EnumHumanAnimationType.WALK_UP;
+				currentDirection = EnumDirection.UP;
 			}
 		}
 			
@@ -180,7 +207,6 @@ public class Player extends AbstractEntity {
 				}
 			}
 		}
-		
 	}
 
 	@Override
@@ -194,9 +220,10 @@ public class Player extends AbstractEntity {
 				width, height);
 	}
 	
-	@Override
-	public Vector2 getPosition() {
-		return body.getPosition();
+	// Action handlers
+	@Subscribe
+	public void onLeftClick(InputEvents.LeftClickEvent event) {
+		this.currentItem.onItemUse(this, GameScreen.instance.getCurrentArea());
 	}
 
 	@Override
@@ -205,5 +232,14 @@ public class Player extends AbstractEntity {
 			animationImpl.dispose();
 		}
 		dustParticle.dispose();
+	}
+	
+	@Override
+	public Vector2 getPosition() {
+		return body.getPosition();
+	}
+	
+	public EnumDirection getCurrentDirection() {
+		return currentDirection;
 	}
 }

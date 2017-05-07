@@ -11,7 +11,7 @@ import me.ferdz.evergreenacres.core.entity.impl.tile.Tile;
 
 public class FarmArea extends AbstractArea {
 
-	private Tile[][] soil;
+	public Tile[][] soil;
 	
 	public FarmArea(Player player) {
 		super(player);

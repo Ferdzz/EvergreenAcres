@@ -14,6 +14,7 @@ import me.ferdz.evergreenacres.core.entity.impl.Player;
 import me.ferdz.evergreenacres.core.rendering.ObjectTiledMapRenderer;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
+import me.ferdz.evergreenacres.utils.Values;
 
 public class GameScreen extends ScreenAdapter implements IUpdatable {
 	
@@ -27,6 +28,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	private Box2DDebugRenderer debugRenderer;
 	private Player player;
 	private AbstractArea currentArea;
+	
 	@Override
 	public void show() {
 		instance = this;
@@ -60,8 +62,8 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
         MapProperties props = currentArea.getMap().getProperties();
         float viewPortWidth = (camera.viewportWidth / 2) * ZOOM;
         float viewPortHeight= (camera.viewportHeight/ 2) * ZOOM;
-        float mapWidth = (props.get("width", Integer.class) * props.get("tilewidth", Integer.class));
-        float mapHeight = (props.get("height", Integer.class) * props.get("tileheight", Integer.class));
+        float mapWidth = (props.get("width", Integer.class) * Values.TILE_WIDTH);
+        float mapHeight = (props.get("height", Integer.class) * Values.TILE_HEIGHT);
         float maxWidth = mapWidth - viewPortWidth;
         float maxHeight = mapHeight - viewPortHeight;
         if (mapWidth < camera.viewportWidth * ZOOM) { // If the map is smaller than the viewport able to be displayed
@@ -104,7 +106,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); // 16:9
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
 	}
 

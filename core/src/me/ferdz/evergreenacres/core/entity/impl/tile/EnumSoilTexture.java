@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import me.ferdz.evergreenacres.utils.Values;
+
 public enum EnumSoilTexture {
 	NO_CONNECTION(3, 3),
 	DOWN(3, 0),
@@ -35,7 +37,7 @@ public enum EnumSoilTexture {
 	private static TextureRegion[][] soilTexture;
 	private static TextureRegion[][] getSoilTexture() {
 		if (soilTexture == null)
-			soilTexture = TextureRegion.split(new Texture(Gdx.files.internal("environment/homegrown/soil.png")), 16, 16);
+			soilTexture = TextureRegion.split(new Texture(Gdx.files.internal("environment/homegrown/soil.png")), Values.TILE_WIDTH, Values.TILE_HEIGHT);
 		return soilTexture;
 	}
 }
