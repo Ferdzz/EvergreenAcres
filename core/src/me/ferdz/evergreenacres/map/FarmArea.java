@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 
 import me.ferdz.evergreenacres.core.entity.impl.Player;
+import me.ferdz.evergreenacres.core.entity.impl.tile.SoilTile;
 import me.ferdz.evergreenacres.core.entity.impl.tile.Tile;
 
 public class FarmArea extends AbstractArea {
@@ -17,7 +18,7 @@ public class FarmArea extends AbstractArea {
 		super(player);
 		MapProperties props = getMap().getProperties();
 		soil = new Tile[props.get("width", Integer.class)][props.get("height", Integer.class)];
-		soil[0][0] = new Tile(new Vector2(0, 0));
+		soil[0][0] = new SoilTile(new Vector2(0, 0));
 		// possibly initialize interactions, ai, dialogs etc
 	}
 	
