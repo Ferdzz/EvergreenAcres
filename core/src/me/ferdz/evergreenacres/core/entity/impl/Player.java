@@ -26,6 +26,7 @@ import me.ferdz.evergreenacres.core.item.ItemHoe;
 import me.ferdz.evergreenacres.core.rendering.AnimationImpl;
 import me.ferdz.evergreenacres.core.rendering.EnumHumanAnimationType;
 import me.ferdz.evergreenacres.core.screen.GameScreen;
+import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
 import me.ferdz.evergreenacres.utils.input.InputEvents;
 
@@ -193,11 +194,12 @@ public class Player extends AbstractEntity {
 		body.setLinearVelocity(body.getLinearVelocity().limit(SPEED));
 		
 		// Dirt particle animation
-		TiledMapTileLayer layer = (TiledMapTileLayer) GameScreen.instance.getCurrentArea().getMap().getLayers().get("Ground");
-		Cell cell = layer.getCell(Math.round(body.getPosition().x / layer.getTileWidth()), Math.round(body.getPosition().y / layer.getTileHeight()));
+		TiledMapTileLayer layer = (TiledMapTileLayer) GameScreen.instance.getCurrentArea().getMap().getLayers().get(Values.LAYER_GROUND);
+		Vector2 position = Utils.toTilePos(body.getPosition());
+		Cell cell = layer.getCell((int)position.x, (int)position.y);
 		if (cell != null) {
-			String type = (String) cell.getTile().getProperties().get("type");
-			if ("dirt".equals(type)) { // If the tile under the player is dirt
+			String type = (String) cell.getTile().getProperties().get(Values.KEY_TYPE);
+			if (Values.TYPE_DIRT.equals(type)) { // If the tile under the player is dirt
 				if (dustParticle.getPosition() == null) {
 					Vector2 particlePos = body.getWorldCenter().cpy();
 					particlePos.y -= 8;

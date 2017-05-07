@@ -497,46 +497,14 @@
   <tile id="27" terrain="1,0,0,0"/>
   <tile id="30" terrain="1,0,1,0"/>
   <tile id="31" terrain="0,1,0,1"/>
-  <tile id="32" terrain="1,1,1,0">
-   <properties>
-    <property name="type" value="dirt"/>
-   </properties>
-  </tile>
-  <tile id="33" terrain="1,1,0,1">
-   <properties>
-    <property name="type" value="dirt"/>
-   </properties>
-  </tile>
-  <tile id="34" terrain="1,1,1,0">
-   <properties>
-    <property name="type" value="dirt"/>
-   </properties>
-  </tile>
-  <tile id="35" terrain="1,1,0,1">
-   <properties>
-    <property name="type" value="dirt"/>
-   </properties>
-  </tile>
-  <tile id="40" terrain="1,0,1,1">
-   <properties>
-    <property name="type" value="dirt"/>
-   </properties>
-  </tile>
-  <tile id="41" terrain="0,1,1,1">
-   <properties>
-    <property name="type" value="dirt"/>
-   </properties>
-  </tile>
-  <tile id="42" terrain="1,0,1,1">
-   <properties>
-    <property name="type" value="dirt"/>
-   </properties>
-  </tile>
-  <tile id="43" terrain="0,1,1,1">
-   <properties>
-    <property name="type" value="dirt"/>
-   </properties>
-  </tile>
+  <tile id="32" terrain="1,1,1,0"/>
+  <tile id="33" terrain="1,1,0,1"/>
+  <tile id="34" terrain="1,1,1,0"/>
+  <tile id="35" terrain="1,1,0,1"/>
+  <tile id="40" terrain="1,0,1,1"/>
+  <tile id="41" terrain="0,1,1,1"/>
+  <tile id="42" terrain="1,0,1,1"/>
+  <tile id="43" terrain="0,1,1,1"/>
   <tile id="48" terrain="2,2,2,2"/>
   <tile id="49" terrain="2,2,2,2"/>
   <tile id="50" terrain="2,2,2,2"/>
