@@ -14,6 +14,7 @@ import me.ferdz.evergreenacres.core.entity.impl.Player;
 import me.ferdz.evergreenacres.core.rendering.ObjectTiledMapRenderer;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
+import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.utils.Values;
 
 public class GameScreen extends ScreenAdapter implements IUpdatable {
@@ -25,26 +26,30 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	private ObjectTiledMapRenderer mapRenderer;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
+	private SpriteBatch uiBatch;
 	private Box2DDebugRenderer debugRenderer;
 	private Player player;
 	private AbstractArea currentArea;
-	
+	private ItemBar itemBar;
 	@Override
 	public void show() {
 		instance = this;
-		player = new Player();
-		batch = new SpriteBatch();
+		this.player = new Player();
+		this.batch = new SpriteBatch();
+		this.uiBatch = new SpriteBatch();
+		this.itemBar = new ItemBar();
 		
-		if(currentArea == null)
-			changeArea(new FarmArea(player));
+		if(this.currentArea == null)
+			this.changeArea(new FarmArea(player));
 			
-		debugRenderer = new Box2DDebugRenderer();	
-		camera = new OrthographicCamera();
-		camera.zoom = ZOOM;
+		this.debugRenderer = new Box2DDebugRenderer();	
+		this.camera = new OrthographicCamera();
+		this.camera.zoom = ZOOM;
 	}
 
 	@Override
 	public void update(float delta) {
+		itemBar.update(delta);
 		currentArea.update(delta);	
 		player.update(delta);	
 
@@ -62,8 +67,8 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
         MapProperties props = currentArea.getMap().getProperties();
         float viewPortWidth = (camera.viewportWidth / 2) * ZOOM;
         float viewPortHeight= (camera.viewportHeight/ 2) * ZOOM;
-        float mapWidth = (props.get("width", Integer.class) * Values.TILE_WIDTH);
-        float mapHeight = (props.get("height", Integer.class) * Values.TILE_HEIGHT);
+        float mapWidth = (props.get(Values.KEY_WIDTH, Integer.class) * Values.TILE_WIDTH);
+        float mapHeight = (props.get(Values.KEY_HEIGHT, Integer.class) * Values.TILE_HEIGHT);
         float maxWidth = mapWidth - viewPortWidth;
         float maxHeight = mapHeight - viewPortHeight;
         if (mapWidth < camera.viewportWidth * ZOOM) { // If the map is smaller than the viewport able to be displayed
@@ -93,6 +98,10 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		mapRenderer.renderOver(); // render over the entities
 
 		debugRenderer.render(currentArea.getWorld(), camera.combined);
+
+		uiBatch.begin();
+		itemBar.render(uiBatch);
+		uiBatch.end();
 	}
 
 	public void changeArea(AbstractArea area) {
@@ -114,6 +123,8 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	public void dispose() {
 		player.dispose();
 		batch.dispose();
+		uiBatch.dispose();
+		
 		mapRenderer.dispose();
 		currentArea.dispose();
 	}
