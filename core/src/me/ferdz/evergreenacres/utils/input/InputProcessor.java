@@ -49,7 +49,8 @@ public class InputProcessor implements com.badlogic.gdx.InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
-		return false;
+		Values.bus.post(new InputEvents.ScrollEvent(amount));
+		return true;
 	}
 }
 

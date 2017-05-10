@@ -32,4 +32,15 @@ public class InputEvents {
 			return y;
 		}
 	}
+	
+	public static class ScrollEvent {
+		private int amount;
+		public ScrollEvent(int amount) {
+			this.amount = amount;
+		}
+		
+		public int getAmount() {
+			return this.amount;
+		}
+	}
 }
