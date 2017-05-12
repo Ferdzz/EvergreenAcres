@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -54,7 +55,7 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 	}
 
 	@Override
-	public void render(Batch batch) {
+	public void render(SpriteBatch batch) {
 		player.render(batch);
 		
 		for (AbstractEntity entity : getEntities()) {

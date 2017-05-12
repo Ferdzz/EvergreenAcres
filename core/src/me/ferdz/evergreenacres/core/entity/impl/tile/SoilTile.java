@@ -1,6 +1,7 @@
 package me.ferdz.evergreenacres.core.entity.impl.tile;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -17,7 +18,7 @@ public class SoilTile extends Tile {
 	}
 	
 	@Override
-	public void render(Batch batch) {
+	public void render(SpriteBatch batch) {
 		AbstractArea area = GameScreen.instance.getCurrentArea(); 
 		if (area instanceof FarmArea) {
 			FarmArea farmArea = (FarmArea) area;

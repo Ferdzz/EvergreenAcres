@@ -1,6 +1,7 @@
 package me.ferdz.evergreenacres.core.entity.impl.tile;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import me.ferdz.evergreenacres.core.entity.AbstractEntity;
@@ -19,7 +20,7 @@ public abstract class Tile extends AbstractEntity {
 	}
 
 	@Override
-	public void render(Batch batch) {
+	public void render(SpriteBatch batch) {
 
 	}
 

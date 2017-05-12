@@ -1,6 +1,7 @@
 package me.ferdz.evergreenacres.core.item;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
@@ -38,7 +39,7 @@ public class ItemHoe extends Item {
 	}
 
 	@Override
-	public void renderInInventory() {
+	public void renderInInventory(SpriteBatch batch, int x, int y, float scale) {
 		
 	}
 }

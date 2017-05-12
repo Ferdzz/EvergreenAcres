@@ -1,6 +1,7 @@
 package me.ferdz.evergreenacres.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -23,7 +24,7 @@ public class FarmArea extends AbstractArea {
 	}
 	
 	@Override
-	public void render(Batch batch) {		
+	public void render(SpriteBatch batch) {		
 		for (int i = 0; i < soil.length; i++) {
 			Tile[] row = soil[i];
 			for (int j = 0; j < row.length; j++) {

@@ -117,6 +117,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		super.resize(width, height);
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
+		uiBatch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
 	}
 
 	@Override

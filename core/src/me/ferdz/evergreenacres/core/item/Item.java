@@ -1,6 +1,7 @@
 package me.ferdz.evergreenacres.core.item;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import me.ferdz.evergreenacres.core.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
@@ -15,7 +16,7 @@ public abstract class Item {
 	}
 	
 	// TODO: Inventories
-	public abstract void renderInInventory();
+	public abstract void renderInInventory(SpriteBatch batch, int x, int y, float scale);
 	
-	public abstract void onItemUse(Player player, AbstractArea area);
+	public void onItemUse(Player player, AbstractArea area) { }
 }
