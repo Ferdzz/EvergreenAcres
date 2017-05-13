@@ -35,14 +35,14 @@ public enum EnumSoilTexture {
 		this.right = right;
 	}
 	
-	public TextureRegion getTextureRegion() {
-		return EnumSoilTexture.getSoilTexture()[y][x];
+	public TextureRegion getTextureRegion(boolean isWet) {
+		return EnumSoilTexture.getSoilTexture()[isWet? y + 4: y][x];
 	}
 	
-	public static TextureRegion getConnectedTextureRegion(boolean up, boolean left, boolean down, boolean right) {
+	public static TextureRegion getConnectedTextureRegion(boolean up, boolean left, boolean down, boolean right, boolean isWet) {
 		for (EnumSoilTexture texture : EnumSoilTexture.values()) {
 			if (texture.up == up && texture.left == left && texture.down == down && texture.right == right) {
-				return texture.getTextureRegion();
+				return texture.getTextureRegion(isWet);
 			}
 		}
 		throw new RuntimeException("No connected texture found for this configurations: " + up + ", " + left + ", " + down + ", " + right);

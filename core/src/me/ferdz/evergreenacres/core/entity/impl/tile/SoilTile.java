@@ -12,6 +12,7 @@ import me.ferdz.evergreenacres.utils.Utils;
 
 public class SoilTile extends Tile {
 
+	private boolean isWet = false;
 	public SoilTile(Vector2 position) {
 		super(position);
 	}
@@ -27,8 +28,17 @@ public class SoilTile extends Tile {
 			down = isSoil(EnumDirection.DOWN, farmArea);
 			right = isSoil(EnumDirection.RIGHT, farmArea);
 			
-			TextureRegion texture = EnumSoilTexture.getConnectedTextureRegion(up, left, down, right);
+			TextureRegion texture = EnumSoilTexture.getConnectedTextureRegion(up, left, down, right, false);
 			batch.draw(texture, position.x * texture.getRegionWidth(), position.y * texture.getRegionHeight());
+			if (this.isWet) {
+				up = isWet(EnumDirection.UP, farmArea);
+				left = isWet(EnumDirection.LEFT, farmArea);
+				down = isWet(EnumDirection.DOWN, farmArea);
+				right = isWet(EnumDirection.RIGHT, farmArea);
+				
+				texture = EnumSoilTexture.getConnectedTextureRegion(up, left, down, right, true);
+				batch.draw(texture, position.x * texture.getRegionWidth(), position.y * texture.getRegionHeight());
+			}
 		}
 	}
 	
@@ -44,5 +54,18 @@ public class SoilTile extends Tile {
 		}
 		
 		return false;
+	}
+	
+	private boolean isWet(EnumDirection direction, FarmArea area) {
+		Vector2 offset = Utils.offsetPos(position, direction);
+		try {
+			return ((SoilTile)area.soil[(int) offset.x][(int) offset.y]).isWet;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public void setWet(boolean isWet) {
+		this.isWet = isWet;
 	}
 }
