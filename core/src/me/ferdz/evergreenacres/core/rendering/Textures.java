@@ -27,7 +27,7 @@ public class Textures {
 	private static TextureRegion[][] items;
 	public static TextureRegion getTextureRegion(ItemTexture item) {
 		if (items == null)
-			items = TextureRegion.split(new Texture(Gdx.files.internal("ui/homegrown/items.png")), 16, 16);
+			items = TextureRegion.split(new Texture(Gdx.files.internal("homegrown/ui/items.png")), 16, 16);
 		return items[item.x][item.y];
 	}
 }

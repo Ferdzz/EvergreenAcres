@@ -51,7 +51,7 @@ public enum EnumSoilTexture {
 	private static TextureRegion[][] soilTexture;
 	private static TextureRegion[][] getSoilTexture() {
 		if (soilTexture == null)
-			soilTexture = TextureRegion.split(new Texture(Gdx.files.internal("environment/homegrown/soil.png")), Values.TILE_WIDTH, Values.TILE_HEIGHT);
+			soilTexture = TextureRegion.split(new Texture(Gdx.files.internal("homegrown/environment/soil.png")), Values.TILE_WIDTH, Values.TILE_HEIGHT);
 		return soilTexture;
 	}
 }

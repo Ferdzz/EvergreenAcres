@@ -26,7 +26,7 @@ public class ItemBar implements IUpdatable, IRenderable, Disposable {
 		this.items = new Item[ITEMS_COUNT];
 		this.items[0] = new ItemWaterCan();
 		this.items[1] = new ItemHoe();
-		this.textures = TextureRegion.split(new Texture(Gdx.files.internal("ui/homegrown/ui.png")), Values.TILE_WIDTH, Values.TILE_HEIGHT);
+		this.textures = TextureRegion.split(new Texture(Gdx.files.internal("homegrown/ui/ui.png")), Values.TILE_WIDTH, Values.TILE_HEIGHT);
 		this.selectedIndex = ITEMS_COUNT / 2;
 		
 		Values.bus.register(this);
