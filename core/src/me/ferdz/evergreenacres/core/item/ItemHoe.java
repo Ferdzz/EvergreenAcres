@@ -1,13 +1,12 @@
 package me.ferdz.evergreenacres.core.item;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
 
 import me.ferdz.evergreenacres.core.entity.impl.Player;
 import me.ferdz.evergreenacres.core.entity.impl.tile.SoilTile;
+import me.ferdz.evergreenacres.core.rendering.Textures;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
 import me.ferdz.evergreenacres.utils.Utils;
@@ -15,8 +14,8 @@ import me.ferdz.evergreenacres.utils.Values;
 
 public class ItemHoe extends Item {
 
-	public ItemHoe(Texture texture, String name) {
-		super(texture, name);
+	public ItemHoe() {
+		super(Textures.ItemTexture.HOE, "Hoe");
 	}
 
 	@Override
@@ -36,10 +35,5 @@ public class ItemHoe extends Item {
 				farmArea.soil[(int)position.x][(int)position.y] = new SoilTile(position);
 			}
 		}
-	}
-
-	@Override
-	public void renderInInventory(SpriteBatch batch, int x, int y, float scale) {
-		
 	}
 }

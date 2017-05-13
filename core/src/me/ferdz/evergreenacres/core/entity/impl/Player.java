@@ -6,7 +6,6 @@ import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -23,10 +22,10 @@ import com.google.common.eventbus.Subscribe;
 import me.ferdz.evergreenacres.core.entity.AbstractEntity;
 import me.ferdz.evergreenacres.core.entity.EnumDirection;
 import me.ferdz.evergreenacres.core.item.Item;
-import me.ferdz.evergreenacres.core.item.ItemHoe;
 import me.ferdz.evergreenacres.core.rendering.AnimationImpl;
 import me.ferdz.evergreenacres.core.rendering.EnumHumanAnimationType;
 import me.ferdz.evergreenacres.core.screen.GameScreen;
+import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
 import me.ferdz.evergreenacres.utils.input.InputEvents;
@@ -38,7 +37,6 @@ public class Player extends AbstractEntity {
 	private HashMap<EnumHumanAnimationType, AnimationImpl> animations;
 	private EnumHumanAnimationType currentAnimation;
 	private EnumDirection currentDirection;
-	private Item currentItem;
 	private Body body;
 	private Particle dustParticle;
 	
@@ -49,8 +47,6 @@ public class Player extends AbstractEntity {
 		this.currentDirection = EnumDirection.DOWN;
 		// Init the dust particle
 		this.dustParticle = new Particle(new Texture(Gdx.files.internal("s_kickdust1_strip8.png")), 12, 15, 0.08f);
-		// Init hoe item
-		this.currentItem = new ItemHoe(null, "Hoe");
 		// Register the event bus
 		Values.bus.register(this);
 	}
@@ -226,7 +222,11 @@ public class Player extends AbstractEntity {
 	// Action handlers
 	@Subscribe
 	public void onLeftClick(InputEvents.LeftClickEvent event) {
-		this.currentItem.onItemUse(this, GameScreen.instance.getCurrentArea());
+		ItemBar bar = GameScreen.instance.getItemBar();
+		Item item = bar.getItems()[bar.getSelectedIndex()];
+		if (item != null) {
+			item.onItemUse(this, GameScreen.instance.getCurrentArea());
+		}
 	}
 
 	@Override

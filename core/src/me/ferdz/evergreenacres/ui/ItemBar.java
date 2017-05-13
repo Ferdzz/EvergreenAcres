@@ -2,16 +2,15 @@ package me.ferdz.evergreenacres.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Disposable;
 import com.google.common.eventbus.Subscribe;
 
 import me.ferdz.evergreenacres.core.entity.IRenderable;
 import me.ferdz.evergreenacres.core.entity.IUpdatable;
 import me.ferdz.evergreenacres.core.item.Item;
+import me.ferdz.evergreenacres.core.item.ItemHoe;
 import me.ferdz.evergreenacres.core.item.ItemWaterCan;
 import me.ferdz.evergreenacres.utils.Values;
 import me.ferdz.evergreenacres.utils.input.InputEvents;
@@ -25,7 +24,8 @@ public class ItemBar implements IUpdatable, IRenderable, Disposable {
 	private int selectedIndex;
 	public ItemBar() {
 		this.items = new Item[ITEMS_COUNT];
-		this.items[0] = new ItemWaterCan(null, "Water can");
+		this.items[0] = new ItemWaterCan();
+		this.items[1] = new ItemHoe();
 		this.textures = TextureRegion.split(new Texture(Gdx.files.internal("ui/homegrown/ui.png")), Values.TILE_WIDTH, Values.TILE_HEIGHT);
 		this.selectedIndex = ITEMS_COUNT / 2;
 		
@@ -39,40 +39,44 @@ public class ItemBar implements IUpdatable, IRenderable, Disposable {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		float middle = Gdx.graphics.getWidth() / 2;
-		float width = Values.TILE_WIDTH * 6;
-		float x = middle - (ITEMS_COUNT * width) / 2;
+		float middle = Gdx.graphics.getWidth() >> 1;
+		float scale = Values.TILE_WIDTH * 6;
+		float x = middle - (ITEMS_COUNT * scale) / 2;
+		float upperY = (scale * 2) - BOTTOM_PADDING;
+		float contentY = (scale * 1) - BOTTOM_PADDING;
+		float lowerY = -BOTTOM_PADDING;
+		
 		// Left bound
-		batch.draw(textures[1][3], x - width, (width * 1) - BOTTOM_PADDING, width, width);
+		batch.draw(textures[1][3], x - scale, contentY, scale, scale);
 		for (int i = 0; i < ITEMS_COUNT; i++) {
 			// Upper bound
-			batch.draw(textures[0][4], x + (i * width), (width * 2) - BOTTOM_PADDING, width, width);
+			batch.draw(textures[0][4], x + (i * scale), upperY, scale, scale);
 			// Cell content
-			batch.draw(textures[1][4], x + (i * width), (width * 1) - BOTTOM_PADDING, width, width);
+			batch.draw(textures[1][4], x + (i * scale), contentY, scale, scale);
 			// Lower bound
-			batch.draw(textures[2][4], x + (i * width), (width * 0) - BOTTOM_PADDING, width, width);
+			batch.draw(textures[2][4], x + (i * scale), lowerY, scale, scale);
 		}
 		// Selected upper bound
-		batch.draw(textures[0][0], x + ((selectedIndex - 1) * width), (width * 2) - BOTTOM_PADDING, width, width);
-		batch.draw(textures[0][1], x + (selectedIndex * width), (width * 2) - BOTTOM_PADDING, width, width);
-		batch.draw(textures[0][2], x + ((selectedIndex + 1) * width), (width * 2) - BOTTOM_PADDING, width, width);
+		batch.draw(textures[0][0], x + ((selectedIndex - 1) * scale), upperY, scale, scale);
+		batch.draw(textures[0][1], x + (selectedIndex * scale), upperY, scale, scale);
+		batch.draw(textures[0][2], x + ((selectedIndex + 1) * scale), upperY, scale, scale);
 		// Selected content
-		batch.draw(textures[1][1], x + (selectedIndex * width), (width * 1) - BOTTOM_PADDING, width, width);
+		batch.draw(textures[1][1], x + (selectedIndex * scale), contentY, scale, scale);
 		// Selected lower bound
-		batch.draw(textures[2][0], x + ((selectedIndex - 1) * width), (width * 0) - BOTTOM_PADDING, width, width);
-		batch.draw(textures[2][1], x + (selectedIndex * width), (width * 0) - BOTTOM_PADDING, width, width);
-		batch.draw(textures[2][2], x + ((selectedIndex + 1) * width), (width * 0) - BOTTOM_PADDING, width, width);
+		batch.draw(textures[2][0], x + ((selectedIndex - 1) * scale), lowerY, scale, scale);
+		batch.draw(textures[2][1], x + (selectedIndex * scale), lowerY, scale, scale);
+		batch.draw(textures[2][2], x + ((selectedIndex + 1) * scale), lowerY, scale, scale);
 		
 		// Draw items
 		for (int i = 0; i < items.length; i++) {
 			if (items[i] != null) {
-				items[i].renderInInventory(batch, (int) (x + (i * width)), (int) (width - BOTTOM_PADDING), width);
+				items[i].renderInInventory(batch, (int) (x + (i * scale)), (int) contentY, scale);
 			}
 		}
 		// Selected left bound
-		batch.draw(textures[1][0], x + ((selectedIndex - 1) * width), (width * 1) - BOTTOM_PADDING, width, width);
+		batch.draw(textures[1][0], x + ((selectedIndex - 1) * scale), contentY, scale, scale);
 		// Selected right bound
-		batch.draw(textures[1][2], x + ((selectedIndex + 1) * width), (width * 1) - BOTTOM_PADDING, width, width);
+		batch.draw(textures[1][2], x + ((selectedIndex + 1) * scale), contentY, scale, scale);
 	}
 	
 	@Subscribe
@@ -93,5 +97,13 @@ public class ItemBar implements IUpdatable, IRenderable, Disposable {
 				textureRegion.getTexture().dispose();
 			}
 		}
+	}
+	
+	public Item[] getItems() {
+		return items;
+	}
+	
+	public int getSelectedIndex() {
+		return selectedIndex;
 	}
 }

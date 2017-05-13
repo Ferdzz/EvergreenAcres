@@ -137,4 +137,8 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	public OrthographicCamera getCamera() {
 		return camera;
 	}
+	
+	public ItemBar getItemBar() {
+		return itemBar;
+	}
 }

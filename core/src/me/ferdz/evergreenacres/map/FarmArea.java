@@ -1,14 +1,11 @@
 package me.ferdz.evergreenacres.map;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Vector2;
 
 import me.ferdz.evergreenacres.core.entity.impl.Player;
-import me.ferdz.evergreenacres.core.entity.impl.tile.SoilTile;
 import me.ferdz.evergreenacres.core.entity.impl.tile.Tile;
 import me.ferdz.evergreenacres.utils.Values;
 
