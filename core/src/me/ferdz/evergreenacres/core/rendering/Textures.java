@@ -30,4 +30,11 @@ public class Textures {
 			items = TextureRegion.split(new Texture(Gdx.files.internal("homegrown/ui/items.png")), 16, 16);
 		return items[item.x][item.y];
 	}
+	
+	private static TextureRegion selectedGroundTileTexture;
+	public static TextureRegion getSelectedGroundTileTexture() {
+		if (selectedGroundTileTexture == null) 
+			selectedGroundTileTexture = TextureRegion.split(new Texture(Gdx.files.internal("homegrown/ui/ui.png")), 16, 16)[3][0];
+		return selectedGroundTileTexture;
+	}
 }

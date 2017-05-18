@@ -24,6 +24,7 @@ import me.ferdz.evergreenacres.core.entity.EnumDirection;
 import me.ferdz.evergreenacres.core.item.Item;
 import me.ferdz.evergreenacres.core.rendering.AnimationImpl;
 import me.ferdz.evergreenacres.core.rendering.EnumHumanAnimationType;
+import me.ferdz.evergreenacres.core.rendering.Textures;
 import me.ferdz.evergreenacres.core.screen.GameScreen;
 import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.utils.Utils;
@@ -217,6 +218,14 @@ public class Player extends AbstractEntity {
 		float height = texture.getRegionHeight() * 0.8F;
 		batch.draw(texture, body.getPosition().x - width / 2, body.getPosition().y - (height / 2) + 15F,
 				width, height);
+		
+		// Draw selector square
+		if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
+			Vector2 tilePosition = Utils.offsetPos(Utils.toTilePos(this.getPosition()), currentDirection);
+			Vector2 screenPosition = Utils.toWorldPos(tilePosition);
+			TextureRegion region = Textures.getSelectedGroundTileTexture();
+			batch.draw(region, screenPosition.x, screenPosition.y);
+		}
 	}
 	
 	// Action handlers
