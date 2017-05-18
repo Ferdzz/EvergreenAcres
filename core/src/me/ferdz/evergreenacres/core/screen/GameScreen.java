@@ -2,16 +2,26 @@ package me.ferdz.evergreenacres.core.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import me.ferdz.evergreenacres.core.entity.IUpdatable;
 import me.ferdz.evergreenacres.core.entity.impl.Player;
 import me.ferdz.evergreenacres.core.rendering.ObjectTiledMapRenderer;
+import me.ferdz.evergreenacres.core.rendering.Textures;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
 import me.ferdz.evergreenacres.ui.ItemBar;
@@ -30,14 +40,16 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	private Box2DDebugRenderer debugRenderer;
 	private Player player;
 	private AbstractArea currentArea;
+	private Stage stage;
+	private Table table;
 	private ItemBar itemBar;
+	
 	@Override
 	public void show() {
 		instance = this;
 		this.player = new Player();
 		this.batch = new SpriteBatch();
 		this.uiBatch = new SpriteBatch();
-		this.itemBar = new ItemBar();
 		
 		if(this.currentArea == null)
 			this.changeArea(new FarmArea(player));
@@ -45,11 +57,21 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		this.debugRenderer = new Box2DDebugRenderer();	
 		this.camera = new OrthographicCamera();
 		this.camera.zoom = ZOOM;
+		this.stage = new Stage();
+		this.table = new Table();
+		this.table.setFillParent(true);
+		this.stage.addActor(table);
+		this.itemBar = new ItemBar();
+		this.table.add(this.itemBar);
+		this.table.bottom().padBottom(40);
+//		this.table.setDebug(true);
+		
+		// Set the stage as an input processor
+		Values.multiplexer.addProcessor(this.stage);
 	}
 
 	@Override
 	public void update(float delta) {
-		itemBar.update(delta);
 		currentArea.update(delta);	
 		player.update(delta);	
 
@@ -82,6 +104,8 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
         	camera.position.y = MathUtils.clamp(camY, viewPortHeight, maxHeight);        	
         }
         camera.update();
+        
+        stage.act(delta);
 	}
 	
 	@Override
@@ -99,9 +123,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 
 		debugRenderer.render(currentArea.getWorld(), camera.combined);
 
-		uiBatch.begin();
-		itemBar.render(uiBatch);
-		uiBatch.end();
+		stage.draw();
 	}
 
 	public void changeArea(AbstractArea area) {
@@ -118,6 +140,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
 		uiBatch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+		stage.getViewport().update(width, height);
 	}
 
 	@Override

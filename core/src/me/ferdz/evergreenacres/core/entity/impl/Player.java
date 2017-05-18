@@ -80,7 +80,7 @@ public class Player extends AbstractEntity {
 		this.animations.put(EnumHumanAnimationType.STILL_DOWN, new AnimationImpl(1, tmp[EnumHumanAnimationType.WALK_DOWN.ordinal()][0]));
 		this.animations.put(EnumHumanAnimationType.STILL_RIGHT, new AnimationImpl(1, tmp[EnumHumanAnimationType.WALK_RIGHT.ordinal()][0]));
 
-		this.currentAnimation = EnumHumanAnimationType.CAST_DOWN;
+		this.currentAnimation = EnumHumanAnimationType.STILL_DOWN;
 
 	}
 	
@@ -232,7 +232,7 @@ public class Player extends AbstractEntity {
 	@Subscribe
 	public void onLeftClick(InputEvents.LeftClickEvent event) {
 		ItemBar bar = GameScreen.instance.getItemBar();
-		Item item = bar.getItems()[bar.getSelectedIndex()];
+		Item item = bar.getSelectedItem();
 		if (item != null) {
 			item.onItemUse(this, GameScreen.instance.getCurrentArea());
 		}

@@ -31,10 +31,15 @@ public class Textures {
 		return items[item.x][item.y];
 	}
 	
-	private static TextureRegion selectedGroundTileTexture;
+	private static TextureRegion[][] uiTextures;
+	public static TextureRegion[][] getUiTextures() {
+		if (uiTextures == null) 
+			uiTextures = TextureRegion.split(new Texture(Gdx.files.internal("homegrown/ui/ui.png")), 16, 16);
+
+		return uiTextures;
+	}
+	
 	public static TextureRegion getSelectedGroundTileTexture() {
-		if (selectedGroundTileTexture == null) 
-			selectedGroundTileTexture = TextureRegion.split(new Texture(Gdx.files.internal("homegrown/ui/ui.png")), 16, 16)[3][0];
-		return selectedGroundTileTexture;
+		return getUiTextures()[3][0];
 	}
 }

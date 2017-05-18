@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input.Buttons;
 
 import me.ferdz.evergreenacres.utils.Values;
 
-public class InputProcessor implements com.badlogic.gdx.InputProcessor {
+public class InputBusProcessor implements com.badlogic.gdx.InputProcessor {
 	
 	@Override
 	public boolean keyDown(int keycode) {

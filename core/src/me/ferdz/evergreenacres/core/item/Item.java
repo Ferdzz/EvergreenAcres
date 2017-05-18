@@ -1,5 +1,6 @@
 package me.ferdz.evergreenacres.core.item;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -17,7 +18,7 @@ public abstract class Item {
 	}
 	
 	// TODO: Inventories
-	public void renderInInventory(SpriteBatch batch, int x, int y, float scale) {
+	public void renderInInventory(Batch batch, int x, int y, float scale) {
 		TextureRegion region = Textures.getTextureRegion(texture);
 		batch.draw(region, x, y, scale, scale);
 	}
