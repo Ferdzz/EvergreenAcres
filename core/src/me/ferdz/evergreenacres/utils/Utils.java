@@ -2,7 +2,7 @@ package me.ferdz.evergreenacres.utils;
 
 import com.badlogic.gdx.math.Vector2;
 
-import me.ferdz.evergreenacres.core.entity.EnumDirection;
+import me.ferdz.evergreenacres.entity.EnumDirection;
 
 public class Utils {
 	

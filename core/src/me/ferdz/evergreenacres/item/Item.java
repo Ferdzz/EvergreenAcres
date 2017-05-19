@@ -1,12 +1,12 @@
-package me.ferdz.evergreenacres.core.item;
+package me.ferdz.evergreenacres.item;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import me.ferdz.evergreenacres.core.entity.impl.Player;
-import me.ferdz.evergreenacres.core.rendering.Textures;
+import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
+import me.ferdz.evergreenacres.rendering.Textures;
 
 public abstract class Item {
 	
@@ -24,4 +24,8 @@ public abstract class Item {
 	}
 	
 	public void onItemUse(Player player, AbstractArea area) { }
+	
+	public String getName() {
+		return name;
+	}
 }

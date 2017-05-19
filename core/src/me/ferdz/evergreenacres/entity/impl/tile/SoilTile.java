@@ -1,13 +1,13 @@
-package me.ferdz.evergreenacres.core.entity.impl.tile;
+package me.ferdz.evergreenacres.entity.impl.tile;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import me.ferdz.evergreenacres.core.entity.EnumDirection;
-import me.ferdz.evergreenacres.core.screen.GameScreen;
+import me.ferdz.evergreenacres.entity.EnumDirection;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
+import me.ferdz.evergreenacres.screen.GameScreen;
 import me.ferdz.evergreenacres.utils.Utils;
 
 public class SoilTile extends Tile {

@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.core.screen;
+package me.ferdz.evergreenacres.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -18,13 +18,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import me.ferdz.evergreenacres.core.entity.IUpdatable;
-import me.ferdz.evergreenacres.core.entity.impl.Player;
-import me.ferdz.evergreenacres.core.rendering.ObjectTiledMapRenderer;
-import me.ferdz.evergreenacres.core.rendering.Textures;
+import me.ferdz.evergreenacres.entity.IUpdatable;
+import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
+import me.ferdz.evergreenacres.rendering.ObjectTiledMapRenderer;
+import me.ferdz.evergreenacres.rendering.Textures;
 import me.ferdz.evergreenacres.ui.ItemBar;
+import me.ferdz.evergreenacres.ui.TooltipLabel;
 import me.ferdz.evergreenacres.utils.Values;
 
 public class GameScreen extends ScreenAdapter implements IUpdatable {
@@ -43,6 +44,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	private Stage stage;
 	private Table table;
 	private ItemBar itemBar;
+	private TooltipLabel tooltip;
 	
 	@Override
 	public void show() {
@@ -124,6 +126,12 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		debugRenderer.render(currentArea.getWorld(), camera.combined);
 
 		stage.draw();
+		// Draw the tooltip over everything
+		if (tooltip != null) {
+			stage.getBatch().begin();
+			tooltip.draw(stage.getBatch(), 1);
+			stage.getBatch().end();
+		}
 	}
 
 	public void changeArea(AbstractArea area) {
@@ -163,5 +171,13 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	
 	public ItemBar getItemBar() {
 		return itemBar;
+	}
+	
+	public TooltipLabel getTooltip() {
+		return tooltip;
+	}
+	
+	public void setTooltip(TooltipLabel tooltip) {
+		this.tooltip = tooltip;
 	}
 }

@@ -5,8 +5,8 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-import me.ferdz.evergreenacres.core.entity.impl.Player;
-import me.ferdz.evergreenacres.core.entity.impl.tile.Tile;
+import me.ferdz.evergreenacres.entity.impl.Player;
+import me.ferdz.evergreenacres.entity.impl.tile.Tile;
 import me.ferdz.evergreenacres.utils.Values;
 
 public class FarmArea extends AbstractArea {

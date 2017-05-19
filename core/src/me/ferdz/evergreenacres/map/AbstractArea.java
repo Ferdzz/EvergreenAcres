@@ -9,10 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 
-import me.ferdz.evergreenacres.core.entity.AbstractEntity;
-import me.ferdz.evergreenacres.core.entity.IRenderable;
-import me.ferdz.evergreenacres.core.entity.IUpdatable;
-import me.ferdz.evergreenacres.core.entity.impl.Player;
+import me.ferdz.evergreenacres.entity.AbstractEntity;
+import me.ferdz.evergreenacres.entity.IRenderable;
+import me.ferdz.evergreenacres.entity.IUpdatable;
+import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.utils.MapBodyBuilder;
 
 public abstract class AbstractArea implements Disposable, IRenderable, IUpdatable {

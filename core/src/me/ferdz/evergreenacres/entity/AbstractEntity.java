@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.core.entity;
+package me.ferdz.evergreenacres.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;

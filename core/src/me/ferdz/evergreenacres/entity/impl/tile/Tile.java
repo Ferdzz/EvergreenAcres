@@ -1,9 +1,9 @@
-package me.ferdz.evergreenacres.core.entity.impl.tile;
+package me.ferdz.evergreenacres.entity.impl.tile;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-import me.ferdz.evergreenacres.core.entity.AbstractEntity;
+import me.ferdz.evergreenacres.entity.AbstractEntity;
 
 public abstract class Tile extends AbstractEntity {
 

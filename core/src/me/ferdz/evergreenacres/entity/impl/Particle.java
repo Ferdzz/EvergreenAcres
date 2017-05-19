@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.core.entity.impl;
+package me.ferdz.evergreenacres.entity.impl;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import me.ferdz.evergreenacres.core.entity.AbstractEntity;
-import me.ferdz.evergreenacres.core.rendering.AnimationImpl;
+import me.ferdz.evergreenacres.entity.AbstractEntity;
+import me.ferdz.evergreenacres.rendering.AnimationImpl;
 
 public class Particle extends AbstractEntity {
 

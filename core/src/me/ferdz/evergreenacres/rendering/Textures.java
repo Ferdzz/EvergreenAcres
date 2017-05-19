@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.core.rendering;
+package me.ferdz.evergreenacres.rendering;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

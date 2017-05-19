@@ -1,13 +1,13 @@
-package me.ferdz.evergreenacres.core.item;
+package me.ferdz.evergreenacres.item;
 
 import com.badlogic.gdx.math.Vector2;
 
-import me.ferdz.evergreenacres.core.entity.impl.Player;
-import me.ferdz.evergreenacres.core.entity.impl.tile.SoilTile;
-import me.ferdz.evergreenacres.core.entity.impl.tile.Tile;
-import me.ferdz.evergreenacres.core.rendering.Textures;
+import me.ferdz.evergreenacres.entity.impl.Player;
+import me.ferdz.evergreenacres.entity.impl.tile.SoilTile;
+import me.ferdz.evergreenacres.entity.impl.tile.Tile;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
+import me.ferdz.evergreenacres.rendering.Textures;
 import me.ferdz.evergreenacres.utils.Utils;
 
 public class ItemWaterCan extends Item {

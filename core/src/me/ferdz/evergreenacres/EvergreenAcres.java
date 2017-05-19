@@ -3,7 +3,7 @@ package me.ferdz.evergreenacres;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
-import me.ferdz.evergreenacres.core.screen.GameScreen;
+import me.ferdz.evergreenacres.screen.GameScreen;
 import me.ferdz.evergreenacres.utils.Values;
 import me.ferdz.evergreenacres.utils.input.InputBusProcessor;
 

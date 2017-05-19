@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.core.entity;
+package me.ferdz.evergreenacres.entity;
 
 public interface IUpdatable {
 	public void update(float delta);

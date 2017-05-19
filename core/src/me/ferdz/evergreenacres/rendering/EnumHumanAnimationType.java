@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.core.rendering;
+package me.ferdz.evergreenacres.rendering;
 
 import java.util.Arrays;
 import java.util.List;

@@ -6,10 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.google.common.eventbus.Subscribe;
 
-import me.ferdz.evergreenacres.core.item.Item;
-import me.ferdz.evergreenacres.core.item.ItemHoe;
-import me.ferdz.evergreenacres.core.item.ItemWaterCan;
-import me.ferdz.evergreenacres.core.rendering.Textures;
+import me.ferdz.evergreenacres.item.Item;
+import me.ferdz.evergreenacres.item.ItemHoe;
+import me.ferdz.evergreenacres.item.ItemWaterCan;
+import me.ferdz.evergreenacres.rendering.Textures;
 import me.ferdz.evergreenacres.utils.Values;
 import me.ferdz.evergreenacres.utils.input.InputEvents;
 

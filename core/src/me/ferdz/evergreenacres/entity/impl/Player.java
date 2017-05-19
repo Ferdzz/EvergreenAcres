@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.core.entity.impl;
+package me.ferdz.evergreenacres.entity.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,13 +19,13 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.eventbus.Subscribe;
 
-import me.ferdz.evergreenacres.core.entity.AbstractEntity;
-import me.ferdz.evergreenacres.core.entity.EnumDirection;
-import me.ferdz.evergreenacres.core.item.Item;
-import me.ferdz.evergreenacres.core.rendering.AnimationImpl;
-import me.ferdz.evergreenacres.core.rendering.EnumHumanAnimationType;
-import me.ferdz.evergreenacres.core.rendering.Textures;
-import me.ferdz.evergreenacres.core.screen.GameScreen;
+import me.ferdz.evergreenacres.entity.AbstractEntity;
+import me.ferdz.evergreenacres.entity.EnumDirection;
+import me.ferdz.evergreenacres.item.Item;
+import me.ferdz.evergreenacres.rendering.AnimationImpl;
+import me.ferdz.evergreenacres.rendering.EnumHumanAnimationType;
+import me.ferdz.evergreenacres.rendering.Textures;
+import me.ferdz.evergreenacres.screen.GameScreen;
 import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;

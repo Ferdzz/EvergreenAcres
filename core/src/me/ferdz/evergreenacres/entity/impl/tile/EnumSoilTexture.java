@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.core.entity.impl.tile;
+package me.ferdz.evergreenacres.entity.impl.tile;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
