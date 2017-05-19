@@ -1,7 +1,6 @@
 package me.ferdz.evergreenacres.item;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import me.ferdz.evergreenacres.entity.impl.Player;
