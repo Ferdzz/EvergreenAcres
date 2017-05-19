@@ -1,5 +1,6 @@
 package me.ferdz.evergreenacres.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -39,6 +40,9 @@ public class ItemBar extends Table {
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		Color previousColor = batch.getColor();
+		batch.setColor(this.getColor());
+		
 		TextureRegion[][] textures = Textures.getUiTextures();
 		batch.draw(textures[1][3], getX() - ItemSlot.HEIGHT, getY(), ItemSlot.WIDTH, ItemSlot.HEIGHT);
 		for (int i = 0; i < ITEMS_COUNT; i++) {
@@ -66,6 +70,8 @@ public class ItemBar extends Table {
 		batch.draw(textures[1][0], getX() + ((selectedIndex - 1) * ItemSlot.WIDTH), getY(), ItemSlot.WIDTH, ItemSlot.HEIGHT);
 		// Selected right bound
 		batch.draw(textures[1][2], getX() + ((selectedIndex + 1) * ItemSlot.WIDTH), getY(), ItemSlot.WIDTH, ItemSlot.HEIGHT);
+		
+		batch.setColor(previousColor);
 	}
 	
 	@Subscribe

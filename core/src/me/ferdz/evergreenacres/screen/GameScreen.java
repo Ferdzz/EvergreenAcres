@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import me.ferdz.evergreenacres.entity.IUpdatable;
@@ -98,6 +100,19 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
         	camera.position.y = MathUtils.clamp(camY, viewPortHeight, maxHeight);        	
         }
         camera.update();
+        
+        // Depending on the position of the camera - manipulate the alpha of the item bar
+        if (camera.position.y <= viewPortHeight + 20) {
+        	if (itemBar.getColor().a == 1) {
+        		this.itemBar.clearActions();
+        		this.itemBar.addAction(Actions.alpha(0.7f, 0.4f));        		
+        	}
+        } else {
+        	if (itemBar.getColor().a != 1) {
+        		this.itemBar.clearActions();
+        		this.itemBar.addAction(Actions.alpha(1f, 0.4f));        		
+        	}
+        }
         
         stage.act(delta);
 	}
