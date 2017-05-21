@@ -18,7 +18,7 @@ public abstract class Item {
 	
 	// TODO: Inventories
 	public void renderInInventory(Batch batch, int x, int y, float scale) {
-		TextureRegion region = Textures.getTextureRegion(texture);
+		TextureRegion region = texture.getTexture();
 		batch.draw(region, x, y, scale, scale);
 	}
 	
