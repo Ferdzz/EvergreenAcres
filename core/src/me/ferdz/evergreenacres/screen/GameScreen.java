@@ -130,7 +130,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		currentArea.render(batch); // render the entities
 		mapRenderer.renderOver(); // render over the entities
 
-		debugRenderer.render(currentArea.getWorld(), camera.combined);
+		//debugRenderer.render(currentArea.getWorld(), camera.combined);
 
 		stage.draw();
 		// Draw the tooltip over everything
