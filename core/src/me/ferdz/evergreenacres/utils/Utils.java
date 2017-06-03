@@ -38,11 +38,7 @@ public class Utils {
 		float x = Gdx.input.getX();
 		float y = Gdx.input.getY();
 		Vector3 unprojected = GameScreen.instance.getCamera().unproject(new Vector3(x, y, 0));
-		x = unprojected.x;
-		y = unprojected.y;
-//		x += GameScreen.instance.getCamera().position.x;
-//		y += GameScreen.instance.getCamera().position.y;
-		return new Vector2(x, y);
+		return new Vector2(unprojected.x, unprojected.y);
 	}
 	
 	/**

@@ -17,6 +17,7 @@ import me.ferdz.evergreenacres.entity.AbstractEntity;
 import me.ferdz.evergreenacres.entity.IRenderable;
 import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
+import me.ferdz.evergreenacres.entity.impl.tile.DoorObject;
 import me.ferdz.evergreenacres.rendering.Textures;
 import me.ferdz.evergreenacres.utils.MapBodyBuilder;
 import me.ferdz.evergreenacres.utils.Utils;
@@ -39,6 +40,17 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 		
 		// Load objects in map
 		MapBodyBuilder.buildShapes(getMap(), 1, world); // load shapes into world
+		
+		// Load interactive map objects as entities
+		// Look for door type objects
+		for (MapObject mapObject: getMap().getLayers().get("Obstacles").getObjects()) {
+			if (Values.TYPE_DOOR.equals(mapObject.getProperties().get(Values.KEY_TYPE))) {
+				if (mapObject instanceof RectangleMapObject) {
+					RectangleMapObject rectangle = (RectangleMapObject) mapObject;
+					this.entities.add(new DoorObject(rectangle.getRectangle()));
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -57,20 +69,6 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 		
 		for (AbstractEntity entity : getEntities()) {
 			entity.update(delta);
-		}
-		
-		// Look for door type objects
-		for (MapObject mapObject: getMap().getLayers().get("Obstacles").getObjects()) {
-			if (Values.TYPE_DOOR.equals(mapObject.getProperties().get(Values.KEY_TYPE))) {
-				if (mapObject instanceof RectangleMapObject) {
-					RectangleMapObject rectangle = (RectangleMapObject) mapObject;
-					if (rectangle.getRectangle().contains(Utils.cursorToWorldPos())) {
-						Gdx.graphics.setCursor(Gdx.graphics.newCursor(Textures.IconTexture.DOOR.getPixmap(), 0, 0));
-					} else {
-						Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
-					}
-				}
-			}
 		}
 	}
 
