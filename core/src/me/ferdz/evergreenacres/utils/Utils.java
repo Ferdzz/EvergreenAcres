@@ -1,8 +1,14 @@
 package me.ferdz.evergreenacres.utils;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import me.ferdz.evergreenacres.entity.EnumDirection;
+import me.ferdz.evergreenacres.screen.GameScreen;
 
 public class Utils {
 	
@@ -25,6 +31,17 @@ public class Utils {
 	public static Vector2 toWorldPos(Vector2 position) {
 		float x = position.x * Values.TILE_WIDTH;
 		float y = position.y * Values.TILE_WIDTH;
+		return new Vector2(x, y);
+	}
+	
+	public static Vector2 cursorToWorldPos() {
+		float x = Gdx.input.getX();
+		float y = Gdx.input.getY();
+		Vector3 unprojected = GameScreen.instance.getCamera().unproject(new Vector3(x, y, 0));
+		x = unprojected.x;
+		y = unprojected.y;
+//		x += GameScreen.instance.getCamera().position.x;
+//		y += GameScreen.instance.getCamera().position.y;
 		return new Vector2(x, y);
 	}
 	
@@ -52,4 +69,5 @@ public class Utils {
 		
 		return new Vector2(x, y);
 	}
+	
 }

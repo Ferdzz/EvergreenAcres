@@ -18,6 +18,7 @@ import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
 import me.ferdz.evergreenacres.rendering.ObjectTiledMapRenderer;
+import me.ferdz.evergreenacres.rendering.Textures;
 import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.ui.TooltipLabel;
 import me.ferdz.evergreenacres.utils.Values;

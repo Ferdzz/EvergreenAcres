@@ -1,6 +1,7 @@
 package me.ferdz.evergreenacres.rendering;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -17,6 +18,20 @@ public class Textures {
 		
 		public TextureRegion getTexture() {
 			return getItemTextures()[x][y];
+		}
+	}
+	
+	public enum IconTexture {
+		DOOR;
+		
+		private Pixmap pixmap;
+		private IconTexture() {
+		}
+		
+		public Pixmap getPixmap() {
+			if (pixmap == null) 
+				pixmap = new Pixmap(Gdx.files.internal("homegrown/ui/icons_" + this.ordinal() + ".png"));
+			return pixmap;
 		}
 	}
 	

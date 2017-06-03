@@ -3,7 +3,11 @@ package me.ferdz.evergreenacres.map;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -13,7 +17,10 @@ import me.ferdz.evergreenacres.entity.AbstractEntity;
 import me.ferdz.evergreenacres.entity.IRenderable;
 import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
+import me.ferdz.evergreenacres.rendering.Textures;
 import me.ferdz.evergreenacres.utils.MapBodyBuilder;
+import me.ferdz.evergreenacres.utils.Utils;
+import me.ferdz.evergreenacres.utils.Values;
 
 public abstract class AbstractArea implements Disposable, IRenderable, IUpdatable {
 	protected TiledMap map;
@@ -50,6 +57,20 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 		
 		for (AbstractEntity entity : getEntities()) {
 			entity.update(delta);
+		}
+		
+		// Look for door type objects
+		for (MapObject mapObject: getMap().getLayers().get("Obstacles").getObjects()) {
+			if (Values.TYPE_DOOR.equals(mapObject.getProperties().get(Values.KEY_TYPE))) {
+				if (mapObject instanceof RectangleMapObject) {
+					RectangleMapObject rectangle = (RectangleMapObject) mapObject;
+					if (rectangle.getRectangle().contains(Utils.cursorToWorldPos())) {
+						Gdx.graphics.setCursor(Gdx.graphics.newCursor(Textures.IconTexture.DOOR.getPixmap(), 0, 0));
+					} else {
+						Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+					}
+				}
+			}
 		}
 	}
 
