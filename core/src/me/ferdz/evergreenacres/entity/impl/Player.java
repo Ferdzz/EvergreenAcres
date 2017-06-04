@@ -254,4 +254,12 @@ public class Player extends AbstractEntity {
 	public EnumDirection getCurrentDirection() {
 		return currentDirection;
 	}
+	
+	public void setCurrentDirection(EnumDirection currentDirection) {
+		this.currentDirection = currentDirection;
+	}
+	
+	public void setCurrentAnimation(EnumHumanAnimationType currentAnimation) {
+		this.currentAnimation = currentAnimation;
+	}
 }

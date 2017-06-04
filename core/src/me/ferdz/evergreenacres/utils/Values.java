@@ -2,6 +2,7 @@ package me.ferdz.evergreenacres.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -23,6 +24,8 @@ public class Values {
 		tooltipFont = generator.generateFont(parameter);
 		generator.dispose();
 	}
+	
+	public static final Color BACKGROUND_COLOR = new Color(0.0392156862745098f, 0.0392156862745098f, 0.0392156862745098f, 255);
 	
 	public static final int TILE_WIDTH = 16;
 	public static final int TILE_HEIGHT = 16;

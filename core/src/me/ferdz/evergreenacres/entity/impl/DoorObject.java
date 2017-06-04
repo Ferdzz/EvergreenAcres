@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.entity.impl.tile;
+package me.ferdz.evergreenacres.entity.impl;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -10,8 +10,8 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import me.ferdz.evergreenacres.audio.EnumSound;
 import me.ferdz.evergreenacres.entity.AbstractEntity;
-import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.navigation.EnumDestination;
 import me.ferdz.evergreenacres.rendering.Textures;
@@ -38,20 +38,11 @@ public class DoorObject extends AbstractEntity {
 				try {
 					Constructor<? extends AbstractArea> constructor = destination.getArea().getConstructor(Player.class);
 					Object obj = constructor.newInstance(GameScreen.instance.getPlayer());
-					GameScreen.instance.changeArea((AbstractArea) obj); 
-				} catch (NoSuchMethodException e) {
+					EnumSound.DOOR_OPEN.getSound().play();
+					GameScreen.instance.changeArea((AbstractArea) obj);
+				} catch (Exception e) {
 					e.printStackTrace();
-				} catch (SecurityException e) {
-					e.printStackTrace();
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-				}
+				}	
 			}
 		}
 	}

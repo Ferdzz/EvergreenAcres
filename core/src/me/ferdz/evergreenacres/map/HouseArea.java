@@ -3,12 +3,16 @@ package me.ferdz.evergreenacres.map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
+import me.ferdz.evergreenacres.entity.EnumDirection;
 import me.ferdz.evergreenacres.entity.impl.Player;
+import me.ferdz.evergreenacres.rendering.EnumHumanAnimationType;
 
 public class HouseArea extends AbstractArea {
 
 	public HouseArea(Player player) {
 		super(player, 56, 40);
+		player.setCurrentAnimation(EnumHumanAnimationType.STILL_UP);
+		player.setCurrentDirection(EnumDirection.UP);
 	}
 
 	@Override

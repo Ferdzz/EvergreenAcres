@@ -14,8 +14,8 @@ import com.badlogic.gdx.utils.Disposable;
 import me.ferdz.evergreenacres.entity.AbstractEntity;
 import me.ferdz.evergreenacres.entity.IRenderable;
 import me.ferdz.evergreenacres.entity.IUpdatable;
+import me.ferdz.evergreenacres.entity.impl.DoorObject;
 import me.ferdz.evergreenacres.entity.impl.Player;
-import me.ferdz.evergreenacres.entity.impl.tile.DoorObject;
 import me.ferdz.evergreenacres.utils.MapBodyBuilder;
 import me.ferdz.evergreenacres.utils.Values;
 
@@ -24,15 +24,15 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 	protected World world;
 	protected Player player;
 	protected List<AbstractEntity> entities;
+	protected int startX, startY;
 	
 	public AbstractArea(Player player, int startX, int startY) {
 		this.player = player;
 		this.world = new World(Vector2.Zero, true);
+		this.startX = startX;
+		this.startY = startY;
 		
 		this.entities = new ArrayList<AbstractEntity>();
-		
-		// Bind player to this area
-		this.player.createBody(world, new Vector2(startX, startY));
 		
 		// Load objects in map
 		MapBodyBuilder.buildShapes(getMap(), 1, world); // load shapes into world
@@ -77,6 +77,11 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 		}
 	}
 	
+	public void teleportPlayer() {
+		// Bind player to this area
+		this.player.createBody(world, new Vector2(startX, startY));
+	}
+
 	public World getWorld() {
 		return this.world;
 	}

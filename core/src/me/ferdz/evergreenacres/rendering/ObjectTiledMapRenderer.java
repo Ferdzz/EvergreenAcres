@@ -16,7 +16,7 @@ public class ObjectTiledMapRenderer extends OrthogonalTiledMapRenderer {
 	
 	public ObjectTiledMapRenderer(TiledMap map, Batch batch) {
 		super(map, batch);
-
+		
 		underLayers = new ArrayList<MapLayer>();
 		overLayers = new ArrayList<MapLayer>();
 		
@@ -83,12 +83,4 @@ public class ObjectTiledMapRenderer extends OrthogonalTiledMapRenderer {
 	public void renderObjects(MapLayer layer) {
 		// let's not use the processor power for nothing
 	}
-	
-//	@Override
-//	public void renderObject(MapObject object) {
-//		if(object instanceof TiledMapTileMapObject) {
-//			TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
-//			batch.draw(tileObject.getTextureRegion(), tileObject.getX(), tileObject.getY());
-//		}
-//	}
 }

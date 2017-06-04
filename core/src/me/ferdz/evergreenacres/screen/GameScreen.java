@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -49,13 +51,13 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		this.player = new Player();
 		this.batch = new SpriteBatch();
 		this.uiBatch = new SpriteBatch();
-		
-		if(this.currentArea == null)
-			this.changeArea(new FarmArea(player));
-			
+		this.currentArea = new FarmArea(player);
+		this.currentArea.teleportPlayer();
+		this.mapRenderer = new ObjectTiledMapRenderer(currentArea.getMap(), batch);
 		this.debugRenderer = new Box2DDebugRenderer();	
 		this.camera = new OrthographicCamera();
 		this.camera.zoom = ZOOM;
+		
 		this.stage = new Stage();
 		this.table = new Table();
 		this.table.setFillParent(true);
@@ -76,8 +78,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
 
 		currentArea.update(delta);	
-		player.update(delta);	
-		
+		player.update(delta);
 		// Update camera position
 		float camXTarget = player.getPosition().x;
 		float camYTarget = player.getPosition().y;
@@ -87,7 +88,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
         float my = (camYTarget - camY) / 1.5f;
         camX += mx;
         camY += my;
-		
+
         // Limit the camera bounds to the map
         MapProperties props = currentArea.getMap().getProperties();
         float viewPortWidth = (camera.viewportWidth / 2) * ZOOM;
@@ -127,12 +128,16 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(0.7f, 0.7f, 1.0f, 1);
+		
+		Gdx.gl.glClearColor(Values.BACKGROUND_COLOR.r, 
+							Values.BACKGROUND_COLOR.g, 
+							Values.BACKGROUND_COLOR.b,
+							Values.BACKGROUND_COLOR.a);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-
+		
 		batch.setProjectionMatrix(camera.combined); // set camera views
 		mapRenderer.setView(camera);
-
+		
 		mapRenderer.render(); // render under the entities
 		currentArea.render(batch); // render the entities
 		mapRenderer.renderOver(); // render over the entities
@@ -151,11 +156,12 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	public void changeArea(AbstractArea area) {
 		if (currentArea != null)
 			currentArea.dispose();
-
-		currentArea = area;
-		mapRenderer = new ObjectTiledMapRenderer(currentArea.getMap(), batch);
+		
+//		inTransition = true;
+//		mapRenderer.setAction(Actions.color(Color.CLEAR, 1));
+//		destinationArea = area;
 	}
-	
+		
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
