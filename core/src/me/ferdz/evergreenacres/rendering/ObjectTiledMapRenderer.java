@@ -3,30 +3,25 @@ package me.ferdz.evergreenacres.rendering;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceActionImpl;
 
 public class ObjectTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
 	private List<MapLayer> underLayers, overLayers;
+	private Action action;
 	
 	public ObjectTiledMapRenderer(TiledMap map, Batch batch) {
 		super(map, batch);
-		
-		underLayers = new ArrayList<MapLayer>();
-		overLayers = new ArrayList<MapLayer>();
-		
-		for (MapLayer m : map.getLayers()) {
-			if(m.getName().startsWith("Over")) {
-				overLayers.add(m);
-			} else {
-				underLayers.add(m);
-			}
-			
+		this.updateMap(map);
 			// Below code to randomize the lenght of the animations
 //			if (m instanceof TiledMapTileLayer) {
 //				TiledMapTileLayer layer = (TiledMapTileLayer) m;
@@ -51,11 +46,37 @@ public class ObjectTiledMapRenderer extends OrthogonalTiledMapRenderer {
 //					}
 //				}
 //			}
+	}
+	
+	public void updateMap(TiledMap map) {
+		
+		underLayers = new ArrayList<MapLayer>();
+		overLayers = new ArrayList<MapLayer>();
+		
+		for (MapLayer m : map.getLayers()) {
+			if(m.getName().startsWith("Over")) {
+				overLayers.add(m);
+			} else {
+				underLayers.add(m);
+			}
 		}
 	}
 	
 	@Override
 	public void render() {
+		if (this.action != null) {
+			if (action.act(Gdx.graphics.getDeltaTime())) {
+				action = null;
+			} else {
+				if (action instanceof SequenceActionImpl) {
+					Action currentAction = ((SequenceActionImpl) action).getCurrentAction();
+					if (currentAction instanceof ColorAction) {
+						this.batch.setColor(((ColorAction)currentAction).getColor());
+					}
+				}
+			}
+		}
+		
 		beginRender();
 		for (MapLayer layer : underLayers) {
 			if (layer.isVisible()) {
@@ -82,5 +103,13 @@ public class ObjectTiledMapRenderer extends OrthogonalTiledMapRenderer {
 	@Override
 	public void renderObjects(MapLayer layer) {
 		// let's not use the processor power for nothing
+	}
+	
+	public void setAction(Action action) {
+		this.action = action;
+	}
+	
+	public void setBatch(Batch batch) {
+		this.batch = batch;
 	}
 }

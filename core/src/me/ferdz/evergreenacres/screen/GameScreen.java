@@ -14,8 +14,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceActionImpl;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import me.ferdz.evergreenacres.audio.EnumSound;
 import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
@@ -142,7 +147,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		currentArea.render(batch); // render the entities
 		mapRenderer.renderOver(); // render over the entities
 
-		debugRenderer.render(currentArea.getWorld(), camera.combined);
+//		debugRenderer.render(currentArea.getWorld(), camera.combined);
 
 		stage.draw();
 		// Draw the tooltip over everything
@@ -153,15 +158,32 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		}
 	}
 
-	public void changeArea(AbstractArea area) {
-		if (currentArea != null)
-			currentArea.dispose();
+	/**
+	 * Switches the area rendered through a fadin/fadout action
+	 * @param area Area to change to
+	 * @param playSound Whether a close door sound should be played
+	 */
+	public void changeArea(AbstractArea area, boolean playSound) {
+		ColorAction startColor = Actions.color(Color.BLACK, 1.5f);
+		startColor.setColor(new Color(1, 1, 1, 1));
+		RunnableAction runAction = Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				currentArea.dispose();
+				area.teleportPlayer();
+				mapRenderer.updateMap(area.getMap());
+				currentArea = area;
+				if (playSound) {
+					EnumSound.DOOR_CLOSE.getSound().play();
+				}
+			}
+		});
+		ColorAction endColor = Actions.color(new Color(1, 1, 1, 1), 1.5f);
+		endColor.setColor(Color.BLACK);
 		
-//		inTransition = true;
-//		mapRenderer.setAction(Actions.color(Color.CLEAR, 1));
-//		destinationArea = area;
+		mapRenderer.setAction(new SequenceActionImpl(startColor, Actions.delay(0.5f), runAction, endColor));
 	}
-		
+			
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);

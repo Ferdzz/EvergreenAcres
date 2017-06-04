@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 
 public enum EnumSound {
-	DOOR_OPEN("sounds/door_open.ogg");
+	DOOR_OPEN("sounds/door_open.ogg"),
+	DOOR_CLOSE("sounds/door_close.ogg");
 	
 	private String path;
 	private Sound sound;
