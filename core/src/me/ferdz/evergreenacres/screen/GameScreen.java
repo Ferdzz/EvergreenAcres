@@ -4,10 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -18,9 +19,9 @@ import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
 import me.ferdz.evergreenacres.rendering.ObjectTiledMapRenderer;
-import me.ferdz.evergreenacres.rendering.Textures;
 import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.ui.TooltipLabel;
+import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
 
 public class GameScreen extends ScreenAdapter implements IUpdatable {
@@ -40,6 +41,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	private Table table;
 	private ItemBar itemBar;
 	private TooltipLabel tooltip;
+	private Vector2 cursorPosition;
 	
 	@Override
 	public void show() {
@@ -69,9 +71,13 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 
 	@Override
 	public void update(float delta) {
+		// Update the current cursor position
+		cursorPosition = Utils.cursorToWorldPos();
+		Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+
 		currentArea.update(delta);	
 		player.update(delta);	
-
+		
 		// Update camera position
 		float camXTarget = player.getPosition().x;
 		float camYTarget = player.getPosition().y;
@@ -131,7 +137,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		currentArea.render(batch); // render the entities
 		mapRenderer.renderOver(); // render over the entities
 
-		//debugRenderer.render(currentArea.getWorld(), camera.combined);
+		debugRenderer.render(currentArea.getWorld(), camera.combined);
 
 		stage.draw();
 		// Draw the tooltip over everything
@@ -146,7 +152,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		if (currentArea != null)
 			currentArea.dispose();
 
-		currentArea = new FarmArea(player);
+		currentArea = area;
 		mapRenderer = new ObjectTiledMapRenderer(currentArea.getMap(), batch);
 	}
 	
@@ -187,5 +193,13 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	
 	public void setTooltip(TooltipLabel tooltip) {
 		this.tooltip = tooltip;
+	}
+	
+	public Vector2 getCursorPosition() {
+		return cursorPosition;
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 }

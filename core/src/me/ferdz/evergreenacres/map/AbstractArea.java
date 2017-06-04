@@ -3,8 +3,6 @@ package me.ferdz.evergreenacres.map;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -18,9 +16,7 @@ import me.ferdz.evergreenacres.entity.IRenderable;
 import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.entity.impl.tile.DoorObject;
-import me.ferdz.evergreenacres.rendering.Textures;
 import me.ferdz.evergreenacres.utils.MapBodyBuilder;
-import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
 
 public abstract class AbstractArea implements Disposable, IRenderable, IUpdatable {
@@ -29,14 +25,14 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 	protected Player player;
 	protected List<AbstractEntity> entities;
 	
-	public AbstractArea(Player player) {
+	public AbstractArea(Player player, int startX, int startY) {
 		this.player = player;
 		this.world = new World(Vector2.Zero, true);
 		
 		this.entities = new ArrayList<AbstractEntity>();
 		
 		// Bind player to this area
-		this.player.createBody(world, new Vector2(30, 100));
+		this.player.createBody(world, new Vector2(startX, startY));
 		
 		// Load objects in map
 		MapBodyBuilder.buildShapes(getMap(), 1, world); // load shapes into world
@@ -47,7 +43,7 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 			if (Values.TYPE_DOOR.equals(mapObject.getProperties().get(Values.KEY_TYPE))) {
 				if (mapObject instanceof RectangleMapObject) {
 					RectangleMapObject rectangle = (RectangleMapObject) mapObject;
-					this.entities.add(new DoorObject(rectangle.getRectangle()));
+					this.entities.add(new DoorObject(rectangle.getRectangle(), mapObject.getProperties()));
 				}
 			}
 		}

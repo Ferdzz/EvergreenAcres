@@ -143,6 +143,7 @@
   <object id="98" x="16" y="48" width="128" height="64"/>
   <object id="104" x="39.75" y="83.25" width="16.375" height="28.5">
    <properties>
+    <property name="destination" value="house"/>
     <property name="type" value="door"/>
    </properties>
   </object>

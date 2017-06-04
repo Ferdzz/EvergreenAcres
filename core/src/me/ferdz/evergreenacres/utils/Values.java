@@ -11,7 +11,7 @@ import me.ferdz.evergreenacres.EvergreenAcres;
 
 public class Values {
 	public static EvergreenAcres game;
-	public static EventBus bus = new EventBus();
+	public static final EventBus bus = new EventBus();
 	
 	public static final InputMultiplexer multiplexer = new InputMultiplexer();
 	
@@ -33,4 +33,5 @@ public class Values {
 	public static final String KEY_TYPE = "type";
 	public static final String KEY_WIDTH = "width";
 	public static final String KEY_HEIGHT = "height";
+	public static final String KEY_DESTINATION = "destination";
 }
