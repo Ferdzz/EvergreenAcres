@@ -10,7 +10,7 @@ import me.ferdz.evergreenacres.rendering.EnumHumanAnimationType;
 public class HouseArea extends AbstractArea {
 
 	public HouseArea(Player player) {
-		super(player, 56, 40);
+		super(player, 88, 56);
 		player.setCurrentAnimation(EnumHumanAnimationType.STILL_UP);
 		player.setCurrentDirection(EnumDirection.UP);
 	}
@@ -22,5 +22,10 @@ public class HouseArea extends AbstractArea {
 		return map;
 	}
 
-	
+	@Override
+	public void teleportPlayer() {
+		super.teleportPlayer();
+		this.player.setCurrentAnimation(EnumHumanAnimationType.STILL_UP);
+		this.player.setCurrentDirection(EnumDirection.UP);
+	}
 }

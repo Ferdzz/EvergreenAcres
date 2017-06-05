@@ -1,7 +1,6 @@
 package me.ferdz.evergreenacres.entity.impl;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
@@ -30,7 +29,7 @@ public class DoorObject extends AbstractEntity {
 	
 	@Override
 	public void update(float delta) {
-		if (rectangle.contains(GameScreen.instance.getCursorPosition())) {
+		if (!GameScreen.instance.isChangingArea() && rectangle.contains(GameScreen.instance.getCursorPosition())) {
 			Gdx.graphics.setCursor(Gdx.graphics.newCursor(Textures.IconTexture.DOOR.getPixmap(), 0, 0));
 			if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
 				// Enter the destination

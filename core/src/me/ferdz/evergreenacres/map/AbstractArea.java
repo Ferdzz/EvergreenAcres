@@ -16,6 +16,7 @@ import me.ferdz.evergreenacres.entity.IRenderable;
 import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.DoorObject;
 import me.ferdz.evergreenacres.entity.impl.Player;
+import me.ferdz.evergreenacres.entity.impl.WarpObject;
 import me.ferdz.evergreenacres.utils.MapBodyBuilder;
 import me.ferdz.evergreenacres.utils.Values;
 
@@ -39,11 +40,16 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 		
 		// Load interactive map objects as entities
 		// Look for door type objects
-		for (MapObject mapObject: getMap().getLayers().get("Obstacles").getObjects()) {
+		for (MapObject mapObject: getMap().getLayers().get("Objects").getObjects()) {
 			if (Values.TYPE_DOOR.equals(mapObject.getProperties().get(Values.KEY_TYPE))) {
 				if (mapObject instanceof RectangleMapObject) {
 					RectangleMapObject rectangle = (RectangleMapObject) mapObject;
 					this.entities.add(new DoorObject(rectangle.getRectangle(), mapObject.getProperties()));
+				}
+			} else if (Values.TYPE_WARP.equals(mapObject.getProperties().get(Values.KEY_TYPE))) {
+				if (mapObject instanceof RectangleMapObject) {
+					RectangleMapObject rectangle = (RectangleMapObject) mapObject;
+					this.entities.add(new WarpObject(rectangle.getRectangle(), mapObject.getProperties()));
 				}
 			}
 		}

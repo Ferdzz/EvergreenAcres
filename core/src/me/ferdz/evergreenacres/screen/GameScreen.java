@@ -2,21 +2,19 @@ package me.ferdz.evergreenacres.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
+import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceActionImpl;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -25,6 +23,7 @@ import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
+import me.ferdz.evergreenacres.map.HouseArea;
 import me.ferdz.evergreenacres.rendering.ObjectTiledMapRenderer;
 import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.ui.TooltipLabel;
@@ -33,7 +32,7 @@ import me.ferdz.evergreenacres.utils.Values;
 
 public class GameScreen extends ScreenAdapter implements IUpdatable {
 	
-	public static final float ZOOM = 0.25F;
+	public static final float ZOOM = 0.26F;
 	
 	public static GameScreen instance;
 	
@@ -49,12 +48,14 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	private ItemBar itemBar;
 	private TooltipLabel tooltip;
 	private Vector2 cursorPosition;
+	private boolean isChangingArea;
 	
 	@Override
 	public void show() {
 		instance = this;
 		this.player = new Player();
 		this.batch = new SpriteBatch();
+		this.batch.setColor(Color.WHITE);
 		this.uiBatch = new SpriteBatch();
 		this.currentArea = new FarmArea(player);
 		this.currentArea.teleportPlayer();
@@ -134,10 +135,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	public void render(float delta) {
 		update(delta);
 		
-		Gdx.gl.glClearColor(Values.BACKGROUND_COLOR.r, 
-							Values.BACKGROUND_COLOR.g, 
-							Values.BACKGROUND_COLOR.b,
-							Values.BACKGROUND_COLOR.a);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		
 		batch.setProjectionMatrix(camera.combined); // set camera views
@@ -164,9 +162,15 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	 * @param playSound Whether a close door sound should be played
 	 */
 	public void changeArea(AbstractArea area, boolean playSound) {
-		ColorAction startColor = Actions.color(Color.BLACK, 1.5f);
-		startColor.setColor(new Color(1, 1, 1, 1));
-		RunnableAction runAction = Actions.run(new Runnable() {
+		this.isChangingArea = true;
+
+		ColorAction startColor = new ColorAction();
+		startColor.setColor(new Color(0xffffffff));
+		startColor.setEndColor(new Color(0, 0, 0, 1));
+		startColor.setDuration(1f);
+		
+		RunnableAction runAction = new RunnableAction();
+		runAction.setRunnable(new Runnable() {
 			@Override
 			public void run() {
 				currentArea.dispose();
@@ -176,11 +180,14 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 				if (playSound) {
 					EnumSound.DOOR_CLOSE.getSound().play();
 				}
+				isChangingArea = false;
 			}
 		});
-		ColorAction endColor = Actions.color(new Color(1, 1, 1, 1), 1.5f);
-		endColor.setColor(Color.BLACK);
-		
+		ColorAction endColor = new ColorAction();
+		endColor.setColor(new Color(0, 0, 0, 1));
+		endColor.setEndColor(new Color(0xffffffff));
+		endColor.setDuration(1f);
+
 		mapRenderer.setAction(new SequenceActionImpl(startColor, Actions.delay(0.5f), runAction, endColor));
 	}
 			
@@ -229,5 +236,9 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public boolean isChangingArea() {
+		return isChangingArea;
 	}
 }

@@ -95,9 +95,9 @@ public class Player extends AbstractEntity {
 		body = world.createBody(bodyDef);
 
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(7.9F, 7.9F); // height of 8 because 2.5D means 16 / 2
-		 						  	// 7.9 so we can fit through boxes of half tile
-
+		shape.setAsBox(7.5F, 7.5F); // height of 8 because 2.5D means 16 / 2
+		 						  	// 7.5 so we can fit through boxes of half tile
+		
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
 		fixtureDef.density = 0.0003f;
@@ -253,6 +253,10 @@ public class Player extends AbstractEntity {
 	
 	public EnumDirection getCurrentDirection() {
 		return currentDirection;
+	}
+	
+	public Body getBody() {
+		return body;
 	}
 	
 	public void setCurrentDirection(EnumDirection currentDirection) {

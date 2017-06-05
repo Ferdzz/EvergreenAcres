@@ -1,7 +1,7 @@
 package com.badlogic.gdx.scenes.scene2d.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 
 public class SequenceActionImpl extends ParallelAction {
@@ -64,5 +64,8 @@ public class SequenceActionImpl extends ParallelAction {
 	public void reset() {
 		super.reset();
 		this.index = 0;
+		for (Action action : actions) {
+			action.reset();
+		}
 	}
 }
