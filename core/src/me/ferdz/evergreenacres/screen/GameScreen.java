@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -22,12 +21,9 @@ import me.ferdz.evergreenacres.audio.EnumSound;
 import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
-import me.ferdz.evergreenacres.map.FarmArea;
-import me.ferdz.evergreenacres.map.HouseArea;
 import me.ferdz.evergreenacres.rendering.ObjectTiledMapRenderer;
 import me.ferdz.evergreenacres.ui.ItemBar;
-import me.ferdz.evergreenacres.ui.TooltipLabel;
-import me.ferdz.evergreenacres.utils.Utils;
+import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Values;
 
 public class GameScreen extends ScreenAdapter implements IUpdatable {
@@ -41,25 +37,17 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	private SpriteBatch batch;
 	private SpriteBatch uiBatch;
 	private Box2DDebugRenderer debugRenderer;
-	private Player player;
-	private AbstractArea currentArea;
 	private Stage stage;
 	private Table table;
-	private ItemBar itemBar;
-	private TooltipLabel tooltip;
-	private Vector2 cursorPosition;
-	private boolean isChangingArea;
 	
 	@Override
 	public void show() {
 		instance = this;
-		this.player = new Player();
+		
 		this.batch = new SpriteBatch();
 		this.batch.setColor(Color.WHITE);
 		this.uiBatch = new SpriteBatch();
-		this.currentArea = new FarmArea(player);
-		this.currentArea.teleportPlayer();
-		this.mapRenderer = new ObjectTiledMapRenderer(currentArea.getMap(), batch);
+		this.mapRenderer = new ObjectTiledMapRenderer(GameState.get().getCurrentArea().getMap(), batch);
 		this.debugRenderer = new Box2DDebugRenderer();	
 		this.camera = new OrthographicCamera();
 		this.camera.zoom = ZOOM;
@@ -68,8 +56,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		this.table = new Table();
 		this.table.setFillParent(true);
 		this.stage.addActor(table);
-		this.itemBar = new ItemBar();
-		this.table.add(this.itemBar);
+		this.table.add(GameState.get().getItemBar());
 		this.table.bottom().padBottom(40);
 //		this.table.setDebug(true);
 		
@@ -80,10 +67,12 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	@Override
 	public void update(float delta) {
 		// Update the current cursor position
-		cursorPosition = Utils.cursorToWorldPos();
+		GameState.get().update(delta);
 		Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
 
-		currentArea.update(delta);	
+		AbstractArea currentArea = GameState.get().getCurrentArea();
+		currentArea.update(delta);
+		Player player = GameState.get().getPlayer();
 		player.update(delta);
 		// Update camera position
 		float camXTarget = player.getPosition().x;
@@ -116,15 +105,16 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
         camera.update();
         
         // Depending on the position of the camera - manipulate the alpha of the item bar
+        ItemBar itemBar = GameState.get().getItemBar();
         if (camera.position.y <= viewPortHeight + 20) {
         	if (itemBar.getColor().a == 1) {
-        		this.itemBar.clearActions();
-        		this.itemBar.addAction(Actions.alpha(0.7f, 0.4f));        		
+        		itemBar.clearActions();
+        		itemBar.addAction(Actions.alpha(0.7f, 0.4f));        		
         	}
         } else {
         	if (itemBar.getColor().a != 1) {
-        		this.itemBar.clearActions();
-        		this.itemBar.addAction(Actions.alpha(1f, 0.4f));        		
+        		itemBar.clearActions();
+        		itemBar.addAction(Actions.alpha(1f, 0.4f));        		
         	}
         }
         
@@ -142,16 +132,16 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		mapRenderer.setView(camera);
 		
 		mapRenderer.render(); // render under the entities
-		currentArea.render(batch); // render the entities
+		GameState.get().getCurrentArea().render(batch); // render the entities
 		mapRenderer.renderOver(); // render over the entities
 
 //		debugRenderer.render(currentArea.getWorld(), camera.combined);
 
 		stage.draw();
 		// Draw the tooltip over everything
-		if (tooltip != null) {
+		if (GameState.get().getTooltip() != null) {
 			stage.getBatch().begin();
-			tooltip.draw(stage.getBatch(), 1);
+			GameState.get().getTooltip().draw(stage.getBatch(), 1);
 			stage.getBatch().end();
 		}
 	}
@@ -162,7 +152,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	 * @param playSound Whether a close door sound should be played
 	 */
 	public void changeArea(AbstractArea area, boolean playSound) {
-		this.isChangingArea = true;
+		GameState.get().setChangingArea(true);
 
 		ColorAction startColor = new ColorAction();
 		startColor.setColor(new Color(0xffffffff));
@@ -173,14 +163,15 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		runAction.setRunnable(new Runnable() {
 			@Override
 			public void run() {
+				AbstractArea currentArea = GameState.get().getCurrentArea();
 				currentArea.dispose();
 				area.teleportPlayer();
 				mapRenderer.updateMap(area.getMap());
-				currentArea = area;
+				GameState.get().setCurrentArea(area);
 				if (playSound) {
 					EnumSound.DOOR_CLOSE.getSound().play();
 				}
-				isChangingArea = false;
+				GameState.get().setChangingArea(false);
 			}
 		});
 		ColorAction endColor = new ColorAction();
@@ -202,43 +193,14 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 
 	@Override
 	public void dispose() {
-		player.dispose();
 		batch.dispose();
 		uiBatch.dispose();
-		
 		mapRenderer.dispose();
-		currentArea.dispose();
+		
+		GameState.get().dispose();
 	}
-	
-	public AbstractArea getCurrentArea() {
-		return currentArea;
-	}
-	
+
 	public OrthographicCamera getCamera() {
 		return camera;
-	}
-	
-	public ItemBar getItemBar() {
-		return itemBar;
-	}
-	
-	public TooltipLabel getTooltip() {
-		return tooltip;
-	}
-	
-	public void setTooltip(TooltipLabel tooltip) {
-		this.tooltip = tooltip;
-	}
-	
-	public Vector2 getCursorPosition() {
-		return cursorPosition;
-	}
-	
-	public Player getPlayer() {
-		return player;
-	}
-	
-	public boolean isChangingArea() {
-		return isChangingArea;
 	}
 }

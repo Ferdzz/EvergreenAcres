@@ -15,6 +15,7 @@ import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.navigation.EnumDestination;
 import me.ferdz.evergreenacres.rendering.Textures;
 import me.ferdz.evergreenacres.screen.GameScreen;
+import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Values;
 
 public class DoorObject extends AbstractEntity {
@@ -29,14 +30,14 @@ public class DoorObject extends AbstractEntity {
 	
 	@Override
 	public void update(float delta) {
-		if (!GameScreen.instance.isChangingArea() && rectangle.contains(GameScreen.instance.getCursorPosition())) {
+		if (!GameState.get().isChangingArea() && rectangle.contains(GameState.get().getCursorPosition())) {
 			Gdx.graphics.setCursor(Gdx.graphics.newCursor(Textures.IconTexture.DOOR.getPixmap(), 0, 0));
 			if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
 				// Enter the destination
 				EnumDestination destination = EnumDestination.getDestination(destinationKey);
 				try {
 					Constructor<? extends AbstractArea> constructor = destination.getArea().getConstructor(Player.class);
-					Object obj = constructor.newInstance(GameScreen.instance.getPlayer());
+					Object obj = constructor.newInstance(GameState.get().getPlayer());
 					EnumSound.DOOR_OPEN.getSound().play();
 					GameScreen.instance.changeArea((AbstractArea) obj, true);
 				} catch (Exception e) {

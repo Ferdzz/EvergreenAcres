@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 import me.ferdz.evergreenacres.item.Item;
 import me.ferdz.evergreenacres.rendering.Textures;
-import me.ferdz.evergreenacres.screen.GameScreen;
+import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Values;
 
 public class ItemSlot extends Widget {
@@ -61,11 +61,11 @@ public class ItemSlot extends Widget {
 		@Override
 		public boolean mouseMoved(InputEvent event, float x, float y) {
 			if (item != null) {
-				TooltipLabel tooltip = GameScreen.instance.getTooltip();
+				TooltipLabel tooltip = GameState.get().getTooltip();
 				if (tooltip == null) {
 					LabelStyle style = new LabelStyle(Values.tooltipFont, Color.WHITE);
 					tooltip = new TooltipLabel(item.getName(), style);
-					GameScreen.instance.setTooltip(tooltip);
+					GameState.get().setTooltip(tooltip);
 				}
 				tooltip.setPosition(event.getStageX() - (tooltip.getPrefWidth() / 2), event.getStageY() + 20);
 			}
@@ -77,12 +77,12 @@ public class ItemSlot extends Widget {
 			if (pointer != -1)
 				return;
 			
-			GameScreen.instance.setTooltip(null);
+			GameState.get().setTooltip(null);
 		}
 		
 		@Override
 		public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-			GameScreen.instance.setTooltip(null);
+			GameState.get().setTooltip(null);
 			
 			return true;
 		}

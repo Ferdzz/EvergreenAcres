@@ -12,6 +12,7 @@ import me.ferdz.evergreenacres.entity.AbstractEntity;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.navigation.EnumDestination;
 import me.ferdz.evergreenacres.screen.GameScreen;
+import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Values;
 
 public class WarpObject extends AbstractEntity {
@@ -26,14 +27,14 @@ public class WarpObject extends AbstractEntity {
 	@Override
 	public void update(float delta) {
 //		Body body = GameScreen.instance.getPlayer().getBody();
-		Player player = GameScreen.instance.getPlayer();
+		Player player = GameState.get().getPlayer();
 		Rectangle playerRect = new Rectangle(player.getPosition().x, player.getPosition().y, 7.5f, 7.5f);
-		if (!GameScreen.instance.isChangingArea() && rectangle.contains(playerRect)) {
+		if (!GameState.get().isChangingArea() && rectangle.contains(playerRect)) {
 			// If the player is inside the warp zone
 			EnumDestination destination = EnumDestination.getDestination(destinationKey);
 			try {
 				Constructor<? extends AbstractArea> constructor = destination.getArea().getConstructor(Player.class);
-				Object obj = constructor.newInstance(GameScreen.instance.getPlayer());
+				Object obj = constructor.newInstance(GameState.get().getPlayer());
 				EnumSound.DOOR_OPEN.getSound().play();
 				GameScreen.instance.changeArea((AbstractArea) obj, true);
 			} catch (Exception e) {

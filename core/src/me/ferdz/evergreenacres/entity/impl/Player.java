@@ -25,8 +25,8 @@ import me.ferdz.evergreenacres.item.Item;
 import me.ferdz.evergreenacres.rendering.AnimationImpl;
 import me.ferdz.evergreenacres.rendering.EnumHumanAnimationType;
 import me.ferdz.evergreenacres.rendering.Textures;
-import me.ferdz.evergreenacres.screen.GameScreen;
 import me.ferdz.evergreenacres.ui.ItemBar;
+import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
 import me.ferdz.evergreenacres.utils.input.InputEvents;
@@ -192,7 +192,7 @@ public class Player extends AbstractEntity {
 		body.setLinearVelocity(body.getLinearVelocity().limit(SPEED));
 		
 		// Dirt particle animation
-		TiledMapTileLayer layer = (TiledMapTileLayer) GameScreen.instance.getCurrentArea().getMap().getLayers().get(Values.LAYER_GROUND);
+		TiledMapTileLayer layer = (TiledMapTileLayer) GameState.get().getCurrentArea().getMap().getLayers().get(Values.LAYER_GROUND);
 		Vector2 position = Utils.toTilePos(body.getPosition());
 		Cell cell = layer.getCell((int)position.x, (int)position.y);
 		if (cell != null) {
@@ -231,10 +231,10 @@ public class Player extends AbstractEntity {
 	// Action handlers
 	@Subscribe
 	public void onLeftClick(InputEvents.LeftClickEvent event) {
-		ItemBar bar = GameScreen.instance.getItemBar();
+		ItemBar bar = GameState.get().getItemBar();
 		Item item = bar.getSelectedItem();
 		if (item != null) {
-			item.onItemUse(this, GameScreen.instance.getCurrentArea());
+			item.onItemUse(this, GameState.get().getCurrentArea());
 		}
 	}
 

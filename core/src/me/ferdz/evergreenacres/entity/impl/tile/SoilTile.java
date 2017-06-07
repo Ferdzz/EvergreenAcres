@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import me.ferdz.evergreenacres.entity.EnumDirection;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
-import me.ferdz.evergreenacres.screen.GameScreen;
+import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Utils;
 
 public class SoilTile extends Tile {
@@ -19,7 +19,7 @@ public class SoilTile extends Tile {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		AbstractArea area = GameScreen.instance.getCurrentArea(); 
+		AbstractArea area = GameState.get().getCurrentArea(); 
 		if (area instanceof FarmArea) {
 			FarmArea farmArea = (FarmArea) area;
 			boolean up, left, down, right;
