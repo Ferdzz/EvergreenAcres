@@ -42,7 +42,7 @@ public class SequenceActionImpl extends ParallelAction {
 	@Override
 	public boolean act(float delta) {
 		if (index >= actions.size) return true;
-		Pool pool = getPool();
+		Pool<?> pool = getPool();
 		setPool(null); // Ensure this action can't be returned to the pool while executings.
 		try {
 			if (actions.get(index).act(delta)) {

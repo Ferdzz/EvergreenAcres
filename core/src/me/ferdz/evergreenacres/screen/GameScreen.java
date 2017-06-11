@@ -21,6 +21,7 @@ import me.ferdz.evergreenacres.audio.EnumSound;
 import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
+import me.ferdz.evergreenacres.map.navigation.EnumDestination;
 import me.ferdz.evergreenacres.rendering.ObjectTiledMapRenderer;
 import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.utils.GameState;
@@ -152,7 +153,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	 * @param area Area to change to
 	 * @param playSound Whether a close door sound should be played
 	 */
-	public void changeArea(AbstractArea area, boolean playSound) {
+	public void changeArea(AbstractArea area, boolean playSound, EnumDestination destination) {
 		GameState.get().setChangingArea(true);
 
 		ColorAction startColor = new ColorAction();
@@ -166,7 +167,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 			public void run() {
 				AbstractArea currentArea = GameState.get().getCurrentArea();
 				currentArea.dispose();
-				area.teleportPlayer();
+				area.teleportPlayer(destination);
 				mapRenderer.updateMap(area.getMap());
 				GameState.get().setCurrentArea(area);
 				if (playSound) {

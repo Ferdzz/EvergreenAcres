@@ -17,6 +17,7 @@ import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.DoorObject;
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.entity.impl.WarpObject;
+import me.ferdz.evergreenacres.map.navigation.EnumDestination;
 import me.ferdz.evergreenacres.utils.MapBodyBuilder;
 import me.ferdz.evergreenacres.utils.Values;
 
@@ -25,13 +26,10 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 	protected World world;
 	protected Player player;
 	protected List<AbstractEntity> entities;
-	protected int startX, startY;
 	
-	public AbstractArea(Player player, int startX, int startY) {
+	public AbstractArea(Player player) {
 		this.player = player;
 		this.world = new World(Vector2.Zero, true);
-		this.startX = startX;
-		this.startY = startY;
 		
 		this.entities = new ArrayList<AbstractEntity>();
 		
@@ -87,9 +85,9 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 		// Override this is the area has specifics that needs to be rendered over entities
 	}
 	
-	public void teleportPlayer() {
+	public void teleportPlayer(EnumDestination destination) {
 		// Bind player to this area
-		this.player.createBody(world, new Vector2(startX, startY));
+		this.player.createBody(world, new Vector2(destination.getX(), destination.getY()));
 	}
 
 	public World getWorld() {

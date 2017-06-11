@@ -1,6 +1,5 @@
 package me.ferdz.evergreenacres.ui;
 
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,7 +11,6 @@ import me.ferdz.evergreenacres.item.Item;
 import me.ferdz.evergreenacres.item.ItemHoe;
 import me.ferdz.evergreenacres.item.ItemWaterCan;
 import me.ferdz.evergreenacres.rendering.Textures;
-import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
 import me.ferdz.evergreenacres.utils.input.InputEvents;
 

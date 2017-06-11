@@ -7,6 +7,7 @@ import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
+import me.ferdz.evergreenacres.map.navigation.EnumDestination;
 import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.ui.TooltipLabel;
 
@@ -23,7 +24,7 @@ public class GameState implements IUpdatable, Disposable {
 	private GameState() {
 		this.player = new Player();
 		this.currentArea = new FarmArea(player);
-		this.currentArea.teleportPlayer();
+		this.player.createBody(currentArea.getWorld(), new Vector2(EnumDestination.FARM_SPAWN.getX(), EnumDestination.FARM_SPAWN.getY()));
 		this.itemBar = new ItemBar();
 	}
 	

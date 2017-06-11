@@ -14,7 +14,7 @@ public class FarmArea extends AbstractArea {
 	public Tile[][] soil;
 	
 	public FarmArea(Player player) {
-		super(player, 30, 100);
+		super(player);
 		MapProperties props = getMap().getProperties();
 		soil = new Tile[props.get(Values.KEY_WIDTH, Integer.class)][props.get(Values.KEY_HEIGHT, Integer.class)];
 		// possibly initialize interactions, ai, dialogs etc

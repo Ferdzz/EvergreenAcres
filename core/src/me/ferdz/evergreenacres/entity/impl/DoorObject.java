@@ -41,7 +41,7 @@ public class DoorObject extends AbstractEntity {
 					Constructor<? extends AbstractArea> constructor = destination.getArea().getConstructor(Player.class);
 					Object obj = constructor.newInstance(GameState.get().getPlayer());
 					EnumSound.DOOR_OPEN.getSound().play();
-					GameScreen.instance.changeArea((AbstractArea) obj, true);
+					GameScreen.instance.changeArea((AbstractArea) obj, true, destination);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}	
