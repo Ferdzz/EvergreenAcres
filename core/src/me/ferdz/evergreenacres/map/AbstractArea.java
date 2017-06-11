@@ -83,6 +83,10 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 		}
 	}
 	
+	public void renderOver(SpriteBatch batch) {
+		// Override this is the area has specifics that needs to be rendered over entities
+	}
+	
 	public void teleportPlayer() {
 		// Bind player to this area
 		this.player.createBody(world, new Vector2(startX, startY));

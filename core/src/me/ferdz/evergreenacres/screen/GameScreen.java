@@ -134,7 +134,8 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		mapRenderer.render(); // render under the entities
 		GameState.get().getCurrentArea().render(batch); // render the entities
 		mapRenderer.renderOver(); // render over the entities
-
+		GameState.get().getCurrentArea().renderOver(batch);
+		
 //		debugRenderer.render(currentArea.getWorld(), camera.combined);
 
 		stage.draw();
