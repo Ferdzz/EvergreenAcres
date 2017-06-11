@@ -1,6 +1,9 @@
 package me.ferdz.evergreenacres.utils;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -26,6 +29,32 @@ public class Values {
 	 * ---------- Util properties
 	 */
 	public static final InputMultiplexer multiplexer = new InputMultiplexer();
+	
+	/*
+	 * ---------- Control properties
+	 */
+	public static final HashMap<Integer, Integer> KEYS_NUMBER;
+	static {
+		KEYS_NUMBER = new HashMap<>();
+		KEYS_NUMBER.put(Keys.NUM_1, 1);
+		KEYS_NUMBER.put(Keys.NUM_2, 2);
+		KEYS_NUMBER.put(Keys.NUM_3, 3);
+		KEYS_NUMBER.put(Keys.NUM_4, 4);
+		KEYS_NUMBER.put(Keys.NUM_5, 5);
+		KEYS_NUMBER.put(Keys.NUM_6, 6);
+		KEYS_NUMBER.put(Keys.NUM_7, 7);
+		KEYS_NUMBER.put(Keys.NUM_8, 8);
+		KEYS_NUMBER.put(Keys.NUM_9, 9);
+		KEYS_NUMBER.put(Keys.NUMPAD_1, 1);
+		KEYS_NUMBER.put(Keys.NUMPAD_2, 2);
+		KEYS_NUMBER.put(Keys.NUMPAD_3, 3);
+		KEYS_NUMBER.put(Keys.NUMPAD_4, 4);
+		KEYS_NUMBER.put(Keys.NUMPAD_5, 5);
+		KEYS_NUMBER.put(Keys.NUMPAD_6, 6);
+		KEYS_NUMBER.put(Keys.NUMPAD_7, 7);
+		KEYS_NUMBER.put(Keys.NUMPAD_8, 8);
+		KEYS_NUMBER.put(Keys.NUMPAD_9, 9);
+	}
 	
 	/*
 	 * ---------- Rendering / UI properties

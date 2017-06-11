@@ -63,4 +63,16 @@ public class Utils {
 		return new Vector2(x, y);
 	}
 	
+	/**
+	 * Checks if the value is contained within the array
+	 * @return true if the value is contained within the array
+	 */
+	public static <T> boolean contains(T value, T[] array) {
+		for (T t : array) {
+			if (t.equals(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

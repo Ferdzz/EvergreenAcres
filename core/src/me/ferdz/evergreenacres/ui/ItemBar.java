@@ -1,5 +1,6 @@
 package me.ferdz.evergreenacres.ui;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,6 +12,7 @@ import me.ferdz.evergreenacres.item.Item;
 import me.ferdz.evergreenacres.item.ItemHoe;
 import me.ferdz.evergreenacres.item.ItemWaterCan;
 import me.ferdz.evergreenacres.rendering.Textures;
+import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
 import me.ferdz.evergreenacres.utils.input.InputEvents;
 
@@ -21,12 +23,9 @@ public class ItemBar extends Table {
 
 	public ItemBar() {
 		super();
-		
-		this.selectedIndex = ITEMS_COUNT / 2;
-		
-		Values.bus.register(this);
+		this.selectedIndex = 0;
 		this.setClip(false);
-
+		
 		for (int i = 0; i < ITEMS_COUNT; i++) {
 			if (i == 0) {
 				this.add(new ItemSlot(new ItemHoe()));							
@@ -36,6 +35,8 @@ public class ItemBar extends Table {
 				this.add(new ItemSlot());
 			}
 		}
+
+		Values.bus.register(this);
 	}
 	
 	@Override
@@ -83,6 +84,14 @@ public class ItemBar extends Table {
 			destinationIndex = 0;
 		}
 		this.selectedIndex = destinationIndex;
+	}
+	
+	@Subscribe
+	public void onKeyPressed(InputEvents.KeyPressedEvent event) {
+		Integer value = Values.KEYS_NUMBER.get(event.getKey());
+		if (value != null) {
+			this.selectedIndex = value - 1;
+		}
 	}
 	
 	public Item getSelectedItem() {

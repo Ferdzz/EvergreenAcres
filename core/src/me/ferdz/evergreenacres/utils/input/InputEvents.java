@@ -43,4 +43,15 @@ public class InputEvents {
 			return this.amount;
 		}
 	}
+	
+	public static class KeyPressedEvent {
+		private int key;
+		public KeyPressedEvent(int key) {
+			this.key = key;
+		}
+		
+		public int getKey() {
+			return this.key;
+		}
+	}
 }

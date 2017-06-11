@@ -8,7 +8,8 @@ public class InputBusProcessor implements com.badlogic.gdx.InputProcessor {
 	
 	@Override
 	public boolean keyDown(int keycode) {
-		return false;
+		Values.bus.post(new InputEvents.KeyPressedEvent(keycode));
+		return true;
 	}
 
 	@Override
