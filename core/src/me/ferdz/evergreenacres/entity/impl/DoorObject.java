@@ -32,7 +32,9 @@ public class DoorObject extends AbstractEntity {
 	public void update(float delta) {
 		if (!GameState.get().isChangingArea() && rectangle.contains(GameState.get().getCursorPosition())) {
 			Gdx.graphics.setCursor(Gdx.graphics.newCursor(Textures.IconTexture.DOOR.getPixmap(), 0, 0));
-			if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
+			// Should the cursor really change if the interaction isn't allowed?
+			if (Gdx.input.isButtonPressed(Buttons.RIGHT) && 
+					GameState.get().getPlayer().getPosition().dst(rectangle.getCenter(new Vector2())) < Values.INTERACTION_DISTANCE) {
 				// Enter the destination
 				EnumDestination destination = EnumDestination.getDestination(destinationKey);
 				try {
