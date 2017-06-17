@@ -3,6 +3,8 @@ package me.ferdz.evergreenacres.rendering;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
+
 public enum EnumHumanAnimationType {
 	
 	CAST_UP(7),
@@ -32,13 +34,9 @@ public enum EnumHumanAnimationType {
 	STILL_DOWN(1),
 	STILL_RIGHT(1);
 	
-	private int length;
+	@Getter private int length;
 	private EnumHumanAnimationType(int length) {
 		this.length = length;
-	}
-	
-	public int getLength() {
-		return length;
 	}
 	
 	public static List<EnumHumanAnimationType> getActionTypes() {

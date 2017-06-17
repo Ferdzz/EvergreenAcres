@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
+import lombok.Getter;
 import me.ferdz.evergreenacres.item.Item;
+import me.ferdz.evergreenacres.item.ItemStack;
 import me.ferdz.evergreenacres.rendering.Textures;
 import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Values;
@@ -16,15 +18,15 @@ import me.ferdz.evergreenacres.utils.Values;
 public class ItemSlot extends Widget {
 	public static final int WIDTH = 100, HEIGHT = 100;
 	
-	private Item item;
+	@Getter private ItemStack itemStack;
 	
 	public ItemSlot() {
 		this(null);
 	}
 	
-	public ItemSlot(Item item) {
+	public ItemSlot(ItemStack itemStack) {
 		super();
-		this.item = item;
+		this.itemStack = itemStack;
 		
 		this.addListener(new SlotInputListener());
 	}
@@ -34,8 +36,8 @@ public class ItemSlot extends Widget {
 		super.draw(batch, parentAlpha);
 		batch.draw(Textures.getUiTextures()[1][4], getX(), getY(), WIDTH, HEIGHT);
 
-		if (item != null) {
-			item.renderInInventory(batch, (int) getX(), (int) getY(), WIDTH);
+		if (itemStack != null) {
+			itemStack.getItem().renderInInventory(batch, (int) getX(), (int) getY(), WIDTH);
 		}
 	}
 
@@ -50,7 +52,7 @@ public class ItemSlot extends Widget {
 	}
 	
 	public Item getItem() {
-		return item;
+		return itemStack.getItem();
 	}
 	
 	private class SlotInputListener extends InputListener {
@@ -60,11 +62,11 @@ public class ItemSlot extends Widget {
 		
 		@Override
 		public boolean mouseMoved(InputEvent event, float x, float y) {
-			if (item != null) {
+			if (itemStack != null) {
 				TooltipLabel tooltip = GameState.get().getTooltip();
 				if (tooltip == null) {
 					LabelStyle style = new LabelStyle(Values.tooltipFont, Color.WHITE);
-					tooltip = new TooltipLabel(item.getName(), style);
+					tooltip = new TooltipLabel(itemStack.getItem().getName(), style);
 					GameState.get().setTooltip(tooltip);
 				}
 				tooltip.setPosition(event.getStageX() - (tooltip.getPrefWidth() / 2), event.getStageY() + 20);

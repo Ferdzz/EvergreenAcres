@@ -14,10 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceActionImpl;
 
+import lombok.Setter;
+
 public class ObjectTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
-	private List<MapLayer> underLayers, overLayers;
-	private Action action;
+	@Setter private List<MapLayer> underLayers, overLayers;
+	@Setter private Action action;
 	
 	public ObjectTiledMapRenderer(TiledMap map, Batch batch) {
 		super(map, batch);
@@ -103,13 +105,5 @@ public class ObjectTiledMapRenderer extends OrthogonalTiledMapRenderer {
 	@Override
 	public void renderObjects(MapLayer layer) {
 		// let's not use the processor power for nothing
-	}
-	
-	public void setAction(Action action) {
-		this.action = action;
-	}
-	
-	public void setBatch(Batch batch) {
-		this.batch = batch;
 	}
 }

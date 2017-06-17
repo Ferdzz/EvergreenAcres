@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.ferdz.evergreenacres.entity.EnumDirection;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
@@ -12,7 +14,8 @@ import me.ferdz.evergreenacres.utils.Utils;
 
 public class SoilTile extends Tile {
 
-	private boolean isWet = false;
+	@Setter @Getter private boolean isWet = false;
+	
 	public SoilTile(Vector2 position) {
 		super(position);
 	}
@@ -63,9 +66,5 @@ public class SoilTile extends Tile {
 		} catch (Exception e) {
 			return false;
 		}
-	}
-	
-	public void setWet(boolean isWet) {
-		this.isWet = isWet;
 	}
 }

@@ -3,14 +3,18 @@ package me.ferdz.evergreenacres.item;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import lombok.Getter;
+import lombok.ToString;
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.rendering.Textures;
 
+@ToString
 public abstract class Item {
 	
-	private Textures.ItemTexture texture;
-	private String name;
+	@Getter final private Textures.ItemTexture texture;
+	@Getter private String name;
+	
 	public Item(Textures.ItemTexture texture, String name) {
 		this.texture = texture;
 		this.name = name;
@@ -23,8 +27,4 @@ public abstract class Item {
 	}
 	
 	public void onItemUse(Player player, AbstractArea area) { }
-	
-	public String getName() {
-		return name;
-	}
 }

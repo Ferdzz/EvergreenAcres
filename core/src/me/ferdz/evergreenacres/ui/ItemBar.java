@@ -7,17 +7,20 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.google.common.eventbus.Subscribe;
 
+import lombok.Getter;
+import lombok.ToString;
 import me.ferdz.evergreenacres.item.Item;
-import me.ferdz.evergreenacres.item.ItemHoe;
-import me.ferdz.evergreenacres.item.ItemWaterCan;
+import me.ferdz.evergreenacres.item.ItemStack;
+import me.ferdz.evergreenacres.item.Items;
 import me.ferdz.evergreenacres.rendering.Textures;
 import me.ferdz.evergreenacres.utils.Values;
 import me.ferdz.evergreenacres.utils.input.InputEvents;
 
+@ToString
 public class ItemBar extends Table {
 	public static final int ITEMS_COUNT = 9;
 	
-	private int selectedIndex;
+	@Getter private int selectedIndex;
 
 	public ItemBar() {
 		super();
@@ -26,9 +29,11 @@ public class ItemBar extends Table {
 		
 		for (int i = 0; i < ITEMS_COUNT; i++) {
 			if (i == 0) {
-				this.add(new ItemSlot(new ItemHoe()));							
+				this.add(new ItemSlot(new ItemStack(Items.HOE)));							
 			} else if (i == 1) {
-				this.add(new ItemSlot(new ItemWaterCan()));
+				this.add(new ItemSlot(new ItemStack(Items.WATER_CAN)));
+			} else if (i == 2) {
+				this.add(new ItemSlot(new ItemStack(Items.POTATO_POUCH)));
 			} else {
 				this.add(new ItemSlot());
 			}
@@ -99,9 +104,5 @@ public class ItemBar extends Table {
 			return slot.getItem();
 		}
 		return null;
-	}
-
-	public int getSelectedIndex() {
-		return selectedIndex;
 	}
 }

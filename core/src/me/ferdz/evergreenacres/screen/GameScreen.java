@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceActionImpl;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import lombok.Getter;
 import me.ferdz.evergreenacres.audio.EnumSound;
 import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
@@ -34,7 +35,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	public static GameScreen instance;
 	
 	private ObjectTiledMapRenderer mapRenderer;
-	private OrthographicCamera camera;
+	@Getter private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private SpriteBatch uiBatch;
 	private Box2DDebugRenderer debugRenderer;
@@ -200,9 +201,5 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 		mapRenderer.dispose();
 		
 		GameState.get().dispose();
-	}
-
-	public OrthographicCamera getCamera() {
-		return camera;
 	}
 }

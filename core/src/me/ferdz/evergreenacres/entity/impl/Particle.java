@@ -7,13 +7,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.ferdz.evergreenacres.entity.AbstractEntity;
 import me.ferdz.evergreenacres.rendering.AnimationImpl;
 
 public class Particle extends AbstractEntity {
 
-	private Vector2 position;
-	private AnimationImpl animation;
+	@Setter @Getter private Vector2 position;
+	@Getter private AnimationImpl animation;
 	
 	/**
 	 * Actually heavy on processor, do not call if the texture is already split
@@ -47,21 +49,7 @@ public class Particle extends AbstractEntity {
 	}
 	
 	public void resetAnimation() {
-		this.animation.setElpasedTime(0);
-	}
-
-	@Override
-	public void setPosition(Vector2 pos) {
-		position = pos;
-	}
-	
-	@Override
-	public Vector2 getPosition() {
-		return position;
-	}
-	
-	public AnimationImpl getAnimation() {
-		return this.animation;
+		this.animation.setElapsedTime(0);
 	}
 	
 	public boolean isFinished() {

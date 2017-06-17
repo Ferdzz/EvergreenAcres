@@ -59,6 +59,8 @@ project(":core") {
 		
 		// Guava event bus
 		compile 'com.google.guava:guava:21.0'
+		// Lombok
+		compile "org.projectlombok:lombok:1.16.14"
     }
 }
 

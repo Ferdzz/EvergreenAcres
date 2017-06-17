@@ -3,11 +3,12 @@ package me.ferdz.evergreenacres.entity.impl.tile;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import lombok.Getter;
 import me.ferdz.evergreenacres.entity.AbstractEntity;
 
 public abstract class Tile extends AbstractEntity {
 
-	protected Vector2 position;
+	@Getter protected Vector2 position;
 	
 	public Tile(Vector2 position) {
 		this.position = position;
@@ -27,10 +28,4 @@ public abstract class Tile extends AbstractEntity {
 	public void dispose() {
 		
 	}
-
-	@Override
-	public Vector2 getPosition() {
-		return position;
-	}
-
 }

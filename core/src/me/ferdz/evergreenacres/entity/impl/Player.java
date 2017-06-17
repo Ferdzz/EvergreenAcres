@@ -19,6 +19,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.common.eventbus.Subscribe;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.ferdz.evergreenacres.entity.AbstractEntity;
 import me.ferdz.evergreenacres.entity.EnumDirection;
 import me.ferdz.evergreenacres.item.Item;
@@ -36,9 +38,9 @@ public class Player extends AbstractEntity {
 	private static final float ACCELERATION = 2F;
 	
 	private HashMap<EnumHumanAnimationType, AnimationImpl> animations;
-	private EnumHumanAnimationType currentAnimation;
-	private EnumDirection currentDirection;
-	private Body body;
+	@Setter @Getter private EnumHumanAnimationType currentAnimation;
+	@Setter @Getter private EnumDirection currentDirection;
+	@Setter @Getter private Body body;
 	private Particle dustParticle;
 	
 	public Player() {
@@ -249,21 +251,5 @@ public class Player extends AbstractEntity {
 	@Override
 	public Vector2 getPosition() {
 		return body.getPosition();
-	}
-	
-	public EnumDirection getCurrentDirection() {
-		return currentDirection;
-	}
-	
-	public Body getBody() {
-		return body;
-	}
-	
-	public void setCurrentDirection(EnumDirection currentDirection) {
-		this.currentDirection = currentDirection;
-	}
-	
-	public void setCurrentAnimation(EnumHumanAnimationType currentAnimation) {
-		this.currentAnimation = currentAnimation;
 	}
 }

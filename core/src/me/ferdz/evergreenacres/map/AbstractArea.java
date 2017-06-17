@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 
+import lombok.Getter;
 import me.ferdz.evergreenacres.entity.AbstractEntity;
 import me.ferdz.evergreenacres.entity.IRenderable;
 import me.ferdz.evergreenacres.entity.IUpdatable;
@@ -23,9 +24,9 @@ import me.ferdz.evergreenacres.utils.Values;
 
 public abstract class AbstractArea implements Disposable, IRenderable, IUpdatable {
 	protected TiledMap map;
-	protected World world;
+	@Getter protected World world;
 	protected Player player;
-	protected List<AbstractEntity> entities;
+	@Getter protected List<AbstractEntity> entities;
 	
 	public AbstractArea(Player player) {
 		this.player = player;
@@ -88,14 +89,6 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 	public void teleportPlayer(EnumDestination destination) {
 		// Bind player to this area
 		this.player.createBody(world, new Vector2(destination.getX(), destination.getY()));
-	}
-
-	public World getWorld() {
-		return this.world;
-	}
-
-	public List<AbstractEntity> getEntities() {
-		return entities;
 	}
 	
 	/**

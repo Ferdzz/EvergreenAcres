@@ -63,5 +63,4 @@ public class DoorObject extends AbstractEntity {
 	public Vector2 getPosition() {
 		throw new UnsupportedOperationException();// Position of the door is irrelevant
 	}
-
 }

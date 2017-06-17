@@ -1,10 +1,11 @@
-package me.ferdz.evergreenacres.item;
+package me.ferdz.evergreenacres.item.impl;
 
 import com.badlogic.gdx.math.Vector2;
 
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.entity.impl.tile.SoilTile;
 import me.ferdz.evergreenacres.entity.impl.tile.Tile;
+import me.ferdz.evergreenacres.item.Item;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
 import me.ferdz.evergreenacres.rendering.Textures;

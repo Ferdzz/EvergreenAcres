@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Textures {
 	public enum ItemTexture {
 		WATERING_CAN(0, 0),
-		HOE(0, 1);
+		HOE(0, 1),
+		BASE_POUCH(1, 0),
+		POTATO_POUCH(1, 1);
 		
 		private int x, y;
 		private ItemTexture(int x, int y) {
