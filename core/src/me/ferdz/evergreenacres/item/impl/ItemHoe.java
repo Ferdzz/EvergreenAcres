@@ -10,6 +10,7 @@ import me.ferdz.evergreenacres.item.Item;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
 import me.ferdz.evergreenacres.rendering.Textures;
+import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
 
@@ -22,7 +23,6 @@ public class ItemHoe extends Item {
 	@Override
 	public void onItemUse(Player player, AbstractArea area) {
 		if (area instanceof FarmArea) {
-			FarmArea farmArea = (FarmArea) area;
 			Vector2 position = Utils.toTilePos(player.getPosition());
 			position = Utils.offsetPos(position, player.getCurrentDirection());
 			TiledMapTileLayer layer = (TiledMapTileLayer) area.getMap().getLayers().get(Values.LAYER_GROUND);
@@ -33,7 +33,7 @@ public class ItemHoe extends Item {
 				if (!Values.TYPE_DIRT.equals(type)) {
 					return;
 				}
-				farmArea.soil[(int)position.x][(int)position.y] = new SoilTile(position);
+				GameState.get().getSoil()[(int)position.x][(int)position.y] = new SoilTile(position);
 			}
 		}
 	}

@@ -72,6 +72,8 @@ public class Values {
 	/*
 	 * ---------- Tile map properties
 	 */
+	public static final int FARM_WIDTH = 27;
+	public static final int FARM_HEIGHT = 29;
 	public static final int TILE_WIDTH = 16;
 	public static final int TILE_HEIGHT = 16;
 

@@ -26,21 +26,20 @@ public class SoilTile extends Tile {
 	public void render(SpriteBatch batch) {
 		AbstractArea area = GameState.get().getCurrentArea(); 
 		if (area instanceof FarmArea) {
-			FarmArea farmArea = (FarmArea) area;
 			boolean up, left, down, right;
-			up = isSoil(EnumDirection.UP, farmArea);
-			left = isSoil(EnumDirection.LEFT, farmArea);
-			down = isSoil(EnumDirection.DOWN, farmArea);
-			right = isSoil(EnumDirection.RIGHT, farmArea);
+			up = isSoil(EnumDirection.UP);
+			left = isSoil(EnumDirection.LEFT);
+			down = isSoil(EnumDirection.DOWN);
+			right = isSoil(EnumDirection.RIGHT);
 			
 			TextureRegion texture = EnumSoilTexture.getConnectedTextureRegion(up, left, down, right, false);
 			Vector2 renderPos = Utils.toWorldPos(position);
 			batch.draw(texture, renderPos.x, renderPos.y);
 			if (this.isWet) {
-				up = isWet(EnumDirection.UP, farmArea);
-				left = isWet(EnumDirection.LEFT, farmArea);
-				down = isWet(EnumDirection.DOWN, farmArea);
-				right = isWet(EnumDirection.RIGHT, farmArea);
+				up = isWet(EnumDirection.UP);
+				left = isWet(EnumDirection.LEFT);
+				down = isWet(EnumDirection.DOWN);
+				right = isWet(EnumDirection.RIGHT);
 				
 				texture = EnumSoilTexture.getConnectedTextureRegion(up, left, down, right, true);
 				batch.draw(texture, renderPos.x, renderPos.y);
@@ -53,10 +52,10 @@ public class SoilTile extends Tile {
 		}
 	}
 	
-	private boolean isSoil(EnumDirection direction, FarmArea area) {
+	private boolean isSoil(EnumDirection direction) {
 		Vector2 offset = Utils.offsetPos(position, direction);
 		try {
-			if (area.soil[(int) offset.x][(int) offset.y] instanceof SoilTile) {
+			if (GameState.get().getSoil()[(int) offset.x][(int) offset.y] instanceof SoilTile) {
 				return true;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -67,10 +66,10 @@ public class SoilTile extends Tile {
 		return false;
 	}
 	
-	private boolean isWet(EnumDirection direction, FarmArea area) {
+	private boolean isWet(EnumDirection direction) {
 		Vector2 offset = Utils.offsetPos(position, direction);
 		try {
-			return ((SoilTile)area.soil[(int) offset.x][(int) offset.y]).isWet;
+			return ((SoilTile)GameState.get().getSoil()[(int) offset.x][(int) offset.y]).isWet;
 		} catch (Exception e) {
 			return false;
 		}

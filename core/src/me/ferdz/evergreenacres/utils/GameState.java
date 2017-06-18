@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
+import me.ferdz.evergreenacres.entity.impl.tile.Tile;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
 import me.ferdz.evergreenacres.map.navigation.EnumDestination;
@@ -21,6 +22,7 @@ public class GameState implements IUpdatable, Disposable {
 	@Setter @Getter private TooltipLabel tooltip;
 	@Setter @Getter private Vector2 cursorPosition;
 	@Setter @Getter private boolean isChangingArea; // TODO: Change this to a more relevant paused/unpaused state
+	@Getter private Tile[][] soil;
 
 	private static GameState instance;
 	private GameState() {
@@ -28,6 +30,7 @@ public class GameState implements IUpdatable, Disposable {
 		this.currentArea = new FarmArea(player);
 		this.player.createBody(currentArea.getWorld(), new Vector2(EnumDestination.FARM_SPAWN.getX(), EnumDestination.FARM_SPAWN.getY()));
 		this.itemBar = new ItemBar();
+		this.soil = new Tile[Values.FARM_WIDTH][Values.FARM_HEIGHT];
 	}
 	
 	@Override

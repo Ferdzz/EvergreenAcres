@@ -12,6 +12,7 @@ import me.ferdz.evergreenacres.item.Item;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
 import me.ferdz.evergreenacres.rendering.Textures.ItemTexture;
+import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Utils;
 
 public class ItemPouch extends Item {
@@ -25,12 +26,11 @@ public class ItemPouch extends Item {
 	@Override
 	public void onItemUse(Player player, AbstractArea area) {
 		if (area instanceof FarmArea) {
-			FarmArea farmArea = (FarmArea) area;
 			Vector2 position = Utils.toTilePos(player.getPosition());
 			position = Utils.offsetPos(position, player.getCurrentDirection());
 			
 			try {
-				Tile tile = farmArea.soil[(int)position.x][(int)position.y];
+				Tile tile = GameState.get().getSoil()[(int)position.x][(int)position.y];
 				if (tile instanceof SoilTile) {
 					((SoilTile)tile).setCrop(new Crop(cropType));
 				}
