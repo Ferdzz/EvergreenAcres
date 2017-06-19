@@ -4,7 +4,7 @@ import lombok.Getter;
 import me.ferdz.evergreenacres.rendering.Textures.ItemTexture;
 
 public enum EnumCrop {
-	POTATO(1, ItemTexture.POTATO_GROWTH_0);
+	POTATO(1, ItemTexture.POTATO_GROWTH_0, ItemTexture.POTATO_GROWTH_1);
 	
 	@Getter final private float growthMultiplier;
 	@Getter final private ItemTexture[] textures;

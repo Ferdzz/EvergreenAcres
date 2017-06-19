@@ -15,9 +15,10 @@ import lombok.Getter;
 import me.ferdz.evergreenacres.entity.AbstractEntity;
 import me.ferdz.evergreenacres.entity.IRenderable;
 import me.ferdz.evergreenacres.entity.IUpdatable;
-import me.ferdz.evergreenacres.entity.impl.DoorObject;
 import me.ferdz.evergreenacres.entity.impl.Player;
-import me.ferdz.evergreenacres.entity.impl.WarpObject;
+import me.ferdz.evergreenacres.entity.impl.object.BedObject;
+import me.ferdz.evergreenacres.entity.impl.object.DoorObject;
+import me.ferdz.evergreenacres.entity.impl.object.WarpObject;
 import me.ferdz.evergreenacres.map.navigation.EnumDestination;
 import me.ferdz.evergreenacres.utils.MapBodyBuilder;
 import me.ferdz.evergreenacres.utils.Values;
@@ -49,6 +50,11 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 				if (mapObject instanceof RectangleMapObject) {
 					RectangleMapObject rectangle = (RectangleMapObject) mapObject;
 					this.entities.add(new WarpObject(rectangle.getRectangle(), mapObject.getProperties()));
+				}
+			} else if (Values.TYPE_BED.equals(mapObject.getProperties().get(Values.KEY_TYPE))) {
+				if (mapObject instanceof RectangleMapObject) {
+					RectangleMapObject rectangle = (RectangleMapObject) mapObject;
+					this.entities.add(new BedObject(rectangle.getRectangle()));
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.entity.impl;
+package me.ferdz.evergreenacres.entity.impl.object;
 
 import java.lang.reflect.Constructor;
 
@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import me.ferdz.evergreenacres.audio.EnumSound;
 import me.ferdz.evergreenacres.entity.AbstractEntity;
+import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.navigation.EnumDestination;
 import me.ferdz.evergreenacres.rendering.Textures;

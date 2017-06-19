@@ -52,6 +52,12 @@ public class SoilTile extends Tile {
 		}
 	}
 	
+	public void nextDay() {
+		if (this.isWet && this.crop != null) {
+			this.crop.grow();
+		}
+	}
+	
 	private boolean isSoil(EnumDirection direction) {
 		Vector2 offset = Utils.offsetPos(position, direction);
 		try {

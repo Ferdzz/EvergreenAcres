@@ -24,6 +24,7 @@ import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.navigation.EnumDestination;
 import me.ferdz.evergreenacres.rendering.ObjectTiledMapRenderer;
+import me.ferdz.evergreenacres.ui.AnimationFactory;
 import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Values;
@@ -34,7 +35,7 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	
 	public static GameScreen instance;
 	
-	private ObjectTiledMapRenderer mapRenderer;
+	@Getter private ObjectTiledMapRenderer mapRenderer;
 	@Getter private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private SpriteBatch uiBatch;
@@ -157,11 +158,6 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 	public void changeArea(AbstractArea area, boolean playSound, EnumDestination destination) {
 		GameState.get().setChangingArea(true);
 
-		ColorAction startColor = new ColorAction();
-		startColor.setColor(new Color(0xffffffff));
-		startColor.setEndColor(new Color(0, 0, 0, 1));
-		startColor.setDuration(1f);
-		
 		RunnableAction runAction = new RunnableAction();
 		runAction.setRunnable(new Runnable() {
 			@Override
@@ -177,12 +173,12 @@ public class GameScreen extends ScreenAdapter implements IUpdatable {
 				GameState.get().setChangingArea(false);
 			}
 		});
-		ColorAction endColor = new ColorAction();
-		endColor.setColor(new Color(0, 0, 0, 1));
-		endColor.setEndColor(new Color(0xffffffff));
-		endColor.setDuration(1f);
 
-		mapRenderer.setAction(new SequenceActionImpl(startColor, Actions.delay(0.5f), runAction, endColor));
+		mapRenderer.setAction(new SequenceActionImpl(
+				AnimationFactory.getDarkenAction(),
+				Actions.delay(0.5f), 
+				runAction,
+				AnimationFactory.getLightenAction()));
 	}
 			
 	@Override

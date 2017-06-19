@@ -72,8 +72,8 @@ public class Values {
 	/*
 	 * ---------- Tile map properties
 	 */
-	public static final int FARM_WIDTH = 27;
-	public static final int FARM_HEIGHT = 29;
+	public static final int FARM_WIDTH = 29;
+	public static final int FARM_HEIGHT = 27;
 	public static final int TILE_WIDTH = 16;
 	public static final int TILE_HEIGHT = 16;
 
@@ -81,6 +81,7 @@ public class Values {
 	public static final String TYPE_DIRT = "dirt";
 	public static final String TYPE_DOOR = "door";
 	public static final String TYPE_WARP = "warp";
+	public static final String TYPE_BED = "bed";
 	public static final String KEY_TYPE = "type";
 	public static final String KEY_WIDTH = "width";
 	public static final String KEY_HEIGHT = "height";

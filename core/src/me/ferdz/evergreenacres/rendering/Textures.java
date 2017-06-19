@@ -10,7 +10,8 @@ public class Textures {
 		WATERING_CAN(0, 0),
 		HOE(0, 1),
 		POTATO_POUCH(1, 0),
-		POTATO_GROWTH_0(1, 1);
+		POTATO_GROWTH_0(1, 1),
+		POTATO_GROWTH_1(1, 2);
 		
 		private int x, y;
 		private ItemTexture(int x, int y) {

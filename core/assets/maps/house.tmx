@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="13" height="10" tilewidth="16" tileheight="16" nextobjectid="110">
+<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="13" height="10" tilewidth="16" tileheight="16" nextobjectid="111">
  <tileset firstgid="1" name="ground_wood" tilewidth="16" tileheight="16" tilecount="8" columns="8">
   <image source="../homegrown/environment/ground_wood.png" width="128" height="16"/>
  </tileset>
@@ -133,6 +133,11 @@
    <properties>
     <property name="destination" value="farm_01"/>
     <property name="type" value="warp"/>
+   </properties>
+  </object>
+  <object id="110" x="168" y="64" width="16" height="32">
+   <properties>
+    <property name="type" value="bed"/>
    </properties>
   </object>
  </objectgroup>
