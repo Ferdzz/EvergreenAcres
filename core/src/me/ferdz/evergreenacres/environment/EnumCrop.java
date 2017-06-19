@@ -1,15 +1,15 @@
 package me.ferdz.evergreenacres.environment;
 
 import lombok.Getter;
-import me.ferdz.evergreenacres.rendering.Textures.ItemTexture;
+import me.ferdz.evergreenacres.rendering.Textures.CropTexture;
 
 public enum EnumCrop {
-	POTATO(1, ItemTexture.POTATO_GROWTH_0, ItemTexture.POTATO_GROWTH_1);
+	POTATO(1, CropTexture.POTATO_0, CropTexture.POTATO_1, CropTexture.POTATO_2, CropTexture.POTATO_3, CropTexture.POTATO_4, CropTexture.POTATO_5, CropTexture.POTATO_6);
 	
 	@Getter final private float growthMultiplier;
-	@Getter final private ItemTexture[] textures;
+	@Getter final private CropTexture[] textures;
 	// TODO: Make crop depend on season
-	private EnumCrop(float growthMultiplier, ItemTexture... textures) {
+	private EnumCrop(float growthMultiplier, CropTexture... textures) {
 		this.growthMultiplier = growthMultiplier;
 		this.textures = textures;
 	}
