@@ -34,7 +34,7 @@ public class Utils {
 	public static Vector2 cursorToWorldPos() {
 		float x = Gdx.input.getX();
 		float y = Gdx.input.getY();
-		Vector3 unprojected = GameScreen.instance.getCamera().unproject(new Vector3(x, y, 0));
+		Vector3 unprojected = GameScreen.instance.getGameRenderer().getCamera().unproject(new Vector3(x, y, 0));
 		return new Vector2(unprojected.x, unprojected.y);
 	}
 	

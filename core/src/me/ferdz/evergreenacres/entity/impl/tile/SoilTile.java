@@ -10,8 +10,10 @@ import me.ferdz.evergreenacres.entity.EnumDirection;
 import me.ferdz.evergreenacres.environment.Crop;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
+import me.ferdz.evergreenacres.screen.GameScreen;
 import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Utils;
+import me.ferdz.evergreenacres.utils.Values;
 
 public class SoilTile extends Tile {
 
@@ -47,7 +49,16 @@ public class SoilTile extends Tile {
 
 			// Render the current stage of the crop
 			if (this.crop != null) {
-				batch.draw(this.crop.getCurrentTexture(), renderPos.x, renderPos.y);
+				Vector2 playerPos = GameState.get().getPlayer().getPosition();
+				System.out.println(playerPos.y + " " + renderPos.y);
+				if (playerPos.y < renderPos.y + Values.TILE_HEIGHT) {
+					batch.draw(this.crop.getCurrentTexture(), renderPos.x, renderPos.y);					
+				} else {
+					// Render the crop delayed
+					GameScreen.instance.getGameRenderer().queueRender(() -> {
+						batch.draw(this.crop.getCurrentTexture(), renderPos.x, renderPos.y);					
+					});
+				}
 			}
 		}
 	}

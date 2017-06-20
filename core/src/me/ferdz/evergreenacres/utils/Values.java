@@ -24,7 +24,8 @@ public class Values {
 	 * ---------- Gameplay properties
 	 */
 	public static final int INTERACTION_DISTANCE = 35;
-	
+	public static final float ZOOM = 0.26F;
+
 	/*
 	 * ---------- Util properties
 	 */

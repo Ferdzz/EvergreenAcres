@@ -34,7 +34,7 @@ public class BedObject extends AbstractEntity {
 		if (!GameState.get().isChangingArea() && rectangle.contains(playerRect)) {
 			// If the player is inside the bed, transition to the next day
 			GameState.get().setChangingArea(true);
-			GameScreen.instance.getMapRenderer().setAction(new SequenceActionImpl(
+			GameScreen.instance.getGameRenderer().getMapRenderer().setAction(new SequenceActionImpl(
 					AnimationFactory.getDarkenAction(),
 					Actions.delay(0.5f),
 					new RunnableAction() { 
