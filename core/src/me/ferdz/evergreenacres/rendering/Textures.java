@@ -43,7 +43,10 @@ public class Textures {
 		POTATO_3(0, 3),
 		POTATO_4(0, 4),
 		POTATO_5(0, 5),
-		POTATO_6(0, 6);
+		POTATO_6(0, 6),
+		DEAD_0(1, 0),
+		DEAD_1(1, 1),
+		DEAD_2(1, 2);
 		
 		private int x, y;
 		private CropTexture(int x, int y) {

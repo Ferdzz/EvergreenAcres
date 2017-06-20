@@ -1,5 +1,7 @@
 package me.ferdz.evergreenacres.entity.impl.tile;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -19,7 +21,7 @@ public class SoilTile extends Tile {
 
 	@Setter @Getter private boolean isWet = false;
 	@Setter @Getter private Crop crop;
-	
+
 	public SoilTile(Vector2 position) {
 		super(position);
 	}
@@ -50,13 +52,13 @@ public class SoilTile extends Tile {
 			// Render the current stage of the crop
 			if (this.crop != null) {
 				Vector2 playerPos = GameState.get().getPlayer().getPosition();
-				System.out.println(playerPos.y + " " + renderPos.y);
+				Random random = new Random((long)(this.position.x + this.position.y));
 				if (playerPos.y < renderPos.y + Values.TILE_HEIGHT) {
-					batch.draw(this.crop.getCurrentTexture(), renderPos.x, renderPos.y);					
+					batch.draw(this.crop.getCurrentTexture(random), renderPos.x, renderPos.y);					
 				} else {
 					// Render the crop delayed
 					GameScreen.instance.getGameRenderer().queueRender(() -> {
-						batch.draw(this.crop.getCurrentTexture(), renderPos.x, renderPos.y);					
+						batch.draw(this.crop.getCurrentTexture(random), renderPos.x, renderPos.y);					
 					});
 				}
 			}
@@ -64,8 +66,8 @@ public class SoilTile extends Tile {
 	}
 	
 	public void nextDay() {
-		if (this.isWet && this.crop != null) {
-			this.crop.grow();
+		if (this.crop != null) {
+			this.crop.grow(this.isWet);
 		}
 	}
 	
