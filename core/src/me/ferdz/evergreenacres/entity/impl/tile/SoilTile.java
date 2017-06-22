@@ -69,6 +69,7 @@ public class SoilTile extends Tile {
 		if (this.crop != null) {
 			this.crop.grow(this.isWet);
 		}
+		this.isWet = false;
 	}
 	
 	private boolean isSoil(EnumDirection direction) {

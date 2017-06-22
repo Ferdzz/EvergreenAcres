@@ -3,6 +3,7 @@ package me.ferdz.evergreenacres.item.impl;
 import com.badlogic.gdx.math.Vector2;
 
 import lombok.Getter;
+import lombok.val;
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.entity.impl.tile.SoilTile;
 import me.ferdz.evergreenacres.entity.impl.tile.Tile;
@@ -32,7 +33,10 @@ public class ItemPouch extends Item {
 			try {
 				Tile tile = GameState.get().getSoil()[(int)position.x][(int)position.y];
 				if (tile instanceof SoilTile) {
-					((SoilTile)tile).setCrop(new Crop(cropType));
+					val soilTile = (SoilTile) tile;
+					if (soilTile.getCrop() == null) {
+						soilTile.setCrop(new Crop(cropType));						
+					}
 				}
 			} catch (IndexOutOfBoundsException e) {
 				// Ignore
