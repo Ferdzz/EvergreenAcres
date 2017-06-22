@@ -13,11 +13,6 @@ public abstract class Tile extends AbstractEntity {
 	public Tile(Vector2 position) {
 		this.position = position;
 	}
-	
-	@Override
-	public void update(float delta) {
-
-	}
 
 	@Override
 	public void render(SpriteBatch batch) {

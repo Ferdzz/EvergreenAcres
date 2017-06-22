@@ -28,12 +28,15 @@ public class ItemBar extends Table {
 		this.setClip(false);
 		
 		for (int i = 0; i < ITEMS_COUNT; i++) {
+			// TODO: This is temporary code to fill in the itemstacks
 			if (i == 0) {
 				this.add(new ItemSlot(new ItemStack(Items.HOE)));							
 			} else if (i == 1) {
 				this.add(new ItemSlot(new ItemStack(Items.WATER_CAN)));
 			} else if (i == 2) {
 				this.add(new ItemSlot(new ItemStack(Items.POTATO_POUCH)));
+			} else if (i == 3) {
+				this.add(new ItemSlot(new ItemStack(Items.POTATO)));
 			} else {
 				this.add(new ItemSlot());
 			}

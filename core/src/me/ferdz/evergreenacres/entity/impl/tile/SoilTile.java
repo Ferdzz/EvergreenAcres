@@ -4,26 +4,30 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.ferdz.evergreenacres.entity.AbstractHoverTile;
 import me.ferdz.evergreenacres.entity.EnumDirection;
 import me.ferdz.evergreenacres.environment.Crop;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
+import me.ferdz.evergreenacres.rendering.Textures.IconTexture;
 import me.ferdz.evergreenacres.screen.GameScreen;
 import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
 
-public class SoilTile extends Tile {
+public class SoilTile extends AbstractHoverTile {
 
 	@Setter @Getter private boolean isWet = false;
 	@Setter @Getter private Crop crop;
 
 	public SoilTile(Vector2 position) {
-		super(position);
+		super(position, 
+			  new Rectangle(position.x * 16, position.y * 16, Values.TILE_WIDTH, Values.TILE_HEIGHT));
 	}
 	
 	@Override
@@ -65,6 +69,11 @@ public class SoilTile extends Tile {
 		}
 	}
 	
+	@Override
+	public void update(float delta) {
+		super.update(delta);
+	}
+	
 	public void nextDay() {
 		if (this.crop != null) {
 			this.crop.grow(this.isWet);
@@ -93,5 +102,18 @@ public class SoilTile extends Tile {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	@Override
+	public void onInteract() {
+		// TODO: Make plant harvestable
+	}
+
+	@Override
+	public IconTexture getCursorIcon() {
+		if (this.crop != null) {
+			return crop.getCropType().getIcon();
+		}
+		return null;
 	}
 }

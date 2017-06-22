@@ -9,7 +9,8 @@ public class Textures {
 	public enum ItemTexture {
 		WATERING_CAN(0, 0),
 		HOE(0, 1),
-		POTATO_POUCH(1, 0);
+		POTATO_POUCH(1, 0),
+		POTATO(1, 1);
 		
 		private int x, y;
 		private ItemTexture(int x, int y) {
@@ -23,7 +24,8 @@ public class Textures {
 	}
 	
 	public enum IconTexture {
-		DOOR;
+		DOOR,
+		POTATO;
 		
 		private Pixmap pixmap;
 		private IconTexture() {

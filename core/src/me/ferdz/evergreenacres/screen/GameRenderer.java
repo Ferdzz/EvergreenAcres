@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Queue;
 import lombok.Getter;
 import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
+import me.ferdz.evergreenacres.entity.impl.tile.Tile;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.rendering.ObjectTiledMapRenderer;
 import me.ferdz.evergreenacres.ui.ItemBar;
@@ -36,6 +37,7 @@ public class GameRenderer implements Disposable, IUpdatable {
 	private Stage stage;
 	private Table table;
 	private SpriteBatch uiBatch;
+	@SuppressWarnings("unused")
 	private Box2DDebugRenderer debugRenderer;
 
 	public GameRenderer() {
@@ -65,7 +67,17 @@ public class GameRenderer implements Disposable, IUpdatable {
 		// Update the current cursor position
 		GameState.get().update(delta);
 		Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
-
+		// Update the tile entities
+		for (int i = 0; i < GameState.get().getSoil().length; i++) {
+			Tile[] row = GameState.get().getSoil()[i];
+			for (int j = 0; j < row.length; j++) {
+				Tile tile = row[j];
+				if (tile != null) {
+					tile.update(delta);
+				}
+			}
+		}
+		
 		AbstractArea currentArea = GameState.get().getCurrentArea();
 		currentArea.update(delta);
 		Player player = GameState.get().getPlayer();

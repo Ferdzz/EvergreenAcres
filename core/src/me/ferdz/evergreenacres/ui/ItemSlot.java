@@ -52,7 +52,10 @@ public class ItemSlot extends Widget {
 	}
 	
 	public Item getItem() {
-		return itemStack.getItem();
+		if (itemStack != null){
+			return itemStack.getItem();			
+		}
+		return null;
 	}
 	
 	private class SlotInputListener extends InputListener {

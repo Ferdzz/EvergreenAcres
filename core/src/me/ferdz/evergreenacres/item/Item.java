@@ -10,7 +10,7 @@ import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.rendering.Textures;
 
 @ToString
-public abstract class Item {
+public class Item {
 	
 	@Getter final private Textures.ItemTexture texture;
 	@Getter private String name;

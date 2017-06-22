@@ -109,6 +109,7 @@ public class Player extends AbstractEntity {
 		shape.dispose();
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void update(float delta) {
 		dustParticle.update(delta);
