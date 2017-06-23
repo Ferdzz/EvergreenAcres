@@ -25,11 +25,20 @@ public class Crop {
 	}
 	
 	public void grow(boolean isWet) {
+		// TODO: Do something about not growing over the ripe status
 		if (isWet && !isDead) {
 			this.growth += cropType.getGrowthMultiplier();			
 		} else {
 			this.isDead = true;
 		}
+	}
+	
+	public boolean isRipe() {
+		return this.growth >= this.cropType.getRipeGrowth();
+	}
+	
+	public void onHarvested() {
+		
 	}
 	
 	public TextureRegion getCurrentTexture(Random random) {

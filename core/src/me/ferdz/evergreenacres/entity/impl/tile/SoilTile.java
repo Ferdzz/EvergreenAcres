@@ -107,11 +107,16 @@ public class SoilTile extends AbstractHoverTile {
 	@Override
 	public void onInteract() {
 		// TODO: Make plant harvestable
+		if (this.crop != null && this.crop.isRipe()) {
+			this.crop.onHarvested();
+			// Give the item to the player
+			this.crop = null;
+		}
 	}
 
 	@Override
 	public IconTexture getCursorIcon() {
-		if (this.crop != null) {
+		if (this.crop != null && crop.isRipe()) {
 			return crop.getCropType().getIcon();
 		}
 		return null;
