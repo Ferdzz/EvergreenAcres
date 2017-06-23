@@ -3,6 +3,7 @@ package me.ferdz.evergreenacres.ui;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import me.ferdz.evergreenacres.inventory.ItemSlot;
 import me.ferdz.evergreenacres.rendering.Textures;
 
 public class TooltipLabel extends Label {

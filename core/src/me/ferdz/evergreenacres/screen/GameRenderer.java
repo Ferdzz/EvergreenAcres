@@ -19,9 +19,9 @@ import lombok.Getter;
 import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.entity.impl.tile.Tile;
+import me.ferdz.evergreenacres.inventory.ItemBar;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.rendering.ObjectTiledMapRenderer;
-import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Values;
 
@@ -53,7 +53,7 @@ public class GameRenderer implements Disposable, IUpdatable {
 		this.table = new Table();
 		this.table.setFillParent(true);
 		this.stage.addActor(table);
-		this.table.add(GameState.get().getItemBar());
+		this.table.add(GameState.get().getInventoryManager().getItemBar());
 		this.table.bottom().padBottom(40);
 //		this.table.setDebug(true);
 		this.renderQueue = new Queue<>();
@@ -113,7 +113,7 @@ public class GameRenderer implements Disposable, IUpdatable {
         camera.update();
         
         // Depending on the position of the camera - manipulate the alpha of the item bar
-        ItemBar itemBar = GameState.get().getItemBar();
+        ItemBar itemBar = GameState.get().getInventoryManager().getItemBar();
         if (camera.position.y <= viewPortHeight + 20) {
         	if (itemBar.getColor().a == 1) {
         		itemBar.clearActions();

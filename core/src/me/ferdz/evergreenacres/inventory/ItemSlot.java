@@ -1,4 +1,4 @@
-package me.ferdz.evergreenacres.ui;
+package me.ferdz.evergreenacres.inventory;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -12,11 +12,12 @@ import lombok.Getter;
 import me.ferdz.evergreenacres.item.Item;
 import me.ferdz.evergreenacres.item.ItemStack;
 import me.ferdz.evergreenacres.rendering.Textures;
+import me.ferdz.evergreenacres.ui.TooltipLabel;
 import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Values;
 
 public class ItemSlot extends Widget {
-	public static final int WIDTH = 100, HEIGHT = 100;
+	public static final int WIDTH = 99, HEIGHT = 99;
 	
 	@Getter private ItemStack itemStack;
 	
@@ -38,6 +39,9 @@ public class ItemSlot extends Widget {
 
 		if (itemStack != null) {
 			itemStack.getItem().renderInInventory(batch, (int) getX(), (int) getY(), WIDTH);
+			if (itemStack.getStackSize() > 1) {
+				Values.tooltipFont.draw(batch, itemStack.getStackSize() + "", getX() + (WIDTH / 16) * 2, getY() + (HEIGHT / 16) * 3);
+			}
 		}
 	}
 

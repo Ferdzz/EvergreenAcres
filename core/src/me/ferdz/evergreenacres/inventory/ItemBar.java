@@ -1,4 +1,7 @@
-package me.ferdz.evergreenacres.ui;
+package me.ferdz.evergreenacres.inventory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -17,7 +20,7 @@ import me.ferdz.evergreenacres.utils.Values;
 import me.ferdz.evergreenacres.utils.input.InputEvents;
 
 @ToString
-public class ItemBar extends Table {
+public class ItemBar extends Table implements IItemHolder {
 	public static final int ITEMS_COUNT = 9;
 	
 	@Getter private int selectedIndex;
@@ -107,5 +110,16 @@ public class ItemBar extends Table {
 			return slot.getItem();
 		}
 		return null;
+	}
+	
+	@Override
+	public List<ItemSlot> getItemSlots() {
+		List<ItemSlot> itemSlots = new ArrayList<>();
+		for (Actor actor : this.getChildren()) {
+			if (actor instanceof ItemSlot) {
+				itemSlots.add((ItemSlot) actor);
+			}
+		}
+		return itemSlots;
 	}
 }

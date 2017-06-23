@@ -65,7 +65,10 @@ public class Values {
 	static {
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/LCD_Solid.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 22;
+		parameter.borderColor = new Color(0.4f, 0.4f, 0.4f, 1);
+		parameter.color = Color.WHITE;
+		parameter.borderWidth = 2;
+		parameter.size = 21;
 		tooltipFont = generator.generateFont(parameter);
 		generator.dispose();
 	}

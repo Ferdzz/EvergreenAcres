@@ -110,6 +110,7 @@ public class SoilTile extends AbstractHoverTile {
 		if (this.crop != null && this.crop.isRipe()) {
 			this.crop.onHarvested();
 			// Give the item to the player
+			GameState.get().getInventoryManager().addItem(this.crop.getCropType().getItem());
 			this.crop = null;
 		}
 	}

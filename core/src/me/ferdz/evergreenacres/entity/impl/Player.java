@@ -23,11 +23,11 @@ import lombok.Getter;
 import lombok.Setter;
 import me.ferdz.evergreenacres.entity.AbstractEntity;
 import me.ferdz.evergreenacres.entity.EnumDirection;
+import me.ferdz.evergreenacres.inventory.ItemBar;
 import me.ferdz.evergreenacres.item.Item;
 import me.ferdz.evergreenacres.rendering.AnimationImpl;
 import me.ferdz.evergreenacres.rendering.EnumHumanAnimationType;
 import me.ferdz.evergreenacres.rendering.Textures;
-import me.ferdz.evergreenacres.ui.ItemBar;
 import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
@@ -234,7 +234,7 @@ public class Player extends AbstractEntity {
 	// Action handlers
 	@Subscribe
 	public void onLeftClick(InputEvents.LeftClickEvent event) {
-		ItemBar bar = GameState.get().getItemBar();
+		ItemBar bar = GameState.get().getInventoryManager().getItemBar();
 		Item item = bar.getSelectedItem();
 		if (item != null) {
 			item.onItemUse(this, GameState.get().getCurrentArea());
