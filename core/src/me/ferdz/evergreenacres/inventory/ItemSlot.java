@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.ferdz.evergreenacres.item.Item;
 import me.ferdz.evergreenacres.item.ItemStack;
 import me.ferdz.evergreenacres.rendering.Textures;
@@ -19,7 +20,7 @@ import me.ferdz.evergreenacres.utils.Values;
 public class ItemSlot extends Widget {
 	public static final int WIDTH = 99, HEIGHT = 99;
 	
-	@Getter private ItemStack itemStack;
+	@Setter @Getter private ItemStack itemStack;
 	
 	public ItemSlot() {
 		this(null);

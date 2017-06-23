@@ -18,9 +18,25 @@ public class InventoryManager {
 	}
 	
 	public void addItemStack(ItemStack itemStack) {
+		boolean hadItemStack = false;
+		ItemSlot firstEmptyItemSlot = null;
 		for (ItemSlot itemSlot : this.getItemSlots()) {
+			if (itemSlot.getItemStack() == null && firstEmptyItemSlot == null) {
+				firstEmptyItemSlot = itemSlot;
+				continue;
+			}
 			if (itemSlot.getItem() == itemStack.getItem()) {
 				itemSlot.getItemStack().setStackSize(itemSlot.getItemStack().getStackSize() + itemStack.getStackSize());
+				hadItemStack = true;
+			}
+		}
+		
+		if (!hadItemStack) {
+			if (firstEmptyItemSlot != null) {
+				firstEmptyItemSlot.setItemStack(itemStack);
+			} else {
+				// This means the user doesn't have any empty slots
+				// drop the item
 			}
 		}
 	}
