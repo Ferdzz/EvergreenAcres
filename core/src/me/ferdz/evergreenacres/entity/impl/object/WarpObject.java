@@ -21,6 +21,8 @@ public class WarpObject extends AbstractEntity {
 	private Rectangle rectangle;
 	private String destinationKey;
 	public WarpObject(Rectangle rectangle, MapProperties properties) {
+		super();
+		
 		this.rectangle = rectangle;
 		this.destinationKey = properties.get(Values.KEY_DESTINATION, String.class);
 	}

@@ -44,6 +44,8 @@ public class Player extends AbstractEntity {
 	private Particle dustParticle;
 	
 	public Player() {
+		super();
+		
 		// Init the animations
 		this.initAnimations();
 		// Set current direction to down

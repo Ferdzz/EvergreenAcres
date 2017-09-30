@@ -11,6 +11,8 @@ public abstract class Tile extends AbstractEntity {
 	@Getter protected Vector2 position;
 	
 	public Tile(Vector2 position) {
+		super();
+		
 		this.position = position;
 	}
 

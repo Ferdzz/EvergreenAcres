@@ -9,8 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.ferdz.evergreenacres.entity.AbstractHoverTile;
+import me.ferdz.evergreenacres.entity.AbstractEntity;
 import me.ferdz.evergreenacres.entity.EnumDirection;
+import me.ferdz.evergreenacres.entity.trait.HoverTrait;
+import me.ferdz.evergreenacres.entity.trait.HoverTrait.IHoverTraitDelegate;
 import me.ferdz.evergreenacres.environment.Crop;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
@@ -20,14 +22,23 @@ import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
 
-public class SoilTile extends AbstractHoverTile {
+public class SoilTile extends Tile implements IHoverTraitDelegate {
 
 	@Setter @Getter private boolean isWet = false;
 	@Setter @Getter private Crop crop;
-
+	private Rectangle rectangle;
+	private Vector2 position;
+	
 	public SoilTile(Vector2 position) {
-		super(position, 
-			  new Rectangle(position.x * 16, position.y * 16, Values.TILE_WIDTH, Values.TILE_HEIGHT));
+		super(position);
+		this.rectangle = new Rectangle(position.x * 16, position.y * 16, Values.TILE_WIDTH, Values.TILE_HEIGHT);
+	}
+	
+	@Override
+	protected void setupTraits() {
+		super.setupTraits();
+		
+		this.traits.add(new HoverTrait(this));
 	}
 	
 	@Override
@@ -105,6 +116,14 @@ public class SoilTile extends AbstractHoverTile {
 	}
 
 	@Override
+	public IconTexture getCursorIcon() {
+		if (this.crop != null && crop.isRipe()) {
+			return crop.getCropType().getIcon();
+		}
+		return null;
+	}
+
+	@Override
 	public void onInteract() {
 		// TODO: Make plant harvestable
 		if (this.crop != null && this.crop.isRipe()) {
@@ -116,10 +135,7 @@ public class SoilTile extends AbstractHoverTile {
 	}
 
 	@Override
-	public IconTexture getCursorIcon() {
-		if (this.crop != null && crop.isRipe()) {
-			return crop.getCropType().getIcon();
-		}
-		return null;
+	public Rectangle getRectangle() {
+		return this.rectangle;
 	}
 }

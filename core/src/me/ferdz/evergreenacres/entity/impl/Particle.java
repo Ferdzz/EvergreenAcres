@@ -25,6 +25,8 @@ public class Particle extends AbstractEntity {
 	}
 	
 	public Particle(TextureRegion[][] texture, float duration) {
+		super();
+		
 		this.animation = new AnimationImpl(duration, texture[0]);
 		this.animation.setPlayMode(PlayMode.NORMAL);
 	}

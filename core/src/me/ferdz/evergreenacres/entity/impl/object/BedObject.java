@@ -23,6 +23,8 @@ public class BedObject extends AbstractEntity {
 	private Rectangle rectangle;
 
 	public BedObject(Rectangle rectangle) {
+		super();
+		
 		this.rectangle = rectangle;
 	}
 
