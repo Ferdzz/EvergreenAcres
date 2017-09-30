@@ -36,7 +36,7 @@ public class InventoryManager {
 				firstEmptyItemSlot.setItemStack(itemStack);
 			} else {
 				// This means the user doesn't have any empty slots
-				// drop the item
+				// TODO: drop the item
 			}
 		}
 	}

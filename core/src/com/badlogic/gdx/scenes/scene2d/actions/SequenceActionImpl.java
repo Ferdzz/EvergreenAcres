@@ -47,7 +47,7 @@ public class SequenceActionImpl extends ParallelAction {
 		try {
 			if (actions.get(index).act(delta)) {
 				index++;
-				if (index >= actions.size) return true;
+				return index >= actions.size;
 			}
 			return false;
 		} finally {

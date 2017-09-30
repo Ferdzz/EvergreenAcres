@@ -1,15 +1,11 @@
 package me.ferdz.evergreenacres.entity.impl.tile;
 
-import java.util.Random;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
 import lombok.Getter;
 import lombok.Setter;
-import me.ferdz.evergreenacres.entity.AbstractEntity;
 import me.ferdz.evergreenacres.entity.EnumDirection;
 import me.ferdz.evergreenacres.entity.trait.HoverTrait;
 import me.ferdz.evergreenacres.entity.trait.HoverTrait.IHoverTraitDelegate;
@@ -22,13 +18,14 @@ import me.ferdz.evergreenacres.utils.GameState;
 import me.ferdz.evergreenacres.utils.Utils;
 import me.ferdz.evergreenacres.utils.Values;
 
+import java.util.Random;
+
 public class SoilTile extends Tile implements IHoverTraitDelegate {
 
 	@Setter @Getter private boolean isWet = false;
 	@Setter @Getter private Crop crop;
 	private Rectangle rectangle;
-	private Vector2 position;
-	
+
 	public SoilTile(Vector2 position) {
 		super(position);
 		this.rectangle = new Rectangle(position.x * 16, position.y * 16, Values.TILE_WIDTH, Values.TILE_HEIGHT);

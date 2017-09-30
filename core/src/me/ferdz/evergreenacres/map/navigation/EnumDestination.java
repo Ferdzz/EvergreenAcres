@@ -6,6 +6,8 @@ import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
 import me.ferdz.evergreenacres.map.HouseArea;
 
+import java.util.Arrays;
+
 public enum EnumDestination {
 	HOUSE("house", HouseArea.class, 88, 56, EnumDirection.UP),
 	FARM_SPAWN("farm_spawn", FarmArea.class, 30, 100, EnumDirection.DOWN),
@@ -24,11 +26,9 @@ public enum EnumDestination {
 	}
 
 	public static EnumDestination getDestination(String key) {
-		for (EnumDestination destination: EnumDestination.values()) {
-			if (destination.key.equals(key)) {
-				return destination;
-			}
-		}
-		return null;
+		return Arrays.stream(EnumDestination.values())
+				.filter(destination -> destination.key.equals(key))
+				.findFirst()
+				.orElse(null);
 	}
 }

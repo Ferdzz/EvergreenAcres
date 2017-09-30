@@ -35,9 +35,10 @@ public class GameRenderer implements Disposable, IUpdatable {
 	private Queue<Runnable> renderQueue;
 	private SpriteBatch batch;
 	private Stage stage;
+	@SuppressWarnings("FieldCanBeLocal")
 	private Table table;
 	private SpriteBatch uiBatch;
-	@SuppressWarnings("unused")
+	@SuppressWarnings({"unused", "FieldCanBeLocal"})
 	private Box2DDebugRenderer debugRenderer;
 
 	public GameRenderer() {
@@ -47,7 +48,7 @@ public class GameRenderer implements Disposable, IUpdatable {
 		this.mapRenderer = new ObjectTiledMapRenderer(GameState.get().getCurrentArea().getMap(), batch);
 		this.camera = new OrthographicCamera();
 		this.camera.zoom = Values.ZOOM;
-		this.debugRenderer = new Box2DDebugRenderer();	
+		this.debugRenderer = new Box2DDebugRenderer();
 		
 		this.stage = new Stage();
 		this.table = new Table();
@@ -70,8 +71,7 @@ public class GameRenderer implements Disposable, IUpdatable {
 		// Update the tile entities
 		for (int i = 0; i < GameState.get().getSoil().length; i++) {
 			Tile[] row = GameState.get().getSoil()[i];
-			for (int j = 0; j < row.length; j++) {
-				Tile tile = row[j];
+			for (Tile tile : row) {
 				if (tile != null) {
 					tile.update(delta);
 				}

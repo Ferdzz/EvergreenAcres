@@ -1,6 +1,6 @@
 package me.ferdz.evergreenacres.entity.trait;
 
-public class AbstractTrait implements ITrait {
+public abstract class AbstractTrait implements ITrait {
 
 	public AbstractTrait() {
 	}
