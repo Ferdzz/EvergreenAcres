@@ -23,9 +23,8 @@ public class ItemAxe extends AbstractItemInteraction{
             if (entity instanceof TreeObject) {
                 TreeObject tree = (TreeObject) entity;
                 if (tree.getRectangle().contains(Utils.toWorldPos(position))) {
-                    area.getEntities().remove(tree);
-                    area.getWorld().destroyBody(tree.getBody());
-                    tree.dispose();
+                    tree.onAxeHit(player, area);
+                    break;
                 }
             }
         }
