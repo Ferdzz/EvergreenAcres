@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import javax.xml.soap.Text;
+
 public class Textures {
 	public enum ItemTexture {
 		WATERING_CAN(0, 0),
@@ -60,6 +62,26 @@ public class Textures {
 			return getCropTextures()[x][y];
 		}
 	}
+
+	public enum SummerTextures {
+		TREE_LEAVES(0, 9, 3, 4),
+		TREE_TRUNK(1, 13, 1, 1);
+
+		private int x;
+		private int y;
+		private int width;
+		private int height;
+		private SummerTextures(int x, int y, int width, int height) {
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+		}
+
+		public TextureRegion getTexture() {
+			return new TextureRegion(new TextureRegion(getSummerTexture(), x * 16, y * 16, width * 16, height * 16));
+		}
+	}
 	
 	private static TextureRegion[][] itemTextures;
 	public static TextureRegion[][] getItemTextures() {
@@ -80,6 +102,19 @@ public class Textures {
 		if (cropTextures == null)
 			cropTextures = TextureRegion.split(new Texture(Gdx.files.internal("homegrown/environment/crops.png")), 16, 32);
 		return cropTextures;
+	}
+
+	private static Texture summerTexture;
+	public static Texture getSummerTexture() {
+		if (summerTexture == null)
+			summerTexture = new Texture(Gdx.files.internal("homegrown/environment/summer.png"));
+		return summerTexture;
+	}
+	private static TextureRegion[][] summerTextures;
+	public static TextureRegion[][] getSummerTextures() {
+		if (summerTextures == null)
+			summerTextures = TextureRegion.split(getSummerTexture(), 16, 16);
+		return summerTextures;
 	}
 	
 	public static TextureRegion getSelectedGroundTileTexture() {

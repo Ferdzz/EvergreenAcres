@@ -18,6 +18,7 @@ import me.ferdz.evergreenacres.entity.IUpdatable;
 import me.ferdz.evergreenacres.entity.impl.Player;
 import me.ferdz.evergreenacres.entity.impl.object.BedObject;
 import me.ferdz.evergreenacres.entity.impl.object.DoorObject;
+import me.ferdz.evergreenacres.entity.impl.object.TreeObject;
 import me.ferdz.evergreenacres.entity.impl.object.WarpObject;
 import me.ferdz.evergreenacres.map.navigation.EnumDestination;
 import me.ferdz.evergreenacres.utils.MapBodyBuilder;
@@ -41,21 +42,39 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 		// Load interactive map objects as entities
 		// Look for door type objects
 		for (MapObject mapObject: getMap().getLayers().get("Objects").getObjects()) {
-			if (Values.TYPE_DOOR.equals(mapObject.getProperties().get(Values.KEY_TYPE))) {
-				if (mapObject instanceof RectangleMapObject) {
-					RectangleMapObject rectangle = (RectangleMapObject) mapObject;
-					this.entities.add(new DoorObject(rectangle.getRectangle(), mapObject.getProperties()));
-				}
-			} else if (Values.TYPE_WARP.equals(mapObject.getProperties().get(Values.KEY_TYPE))) {
-				if (mapObject instanceof RectangleMapObject) {
-					RectangleMapObject rectangle = (RectangleMapObject) mapObject;
-					this.entities.add(new WarpObject(rectangle.getRectangle(), mapObject.getProperties()));
-				}
-			} else if (Values.TYPE_BED.equals(mapObject.getProperties().get(Values.KEY_TYPE))) {
-				if (mapObject instanceof RectangleMapObject) {
-					RectangleMapObject rectangle = (RectangleMapObject) mapObject;
-					this.entities.add(new BedObject(rectangle.getRectangle()));
-				}
+			String type = (String) mapObject.getProperties().get(Values.KEY_TYPE);
+			if (type == null) {
+				continue;
+			}
+
+			switch (type) {
+				case Values.TYPE_DOOR:
+					if (mapObject instanceof RectangleMapObject) {
+						RectangleMapObject rectangle = (RectangleMapObject) mapObject;
+						this.entities.add(new DoorObject(rectangle.getRectangle(), mapObject.getProperties()));
+					}
+					break;
+				case Values.TYPE_WARP:
+					if (mapObject instanceof RectangleMapObject) {
+						RectangleMapObject rectangle = (RectangleMapObject) mapObject;
+						this.entities.add(new WarpObject(rectangle.getRectangle(), mapObject.getProperties()));
+					}
+					break;
+				case Values.TYPE_BED:
+					if (mapObject instanceof RectangleMapObject) {
+						RectangleMapObject rectangle = (RectangleMapObject) mapObject;
+						this.entities.add(new BedObject(rectangle.getRectangle()));
+					}
+					break;
+				case Values.TYPE_TREE:
+					if (mapObject instanceof RectangleMapObject) {
+						RectangleMapObject rectangle = (RectangleMapObject) mapObject;
+						this.entities.add(new TreeObject(rectangle.getRectangle()));
+					}
+					break;
+				default:
+					System.out.println("Unknown object type in 'Objects' layer");
+					break;
 			}
 		}
 	}
@@ -81,11 +100,11 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 
 	@Override
 	public void render(SpriteBatch batch) {
-		player.render(batch);
-		
 		for (AbstractEntity entity : getEntities()) {
 			entity.render(batch);
 		}
+
+		player.render(batch);
 	}
 	
 	public void renderOver(SpriteBatch batch) {

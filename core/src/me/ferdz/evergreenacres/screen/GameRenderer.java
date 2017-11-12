@@ -147,7 +147,7 @@ public class GameRenderer implements Disposable, IUpdatable {
 		mapRenderer.renderOver(); // render over the entities
 		GameState.get().getCurrentArea().renderOver(batch);
 		
-//		debugRenderer.render(currentArea.getWorld(), camera.combined);
+//		debugRenderer.render(GameState.get().getCurrentArea().getWorld(), camera.combined);
 
 		stage.draw();
 		// Draw the tooltip over everything

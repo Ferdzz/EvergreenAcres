@@ -38,6 +38,8 @@ public class ItemBar extends Table implements IItemHolder {
 				this.add(new ItemSlot(new ItemStack(Items.WATER_CAN)));
 			} else if (i == 2) {
 				this.add(new ItemSlot(new ItemStack(Items.POTATO_POUCH)));
+			} else if (i == 3) {
+				this.add(new ItemSlot(new ItemStack(Items.AXE)));
 			} else {
 				this.add(new ItemSlot());
 			}

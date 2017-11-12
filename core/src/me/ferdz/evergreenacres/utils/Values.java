@@ -82,10 +82,13 @@ public class Values {
 	public static final int TILE_HEIGHT = 16;
 
 	public static final String LAYER_GROUND = "Ground";
+
 	public static final String TYPE_DIRT = "dirt";
 	public static final String TYPE_DOOR = "door";
 	public static final String TYPE_WARP = "warp";
 	public static final String TYPE_BED = "bed";
+	public static final String TYPE_TREE = "tree";
+
 	public static final String KEY_TYPE = "type";
 	public static final String KEY_WIDTH = "width";
 	public static final String KEY_HEIGHT = "height";
