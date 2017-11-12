@@ -69,7 +69,7 @@ public abstract class AbstractArea implements Disposable, IRenderable, IUpdatabl
 				case Values.TYPE_TREE:
 					if (mapObject instanceof RectangleMapObject) {
 						RectangleMapObject rectangle = (RectangleMapObject) mapObject;
-						this.entities.add(new TreeObject(rectangle.getRectangle()));
+						this.entities.add(new TreeObject(this, rectangle.getRectangle()));
 					}
 					break;
 				default:
