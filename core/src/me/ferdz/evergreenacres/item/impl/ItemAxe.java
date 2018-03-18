@@ -14,7 +14,7 @@ import me.ferdz.evergreenacres.utils.Utils;
 public class ItemAxe extends AbstractItemInteraction{
 
     public ItemAxe() {
-        super(Textures.ItemTexture.HOE, "Axe");
+        super(Textures.ItemTexture.AXE, "Axe");
     }
 
     @Override

@@ -11,6 +11,7 @@ public class Textures {
 	public enum ItemTexture {
 		WATERING_CAN(0, 0),
 		HOE(0, 1),
+		AXE(0, 2),
 		POTATO_POUCH(1, 0),
 		POTATO(1, 1);
 		
