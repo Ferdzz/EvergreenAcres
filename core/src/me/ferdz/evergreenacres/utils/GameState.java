@@ -12,6 +12,7 @@ import me.ferdz.evergreenacres.inventory.InventoryManager;
 import me.ferdz.evergreenacres.map.AbstractArea;
 import me.ferdz.evergreenacres.map.FarmArea;
 import me.ferdz.evergreenacres.map.navigation.EnumDestination;
+import me.ferdz.evergreenacres.ui.PauseMenu;
 import me.ferdz.evergreenacres.ui.TooltipLabel;
 
 public class GameState implements IUpdatable, Disposable {
@@ -19,6 +20,7 @@ public class GameState implements IUpdatable, Disposable {
 	@Getter private Player player;
 	@Setter @Getter private AbstractArea currentArea;
 	@Getter private InventoryManager inventoryManager;
+	@Getter private PauseMenu pauseMenu;
 	@Setter @Getter private TooltipLabel tooltip;
 	@Setter @Getter private Vector2 cursorPosition;
 	@Setter @Getter private boolean isChangingArea; // TODO: Change this to a more relevant paused/unpaused state
@@ -30,6 +32,7 @@ public class GameState implements IUpdatable, Disposable {
 		this.currentArea = new FarmArea(player);
 		this.player.createBody(currentArea.getWorld(), new Vector2(EnumDestination.FARM_SPAWN.getX(), EnumDestination.FARM_SPAWN.getY()));
 		this.inventoryManager = new InventoryManager();
+		this.pauseMenu = new PauseMenu();
 		this.soil = new Tile[Values.FARM_WIDTH][Values.FARM_HEIGHT];
 	}
 	

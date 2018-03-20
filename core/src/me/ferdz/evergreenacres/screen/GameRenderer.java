@@ -55,6 +55,7 @@ public class GameRenderer implements Disposable, IUpdatable {
 		this.table.setFillParent(true);
 		this.stage.addActor(table);
 		this.table.add(GameState.get().getInventoryManager().getItemBar());
+		this.table.add(GameState.get().getPauseMenu());
 		this.table.bottom().padBottom(40);
 //		this.table.setDebug(true);
 		this.renderQueue = new Queue<>();
